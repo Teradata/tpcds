@@ -14,8 +14,9 @@ public class Decimal
 
     public Decimal(int precision, int scale, long number)
     {
-        checkArgument(precision > 0, "precision must be greater than zero");
-        checkArgument(scale >= 0, "scale must be greater than or equal to zero");
+        checkArgument(scale > 0, "scale must be greater than zero");
+        checkArgument(precision >= 0, "precision must be greater than or equal to zero");
+        checkArgument(precision <= scale, "precision must be less than or equal to scale");
         this.precision = precision;
         this.scale = scale;
         this.number = number;

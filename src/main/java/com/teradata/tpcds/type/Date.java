@@ -11,7 +11,7 @@ public class Date
 {
     public static final int JULIAN_DATA_START_DATE = toJulianDays(new Date(1998, 1, 1)); // earliest date in the data set
     public static final int JULIAN_DATA_END_DATE = toJulianDays(new Date(2003, 12, 31)); // latest date in the data set
-    public static final int JULIAN_DATE_MAXIMUM = toJulianDays(new Date(2002, 12,31));
+    public static final int JULIAN_DATE_MAXIMUM = toJulianDays(new Date(2002, 12, 31));
     public static final int JULIAN_DATE_MINIMUM = toJulianDays(new Date(1998, 1, 1));
 
     private final int year;
@@ -22,7 +22,7 @@ public class Date
     {
         checkArgument(year > 0, "Year must be a positive value");
         checkArgument(month > 0 && month <= 12, "Month must be a number between 1 and 12 (inclusive)");
-        checkArgument(day > 0 && day < getDaysInMonth(month, year), "Day must be a positive value");
+        checkArgument(day > 0 && day <= getDaysInMonth(month, year), "Day must be a positive value and cannot exceed the maximum number of days in the month");
         this.year = year;
         this.month = month;
         this.day = day;
