@@ -1,4 +1,4 @@
-package com.teradata.tpcds.random;
+package com.teradata.tpcds.distribution;
 
 public class AdverbsDistribution
         extends Distribution

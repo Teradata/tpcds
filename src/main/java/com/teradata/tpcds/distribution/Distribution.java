@@ -1,5 +1,6 @@
-package com.teradata.tpcds.random;
+package com.teradata.tpcds.distribution;
 
+import com.teradata.tpcds.random.RandomNumberStream;
 
 //TODO: ultimately these will all be instance methods, or they'll have to get distributions passed in.
 // until all that's worked out though, this makes for an easier stand in.
