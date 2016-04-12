@@ -1,4 +1,4 @@
-package com.teradata.tpcds;
+package com.teradata.tpcds.type;
 
 import com.google.common.collect.ImmutableSet;
 

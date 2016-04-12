@@ -1,4 +1,4 @@
-package com.teradata.tpcds;
+package com.teradata.tpcds.type;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
