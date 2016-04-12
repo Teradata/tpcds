@@ -9,6 +9,11 @@ import static com.google.common.base.Preconditions.checkState;
 
 public class Date
 {
+    public static final int JULIAN_DATA_START_DATE = toJulianDays(new Date(1998, 1, 1)); // earliest date in the data set
+    public static final int JULIAN_DATA_END_DATE = toJulianDays(new Date(2003, 12, 31)); // latest date in the data set
+    public static final int JULIAN_DATE_MAXIMUM = toJulianDays(new Date(2002, 12,31));
+    public static final int JULIAN_DATE_MINIMUM = toJulianDays(new Date(1998, 1, 1));
+
     private final int year;
     private final int month;
     private final int day;
