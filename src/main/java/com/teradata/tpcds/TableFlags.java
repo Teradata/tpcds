@@ -26,7 +26,8 @@ public class TableFlags
 
         public TableFlagsBuilder() {}
 
-        public TableFlagsBuilder setKeepsHistory() {
+        public TableFlagsBuilder setKeepsHistory()
+        {
             this.keepsHistory = true;
             return this;
         }

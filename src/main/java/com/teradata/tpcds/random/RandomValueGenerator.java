@@ -24,9 +24,7 @@ public final class RandomValueGenerator
 {
     private static final String ALPHA_NUMERIC = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789";
 
-    private RandomValueGenerator()
-    {
-    }
+    private RandomValueGenerator() {}
 
     public static int generateUniformRandomInt(int min, int max, RandomNumberStream randomNumberStream)
     {
