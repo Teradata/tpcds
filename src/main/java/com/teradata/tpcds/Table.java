@@ -71,15 +71,15 @@ public enum Table
     S_ZIPG,
 
     //PSEUDO TABLES from here on; used in hierarchies
-    ITEM_BRAND(new TableFlagsBuilder().setIsPseudoTable().build()),
-    ITEM_CLASS(new TableFlagsBuilder().setIsPseudoTable().build()),
-    ITEM_CATEGORY(new TableFlagsBuilder().setIsPseudoTable().build()),
-    DIVISIONS(new TableFlagsBuilder().setIsPseudoTable().build()),
-    COMPANY(new TableFlagsBuilder().setIsPseudoTable().build()),
-    CONCURRENT_WEB_SITES(new TableFlagsBuilder().setIsPseudoTable().build()),
-    ACTIVE_CITIES(new TableFlagsBuilder().setIsPseudoTable().build()),
-    ACTIVE_COUNTIES(new TableFlagsBuilder().setIsPseudoTable().build()),
-    ACTIVE_STATES(new TableFlagsBuilder().setIsPseudoTable().build());
+    ITEM_BRAND(),
+    ITEM_CLASS(),
+    ITEM_CATEGORY(),
+    DIVISIONS(),
+    COMPANY(),
+    CONCURRENT_WEB_SITES(),
+    ACTIVE_CITIES(),
+    ACTIVE_COUNTIES(),
+    ACTIVE_STATES();
 
     private TableFlags tableFlags;
 
@@ -101,9 +101,5 @@ public enum Table
     public boolean isSmall()
     {
         return tableFlags.isSmall();
-    }
-
-    public boolean isPseudoTable() {
-        return tableFlags.isPseudoTable();
     }
 }
