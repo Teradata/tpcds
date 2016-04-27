@@ -20,13 +20,15 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.distribution.CitiesDistribution;
 import com.teradata.tpcds.distribution.FipsCountyDistribution;
 import com.teradata.tpcds.distribution.StreetNamesDistribution;
-import com.teradata.tpcds.distribution.StreetTypeDistribution;
+import com.teradata.tpcds.distribution.StreetTypesDistribution;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.teradata.tpcds.Table.ACTIVE_CITIES;
 import static com.teradata.tpcds.Table.ACTIVE_COUNTIES;
+import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.DEFAULT;
+import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.HALF_EMPTY;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.lang.String.format;
 
@@ -86,9 +88,9 @@ public class Address
         AddressBuilder builder = new AddressBuilder();
         RandomNumberStream randomNumberStream = column.getRandomNumberStream();
         builder.setStreetNumber(generateUniformRandomInt(1, 1000, randomNumberStream));
-        builder.setStreetName1(StreetNamesDistribution.pickRandomValue(1, 1, randomNumberStream));
-        builder.setStreetName2(StreetNamesDistribution.pickRandomValue(1, 2, randomNumberStream));
-        builder.setStreetType(StreetTypeDistribution.pickRandomValue(1, 1, randomNumberStream));
+        builder.setStreetName1(StreetNamesDistribution.pickRandomStreetName(DEFAULT, randomNumberStream));
+        builder.setStreetName2(StreetNamesDistribution.pickRandomStreetName(HALF_EMPTY, randomNumberStream));
+        builder.setStreetType(StreetTypesDistribution.pickRandomStreetType(randomNumberStream));
 
         int randomInt = generateUniformRandomInt(0, 100, randomNumberStream);
         if (randomInt % 2 == 1) {  // if i is odd, suiteNumber is a number

@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.random.RandomNumberStream;
+import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.CALL_CENTER;
 
@@ -59,7 +60,7 @@ public enum CallCenterColumn implements Column
 
     CallCenterColumn(int seedsPerRow)
     {
-        this.randomNumberStream = new RandomNumberStream(seedsPerRow);
+        this.randomNumberStream = new RandomNumberStreamImpl(seedsPerRow);
     }
 
     @Override

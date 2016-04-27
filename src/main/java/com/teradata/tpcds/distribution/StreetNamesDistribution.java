@@ -14,7 +14,55 @@
 
 package com.teradata.tpcds.distribution;
 
-public class StreetNamesDistribution
-    extends Distribution
+import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.distribution.DistributionUtils.WeightsBuilder;
+import com.teradata.tpcds.random.RandomNumberStream;
+
+import java.util.Iterator;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkState;
+import static com.teradata.tpcds.distribution.DistributionUtils.getDistributionIterator;
+import static com.teradata.tpcds.distribution.DistributionUtils.pickRandomValue;
+import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.DEFAULT;
+
+public final class StreetNamesDistribution
 {
+    private static final String VALUES_AND_WEIGHTS_FILENAME = "street_names.dst";
+
+    private final static ImmutableList<String> streetNames; // from 1990 census
+    private final static ImmutableList<Integer> defaultWeights;
+    private final static ImmutableList<Integer> halfEmptyWeights; // returns an empty entry 50% of the time
+
+    static {
+        Iterator<List<String>> iterator = getDistributionIterator(VALUES_AND_WEIGHTS_FILENAME);
+        ImmutableList.Builder<String> streetNamesBuilder = ImmutableList.<String>builder();
+        WeightsBuilder defaultWeightsBuilder = new WeightsBuilder();
+        WeightsBuilder halfEmptyWeightsBuilder = new WeightsBuilder();
+
+        while (iterator.hasNext()) {
+            List<String> fields = iterator.next();
+            checkState(fields.size() == 3, "Expected line to contain 3 parts but it contains %d: %s", fields.size(), fields);
+            streetNamesBuilder.add(fields.get(0));
+            defaultWeightsBuilder.add(Integer.valueOf(fields.get(1)));
+            halfEmptyWeightsBuilder.add(Integer.valueOf(fields.get(2)));
+        }
+
+        streetNames = streetNamesBuilder.build();
+        defaultWeights = defaultWeightsBuilder.build();
+        halfEmptyWeights = halfEmptyWeightsBuilder.build();
+    }
+
+    private StreetNamesDistribution() {}
+
+    public static String pickRandomStreetName(WeightType weightType, RandomNumberStream stream)
+    {
+        return pickRandomValue(streetNames, weightType == DEFAULT ? defaultWeights : halfEmptyWeights, stream);
+    }
+
+    public enum WeightType
+    {
+        DEFAULT,
+        HALF_EMPTY
+    }
 }
