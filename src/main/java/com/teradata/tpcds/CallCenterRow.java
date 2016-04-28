@@ -17,7 +17,8 @@ package com.teradata.tpcds;
 import com.teradata.tpcds.type.Address;
 import com.teradata.tpcds.type.Decimal;
 
-public class CallCenterRow implements TableRow
+public class CallCenterRow
+        implements TableRow
 {
     private final long ccCallCenterSk;
     private final String ccCallCenterId;
@@ -41,6 +42,7 @@ public class CallCenterRow implements TableRow
     private final String ccCompanyName;
     private final Address ccAddress;
     private final Decimal ccTaxPercentage;
+    private final long nullBitMap;
 
     private CallCenterRow(long ccCallCenterSk,
                           String ccCallCenterId,
@@ -63,7 +65,8 @@ public class CallCenterRow implements TableRow
                           int ccCompany,
                           String ccCompanyName,
                           Address ccAddress,
-                          Decimal ccTaxPercentage)
+                          Decimal ccTaxPercentage,
+                          long nullBitMap)
     {
         this.ccCallCenterSk = ccCallCenterSk;
         this.ccCallCenterId = ccCallCenterId;
@@ -87,6 +90,7 @@ public class CallCenterRow implements TableRow
         this.ccCompanyName = ccCompanyName;
         this.ccAddress = ccAddress;
         this.ccTaxPercentage = ccTaxPercentage;
+        this.nullBitMap = nullBitMap;
     }
 
     public long getCcCallCenterSk()
@@ -223,6 +227,7 @@ public class CallCenterRow implements TableRow
         private String ccCompanyName;
         private Address ccAddress;
         private Decimal ccTaxPercentage;
+        private long nullBitMap;
 
         public Builder setCcCallCenterSk(long ccCallCenterSk)
         {
@@ -358,7 +363,12 @@ public class CallCenterRow implements TableRow
 
         public CallCenterRow build()
         {
-            return new CallCenterRow(ccCallCenterSk, ccCallCenterId, ccRecStartDateId, ccRecEndDateId, ccClosedDateId, ccOpenDateId, ccName, ccClass, ccEmployees, ccSqFt, ccHours, ccManager, ccMarketId, ccMarketClass, ccMarketDesc, ccMarketManager, ccDivisionId, ccDivisionName, ccCompany, ccCompanyName, ccAddress, ccTaxPercentage);
+            return new CallCenterRow(ccCallCenterSk, ccCallCenterId, ccRecStartDateId, ccRecEndDateId, ccClosedDateId, ccOpenDateId, ccName, ccClass, ccEmployees, ccSqFt, ccHours, ccManager, ccMarketId, ccMarketClass, ccMarketDesc, ccMarketManager, ccDivisionId, ccDivisionName, ccCompany, ccCompanyName, ccAddress, ccTaxPercentage, nullBitMap);
+        }
+
+        public void setNullBitMap(long nullBitMap)
+        {
+            this.nullBitMap = nullBitMap;
         }
     }
 }

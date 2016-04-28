@@ -34,9 +34,11 @@ import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_CLASS;
 import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_DESC;
 import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_ID;
 import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_MANAGER;
+import static com.teradata.tpcds.CallCenterColumn.CC_NULLS;
 import static com.teradata.tpcds.CallCenterColumn.CC_SCD;
 import static com.teradata.tpcds.CallCenterColumn.CC_SQ_FT;
 import static com.teradata.tpcds.CallCenterColumn.CC_TAX_PERCENTAGE;
+import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.computeScdKey;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.getValueForSlowlyChangingDimension;
 import static com.teradata.tpcds.Table.CALL_CENTER;
@@ -66,6 +68,7 @@ public class CallCenterRowGenerator
     public TableRow generateRow(long rowNumber, Scaling scaling)
     {
         CallCenterRow.Builder builder = new CallCenterRow.Builder();
+        builder.setNullBitMap(createNullBitMap(CC_NULLS));
         builder.setCcCallCenterSk(rowNumber);
 
         // The id combined with start and end dates represent the unique key for this row.

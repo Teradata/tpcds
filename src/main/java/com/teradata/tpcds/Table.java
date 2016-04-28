@@ -18,8 +18,8 @@ import com.teradata.tpcds.TableFlags.TableFlagsBuilder;
 
 public enum Table
 {
-    CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build()),
-    CATALOG_PAGE,
+    CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build(), 100, 0xB),
+    CATALOG_PAGE(new TableFlagsBuilder().build(), 200, 0x3),
     CATALOG_RETURNS,
     CUSTOMER,
     CUSTOMER_ADDRESS,
@@ -96,15 +96,20 @@ public enum Table
     ACTIVE_STATES();
 
     private TableFlags tableFlags;
+    private int nullBasisPoints;
+    private long notNullBitMap;
 
-    Table(TableFlags tableFlags)
-    {
-        this.tableFlags = tableFlags;
-    }
-
+    // TODO: This constructor is a stop-gap until all the tables are implemented.  Remove it when it is no longer needed.
     Table()
     {
         this.tableFlags = new TableFlagsBuilder().build();
+    }
+
+    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap)
+    {
+        this.tableFlags = tableFlags;
+        this.nullBasisPoints = nullBasisPoints;
+        this.notNullBitMap = notNullBitMap;
     }
 
     public boolean keepsHistory()
@@ -115,5 +120,15 @@ public enum Table
     public boolean isSmall()
     {
         return tableFlags.isSmall();
+    }
+
+    public int getNullBasisPoints()
+    {
+        return nullBasisPoints;
+    }
+
+    public long getNotNullBitMap()
+    {
+        return notNullBitMap;
     }
 }
