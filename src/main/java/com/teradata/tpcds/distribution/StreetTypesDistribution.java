@@ -28,8 +28,8 @@ import static com.teradata.tpcds.distribution.DistributionUtils.pickRandomValue;
 public class StreetTypesDistribution
 {
     private static final String VALUES_AND_WEIGHTS_FILENAME = "street_types.dst";
-    private static final ImmutableList<String> streetTypes;
-    private static final ImmutableList<Integer> weights;
+    private static final ImmutableList<String> STREET_TYPES;
+    private static final ImmutableList<Integer> WEIGHTS;
 
     static {
         Iterator<List<String>> iterator = getDistributionIterator(VALUES_AND_WEIGHTS_FILENAME);
@@ -43,14 +43,14 @@ public class StreetTypesDistribution
             weightsBuilder.add(Integer.valueOf(fields.get(1)));
         }
 
-        streetTypes = streetTypesBuilder.build();
-        weights = weightsBuilder.build();
+        STREET_TYPES = streetTypesBuilder.build();
+        WEIGHTS = weightsBuilder.build();
     }
 
     private StreetTypesDistribution() {}
 
     public static String pickRandomStreetType(RandomNumberStream stream)
     {
-        return pickRandomValue(streetTypes, weights, stream);
+        return pickRandomValue(STREET_TYPES, WEIGHTS, stream);
     }
 }

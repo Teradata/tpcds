@@ -30,9 +30,9 @@ public final class StreetNamesDistribution
 {
     private static final String VALUES_AND_WEIGHTS_FILENAME = "street_names.dst";
 
-    private final static ImmutableList<String> streetNames; // from 1990 census
-    private final static ImmutableList<Integer> defaultWeights;
-    private final static ImmutableList<Integer> halfEmptyWeights; // returns an empty entry 50% of the time
+    private final static ImmutableList<String> STREET_NAMES; // from 1990 census
+    private final static ImmutableList<Integer> DEFAULT_WEIGHTS;
+    private final static ImmutableList<Integer> HALF_EMPTY_WEIGHTS; // returns an empty entry 50% of the time
 
     static {
         Iterator<List<String>> iterator = getDistributionIterator(VALUES_AND_WEIGHTS_FILENAME);
@@ -48,16 +48,16 @@ public final class StreetNamesDistribution
             halfEmptyWeightsBuilder.add(Integer.valueOf(fields.get(2)));
         }
 
-        streetNames = streetNamesBuilder.build();
-        defaultWeights = defaultWeightsBuilder.build();
-        halfEmptyWeights = halfEmptyWeightsBuilder.build();
+        STREET_NAMES = streetNamesBuilder.build();
+        DEFAULT_WEIGHTS = defaultWeightsBuilder.build();
+        HALF_EMPTY_WEIGHTS = halfEmptyWeightsBuilder.build();
     }
 
     private StreetNamesDistribution() {}
 
     public static String pickRandomStreetName(WeightType weightType, RandomNumberStream stream)
     {
-        return pickRandomValue(streetNames, weightType == DEFAULT ? defaultWeights : halfEmptyWeights, stream);
+        return pickRandomValue(STREET_NAMES, weightType == DEFAULT ? DEFAULT_WEIGHTS : HALF_EMPTY_WEIGHTS, stream);
     }
 
     public enum WeightType
