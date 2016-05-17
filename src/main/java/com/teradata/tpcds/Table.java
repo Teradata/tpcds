@@ -18,10 +18,24 @@ import com.teradata.tpcds.TableFlags.TableFlagsBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 
+import static com.teradata.tpcds.ScalingInfo.ScalingModel.LINEAR;
+import static com.teradata.tpcds.ScalingInfo.ScalingModel.LOGARITHMIC;
+import static com.teradata.tpcds.ScalingInfo.ScalingModel.STATIC;
+
 public enum Table
 {
-    CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build(), 100, 0xB, CallCenterRowGenerator.class, CallCenterColumn.values()),
-    CATALOG_PAGE(new TableFlagsBuilder().build(), 200, 0x3, CatalogPageRowGenerator.class, CatalogPageColumn.values()),
+    CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build(),
+                100,
+                0xB,
+                CallCenterRowGenerator.class,
+                CallCenterColumn.values(),
+                new ScalingInfo(0, LOGARITHMIC, new int[]{3, 12, 15, 18, 21, 24, 27, 30, 30}, 0)),
+    CATALOG_PAGE(new TableFlagsBuilder().build(),
+                 200,
+                 0x3,
+                 CatalogPageRowGenerator.class,
+                 CatalogPageColumn.values(),
+                 new ScalingInfo(0, STATIC, new int[]{11718, 12000, 20400, 26000, 30000, 36000, 40000, 46000, 50000}, 0)),
     CATALOG_RETURNS,
     CUSTOMER,
     CUSTOMER_ADDRESS,
@@ -102,6 +116,7 @@ public enum Table
     private final long notNullBitMap;
     private final ThreadLocal<RowGenerator> rowGeneratorThreadLocal;
     private final Column[] columns;
+    private final ScalingInfo scalingInfo;
 
     // TODO: This constructor is a stop-gap until all the tables are implemented.  Remove it when it is no longer needed.
     Table()
@@ -111,9 +126,10 @@ public enum Table
         this.notNullBitMap = 0;
         this.rowGeneratorThreadLocal = null;
         columns = new Column[0];
+        scalingInfo = new ScalingInfo(0, LINEAR, new int[9], 0);
     }
 
-    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, Column[] columns)
+    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, Column[] columns, ScalingInfo scalingInfo)
     {
         this.tableFlags = tableFlags;
         this.nullBasisPoints = nullBasisPoints;
@@ -132,6 +148,7 @@ public enum Table
             }
         };
         this.columns = columns;
+        this.scalingInfo = scalingInfo;
     }
 
     @Override
@@ -168,5 +185,10 @@ public enum Table
     public Column[] getColumns()
     {
         return columns;
+    }
+
+    public ScalingInfo getScalingInfo()
+    {
+        return scalingInfo;
     }
 }
