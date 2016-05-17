@@ -22,13 +22,19 @@ public class Session
     private final String targetDirectory;
     private final String suffix;
     private final Optional<Table> table;
+    private final String nullString;
+    private final char separator;
+    private final boolean terminate;
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate)
     {
+        this.separator = separator;
+        this.terminate = terminate;
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
         this.suffix = suffix;
         this.table = table;
+        this.nullString = nullString;
     }
 
     public Scaling getScaling()
@@ -57,5 +63,20 @@ public class Session
             throw new TpcdsException("table not present");
         }
         return table.get();
+    }
+
+    public String getNullString()
+    {
+        return nullString;
+    }
+
+    public char getSeparator()
+    {
+        return separator;
+    }
+
+    public boolean terminateRowsWithSeparator()
+    {
+        return terminate;
     }
 }
