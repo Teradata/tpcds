@@ -16,10 +16,12 @@ package com.teradata.tpcds;
 
 import com.teradata.tpcds.TableFlags.TableFlagsBuilder;
 
+import java.lang.reflect.InvocationTargetException;
+
 public enum Table
 {
-    CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build(), 100, 0xB),
-    CATALOG_PAGE(new TableFlagsBuilder().build(), 200, 0x3),
+    CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build(), 100, 0xB, CallCenterRowGenerator.class, CallCenterColumn.values()),
+    CATALOG_PAGE(new TableFlagsBuilder().build(), 200, 0x3, CatalogPageRowGenerator.class, CatalogPageColumn.values()),
     CATALOG_RETURNS,
     CUSTOMER,
     CUSTOMER_ADDRESS,
@@ -95,21 +97,47 @@ public enum Table
     ACTIVE_COUNTIES(),
     ACTIVE_STATES();
 
-    private TableFlags tableFlags;
-    private int nullBasisPoints;
-    private long notNullBitMap;
+    private final TableFlags tableFlags;
+    private final int nullBasisPoints;
+    private final long notNullBitMap;
+    private final ThreadLocal<RowGenerator> rowGeneratorThreadLocal;
+    private final Column[] columns;
 
     // TODO: This constructor is a stop-gap until all the tables are implemented.  Remove it when it is no longer needed.
     Table()
     {
         this.tableFlags = new TableFlagsBuilder().build();
+        this.nullBasisPoints = 0;
+        this.notNullBitMap = 0;
+        this.rowGeneratorThreadLocal = null;
+        columns = new Column[0];
     }
 
-    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap)
+    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, Column[] columns)
     {
         this.tableFlags = tableFlags;
         this.nullBasisPoints = nullBasisPoints;
         this.notNullBitMap = notNullBitMap;
+        this.rowGeneratorThreadLocal = new ThreadLocal<RowGenerator>()
+        {
+            @Override
+            protected RowGenerator initialValue()
+            {
+                try {
+                    return rowGeneratorClass.getDeclaredConstructor().newInstance();
+                }
+                catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+                    throw new TpcdsException(e.toString());
+                }
+            }
+        };
+        this.columns = columns;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name().toLowerCase();
     }
 
     public boolean keepsHistory()
@@ -130,5 +158,15 @@ public enum Table
     public long getNotNullBitMap()
     {
         return notNullBitMap;
+    }
+
+    public RowGenerator getRowGenerator()
+    {
+        return rowGeneratorThreadLocal.get();
+    }
+
+    public Column[] getColumns()
+    {
+        return columns;
     }
 }

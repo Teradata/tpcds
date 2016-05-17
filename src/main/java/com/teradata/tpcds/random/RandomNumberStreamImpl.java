@@ -35,6 +35,7 @@ public class RandomNumberStreamImpl
         this.seedsPerRow = seedsPerRow;
     }
 
+    @Override
     // https://en.wikipedia.org/wiki/Lehmer_random_number_generator
     public long nextRandom()
     {
@@ -52,11 +53,13 @@ public class RandomNumberStreamImpl
         return seed;
     }
 
+    @Override
     public double nextRandomDouble()
     {
         return (double) this.nextRandom() / (double) Integer.MAX_VALUE;
     }
 
+    @Override
     public void skipRandom(long numberOfValuesToSkip)
     {
         totalSeedsUsed = numberOfValuesToSkip;
@@ -72,8 +75,27 @@ public class RandomNumberStreamImpl
         seed = nextSeed;
     }
 
+    @Override
     public void resetSeed()
     {
         seed = initialSeed;
+    }
+
+    @Override
+    public int getSeedsUsed()
+    {
+        return seedsUsed;
+    }
+
+    @Override
+    public void resetSeedsUsed()
+    {
+        seedsUsed = 0;
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

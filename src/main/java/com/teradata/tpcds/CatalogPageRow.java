@@ -15,13 +15,13 @@
 package com.teradata.tpcds;
 
 public class CatalogPageRow
-    implements TableRow
+        implements TableRow
 {
     private final long cpCatalogPageSk;
     private final String cpCatalogPageId;
     private final long cpStartDateId;
     private final long cpEndDateId;
-    private final String  cpDepartment;
+    private final String cpDepartment;
     private final int cpCatalogNumber;
     private final int cpCatalogPageNumber;
     private final String cpDescription;
@@ -49,5 +49,12 @@ public class CatalogPageRow
         this.cpDescription = cpDescription;
         this.cpType = cpType;
         this.nullBitMap = nullBitMap;
+    }
+
+    @Override
+    public String toFormattedString()
+    {
+        // TODO: implement
+        throw new RuntimeException("Not yet implemented");
     }
 }

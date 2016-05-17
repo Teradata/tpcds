@@ -203,6 +203,13 @@ public class CallCenterRow
         return ccTaxPercentage;
     }
 
+    @Override
+    public String toFormattedString()
+    {
+        // TODO: implement
+        throw new RuntimeException("Not yet implemented");
+    }
+
     public static class Builder
     {
         private long ccCallCenterSk;

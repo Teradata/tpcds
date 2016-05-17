@@ -14,4 +14,7 @@
 
 package com.teradata.tpcds;
 
-public interface TableRow {}
+public interface TableRow
+{
+    String toFormattedString();
+}

@@ -46,4 +46,19 @@ public class TestingRandomNumberStream
 
     @Override
     public void resetSeed() {}
+
+    @Override
+    public int getSeedsUsed()
+    {
+        return 0;
+    }
+
+    @Override
+    public void resetSeedsUsed() {}
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return 0;
+    }
 }

@@ -17,7 +17,16 @@ package com.teradata.tpcds.random;
 public interface RandomNumberStream
 {
     long nextRandom();
+
     double nextRandomDouble();
+
     void skipRandom(long numberOfValuesToSkip);
+
     void resetSeed();
+
+    int getSeedsUsed();
+
+    void resetSeedsUsed();
+
+    int getSeedsPerRow();
 }
