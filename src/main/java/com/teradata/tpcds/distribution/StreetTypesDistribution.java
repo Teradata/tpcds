@@ -40,7 +40,7 @@ public class StreetTypesDistribution
             List<String> fields = iterator.next();
             checkState(fields.size() == 2, "Expected line to contain 2 parts but it contains %d: %s", fields.size(), fields);
             streetTypesBuilder.add(fields.get(0));
-            weightsBuilder.add(Integer.valueOf(fields.get(1)));
+            weightsBuilder.computeAndAddNextWeight(Integer.valueOf(fields.get(1)));
         }
 
         STREET_TYPES = streetTypesBuilder.build();

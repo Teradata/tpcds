@@ -42,7 +42,7 @@ public final class DistributionUtils
         ImmutableList.Builder<Integer> weightsBuilder = ImmutableList.<Integer> builder();
         int previousWeight = 0;
 
-        public WeightsBuilder add(int weight){
+        public WeightsBuilder computeAndAddNextWeight(int weight){
             checkArgument(weight >= 0, "Weight cannot be negative.");
             int newWeight = previousWeight + weight;
             weightsBuilder.add(newWeight);
@@ -80,6 +80,7 @@ public final class DistributionUtils
 
     protected static <T> T getSpecificValue(int weight, List<T> values, List<Integer> weights)
     {
+        checkArgument(values.size() == weights.size());
         for (int index = 0; index < weights.size(); index++) {
             if (weight <= weights.get(index)) {
                 return values.get(index);

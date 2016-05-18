@@ -44,8 +44,8 @@ public final class StreetNamesDistribution
             List<String> fields = iterator.next();
             checkState(fields.size() == 3, "Expected line to contain 3 parts but it contains %d: %s", fields.size(), fields);
             streetNamesBuilder.add(fields.get(0));
-            defaultWeightsBuilder.add(Integer.valueOf(fields.get(1)));
-            halfEmptyWeightsBuilder.add(Integer.valueOf(fields.get(2)));
+            defaultWeightsBuilder.computeAndAddNextWeight(Integer.valueOf(fields.get(1)));
+            halfEmptyWeightsBuilder.computeAndAddNextWeight(Integer.valueOf(fields.get(2)));
         }
 
         STREET_NAMES = streetNamesBuilder.build();
