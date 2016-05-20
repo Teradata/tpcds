@@ -30,9 +30,9 @@ public final class StreetNamesDistribution
 {
     private static final String VALUES_AND_WEIGHTS_FILENAME = "street_names.dst";
 
-    private final static ImmutableList<String> STREET_NAMES; // from 1990 census
-    private final static ImmutableList<Integer> DEFAULT_WEIGHTS;
-    private final static ImmutableList<Integer> HALF_EMPTY_WEIGHTS; // returns an empty entry 50% of the time
+    private static final ImmutableList<String> STREET_NAMES; // from 1990 census
+    private static final ImmutableList<Integer> DEFAULT_WEIGHTS;
+    private static final ImmutableList<Integer> HALF_EMPTY_WEIGHTS; // returns an empty entry 50% of the time
 
     static {
         Iterator<List<String>> iterator = getDistributionIterator(VALUES_AND_WEIGHTS_FILENAME);
@@ -44,8 +44,8 @@ public final class StreetNamesDistribution
             List<String> fields = iterator.next();
             checkState(fields.size() == 3, "Expected line to contain 3 parts but it contains %d: %s", fields.size(), fields);
             streetNamesBuilder.add(fields.get(0));
-            defaultWeightsBuilder.computeAndAddNextWeight(Integer.valueOf(fields.get(1)));
-            halfEmptyWeightsBuilder.computeAndAddNextWeight(Integer.valueOf(fields.get(2)));
+            defaultWeightsBuilder.computeAndAddNextWeight(Integer.parseInt(fields.get(1)));
+            halfEmptyWeightsBuilder.computeAndAddNextWeight(Integer.parseInt(fields.get(2)));
         }
 
         STREET_NAMES = streetNamesBuilder.build();

@@ -29,7 +29,7 @@ import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
 
 public class Scaling
 {
-    private static final int DEFINED_SCALES[] = {1, 10, 100, 300, 1000, 3000, 10000, 30000, 100000};
+    private static final int[] DEFINED_SCALES = {1, 10, 100, 300, 1000, 3000, 10000, 30000, 100000};
 
     private final int scale;
     private final Map<Table, ScalingInfo> scalingInfosMap = new EnumMap<>(Table.class);
@@ -130,8 +130,7 @@ public class Scaling
         long rowCount = 0;
         int targetGB = scale;
 
-        for (int i = DEFINED_SCALES.length - 1; i >= 0; i--)  // work from large scales down
-        {
+        for (int i = DEFINED_SCALES.length - 1; i >= 0; i--) {  // work from large scales down
             // use the defined rowcounts to build up the target GB volume
             while (targetGB >= DEFINED_SCALES[i]) {
                 rowCount += RowCountsDistribution.getWeight(tableNumber + 1, i + 1);
@@ -143,11 +142,11 @@ public class Scaling
 
     public long getRowCount(Table table)
     {
-        if ((table == INVENTORY)) {
+        if (table == INVENTORY) {
             return scaleInventory();
         }
 
-        if ((table == S_INVENTORY)) {
+        if (table == S_INVENTORY) {
             return getIdCount(ITEM) * getRowCount(WAREHOUSE) * 6;
         }
         return scalingInfosMap.get(table).baseRowCount;
@@ -169,6 +168,8 @@ public class Scaling
                 case 4:
                 case 5:
                     uniqueCount += 3;
+                    break;
+                default:
                     break;
             }
             return uniqueCount;
@@ -193,10 +194,10 @@ public class Scaling
 
     private static final class ScalingInfo
     {
-        final long baseRowCount;
-        final long nextInsertValue = 0; // dummy value
-        final int updatePercentage = 0; // dummy value
-        final long[] dayRowCount = {}; // dummy value
+        private final long baseRowCount;
+        private final long nextInsertValue = 0; // dummy value
+        private final int updatePercentage = 0; // dummy value
+        private final long[] dayRowCount = {}; // dummy value
 
         ScalingInfo(long baseRowCount)
         {

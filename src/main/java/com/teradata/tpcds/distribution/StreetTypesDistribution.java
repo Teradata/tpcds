@@ -33,14 +33,14 @@ public class StreetTypesDistribution
 
     static {
         Iterator<List<String>> iterator = getDistributionIterator(VALUES_AND_WEIGHTS_FILENAME);
-        ImmutableList.Builder<String> streetTypesBuilder = ImmutableList.<String> builder();
+        ImmutableList.Builder<String> streetTypesBuilder = ImmutableList.builder();
         WeightsBuilder weightsBuilder = new WeightsBuilder();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             List<String> fields = iterator.next();
             checkState(fields.size() == 2, "Expected line to contain 2 parts but it contains %d: %s", fields.size(), fields);
             streetTypesBuilder.add(fields.get(0));
-            weightsBuilder.computeAndAddNextWeight(Integer.valueOf(fields.get(1)));
+            weightsBuilder.computeAndAddNextWeight(Integer.parseInt(fields.get(1)));
         }
 
         STREET_TYPES = streetTypesBuilder.build();

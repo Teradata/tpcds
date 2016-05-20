@@ -37,7 +37,8 @@ public class CatalogPageRow
                           int cpCatalogPageNumber,
                           String cpDescription,
                           String cpType,
-                          long nullBitMap) {
+                          long nullBitMap)
+    {
         this.cpCatalogPageSk = cpCatalogPageSk;
         this.cpCatalogPageId = cpCatalogPageId;
         this.cpStartDateId = cpStartDateId;

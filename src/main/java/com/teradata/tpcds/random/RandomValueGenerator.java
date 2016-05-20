@@ -157,10 +157,11 @@ public final class RandomValueGenerator
 
     public static String generateRandomIpAddress(RandomNumberStream randomNumberStream)
     {
-        int ipSegments[] = new int[4];
+        int[] ipSegments = new int[4];
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) {
             ipSegments[i] = generateUniformRandomInt(1, 255, randomNumberStream);
+        }
 
         return String.format("%d.%d.%d.%d", ipSegments[0], ipSegments[1], ipSegments[2], ipSegments[3]);
     }
@@ -183,8 +184,9 @@ public final class RandomValueGenerator
     public static long generateExponentialRandomKey(long min, long max, RandomNumberStream randomNumberStream)
     {
         double doubleResult = 0;
-        for (int i = 0; i < 12; i++)
-            doubleResult += (double) (randomNumberStream.nextRandom() / Integer.MAX_VALUE) - 0.5;
+        for (int i = 0; i < 12; i++) {
+            doubleResult += ((double) randomNumberStream.nextRandom() / Integer.MAX_VALUE) - 0.5;
+        }
         return (int) min + (int) ((max - min + 1) * doubleResult); // truncating long to int copies behavior of c code
     }
 
@@ -308,4 +310,3 @@ public final class RandomValueGenerator
         return word.toString();
     }
 }
-

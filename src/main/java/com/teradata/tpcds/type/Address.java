@@ -24,13 +24,13 @@ import com.teradata.tpcds.distribution.StreetTypesDistribution;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.teradata.tpcds.Table.ACTIVE_CITIES;
 import static com.teradata.tpcds.Table.ACTIVE_COUNTIES;
 import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.DEFAULT;
 import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.HALF_EMPTY;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 
 public class Address
 {
@@ -60,13 +60,13 @@ public class Address
                    int plus4,
                    int gmtOffset)
     {
-        checkNotNull(suiteNumber, "suiteNumber is null");
+        requireNonNull(suiteNumber, "suiteNumber is null");
         checkArgument(streetNumber >= 1 && streetNumber <= 1000, "streetNumber is not between 1 and 1000");
-        checkNotNull(streetName1, "streetName1 is null");
-        checkNotNull(streetName2, "streetName2 is null");
-        checkNotNull(streetType, "streetType is null");
-        checkNotNull(city, "city is null");
-        checkNotNull(country, "country is null");
+        requireNonNull(streetName1, "streetName1 is null");
+        requireNonNull(streetName2, "streetName2 is null");
+        requireNonNull(streetType, "streetType is null");
+        requireNonNull(city, "city is null");
+        requireNonNull(country, "country is null");
         checkArgument(zip >= 0 && zip <= 99999, "zip is not between 0 and 99999");
         checkArgument(plus4 >= 0 && plus4 <= 9999, "plus4 is not between 0 and 9999");
         this.suiteNumber = suiteNumber;
