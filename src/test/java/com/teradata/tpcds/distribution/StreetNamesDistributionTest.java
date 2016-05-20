@@ -16,8 +16,9 @@ package com.teradata.tpcds.distribution;
 
 import org.testng.annotations.Test;
 
-import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.DEFAULT;
-import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.HALF_EMPTY;
+import static com.teradata.tpcds.distribution.AddressDistributions.StreetNamesWeights.DEFAULT;
+import static com.teradata.tpcds.distribution.AddressDistributions.StreetNamesWeights.HALF_EMPTY;
+import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomStreetName;
 import static org.testng.Assert.assertEquals;
 
 public class StreetNamesDistributionTest
@@ -25,17 +26,17 @@ public class StreetNamesDistributionTest
     @Test
     public void testPickRandomStreetNameDefault() throws Exception
     {
-        String result = StreetNamesDistribution.pickRandomStreetName(DEFAULT, new TestingRandomNumberStream(7000));
+        String result = pickRandomStreetName(DEFAULT, new TestingRandomNumberStream(7000));
         assertEquals(result, "Center");
     }
 
     @Test
     public void testPickRandomStreetNameHalfEmpty() throws Exception
     {
-        String result = StreetNamesDistribution.pickRandomStreetName(HALF_EMPTY, new TestingRandomNumberStream(7000));
+        String result = pickRandomStreetName(HALF_EMPTY, new TestingRandomNumberStream(7000));
         assertEquals(result, "");
 
-        result = StreetNamesDistribution.pickRandomStreetName(HALF_EMPTY, new TestingRandomNumberStream(324000));
+        result = pickRandomStreetName(HALF_EMPTY, new TestingRandomNumberStream(324000));
         assertEquals(result, "Center");
     }
 }

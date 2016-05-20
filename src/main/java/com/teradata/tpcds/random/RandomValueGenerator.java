@@ -14,21 +14,22 @@
 
 package com.teradata.tpcds.random;
 
-import com.teradata.tpcds.distribution.AdjectivesDistribution;
-import com.teradata.tpcds.distribution.AdverbsDistribution;
-import com.teradata.tpcds.distribution.ArticlesDistribution;
-import com.teradata.tpcds.distribution.AuxilariesDistribution;
 import com.teradata.tpcds.distribution.CalendarDistribution;
-import com.teradata.tpcds.distribution.NounsDistribution;
-import com.teradata.tpcds.distribution.PrepositionsDistribution;
-import com.teradata.tpcds.distribution.SentencesDistribution;
-import com.teradata.tpcds.distribution.SyllablesDistribution;
-import com.teradata.tpcds.distribution.TerminatorsDistribution;
 import com.teradata.tpcds.distribution.TopDomainsDistribution;
-import com.teradata.tpcds.distribution.VerbsDistribution;
 import com.teradata.tpcds.type.Date;
 import com.teradata.tpcds.type.Decimal;
 
+import static com.teradata.tpcds.distribution.EnglishDistributions.getSyllableAtIndex;
+import static com.teradata.tpcds.distribution.EnglishDistributions.getSyllablesSize;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomAdjective;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomAdverb;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomArticle;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomAuxiliary;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomNoun;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomPreposition;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomSentence;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomTerminator;
+import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomVerb;
 import static com.teradata.tpcds.type.Date.fromJulianDays;
 import static com.teradata.tpcds.type.Date.getDaysInYear;
 import static com.teradata.tpcds.type.Date.toJulianDays;
@@ -256,32 +257,32 @@ public final class RandomValueGenerator
     private static String generateRandomSentence(RandomNumberStream stream)
     {
         StringBuilder verbiage = new StringBuilder();
-        String syntax = SentencesDistribution.pickRandomValue(1, 1, stream);
+        String syntax = pickRandomSentence(stream);
         for (int i = 0; i < syntax.length(); i++) {
             switch (syntax.charAt(i)) {
                 case 'N':
-                    verbiage.append(NounsDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomNoun(stream));
                     break;
                 case 'V':
-                    verbiage.append(VerbsDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomVerb(stream));
                     break;
                 case 'J':
-                    verbiage.append(AdjectivesDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomAdjective(stream));
                     break;
                 case 'D':
-                    verbiage.append(AdverbsDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomAdverb(stream));
                     break;
                 case 'X':
-                    verbiage.append(AuxilariesDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomAuxiliary(stream));
                     break;
                 case 'P':
-                    verbiage.append(PrepositionsDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomPreposition(stream));
                     break;
                 case 'A':
-                    verbiage.append(ArticlesDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomArticle(stream));
                     break;
                 case 'T':
-                    verbiage.append(TerminatorsDistribution.pickRandomValue(1, 1, stream));
+                    verbiage.append(pickRandomTerminator(stream));
                     break;
                 default:
                     verbiage.append(syntax.charAt(i));  // this is for patterns that include punctuation.
@@ -295,10 +296,10 @@ public final class RandomValueGenerator
     // There is no distribution that has the upper case name. I wonder if distribution names are case insensitive.
     public static String generateWord(long seed, int maxChars)
     {
-        long size = SyllablesDistribution.getSize();
+        long size = getSyllablesSize();
         StringBuilder word = new StringBuilder();
         while (seed > 0) {
-            String syllable = SyllablesDistribution.getMemberString((int) (seed % size) + 1, 1);
+            String syllable = getSyllableAtIndex((int) (seed % size) + 1);
             seed /= size;
             if ((word.length() + syllable.length()) <= maxChars) {
                 word.append(syllable);

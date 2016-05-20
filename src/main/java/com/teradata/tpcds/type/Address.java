@@ -17,17 +17,25 @@ package com.teradata.tpcds.type;
 import com.teradata.tpcds.Column;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.distribution.CitiesDistribution;
-import com.teradata.tpcds.distribution.FipsCountyDistribution;
-import com.teradata.tpcds.distribution.StreetNamesDistribution;
-import com.teradata.tpcds.distribution.StreetTypesDistribution;
+import com.teradata.tpcds.distribution.FipsCountyDistribution.FipsWeights;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.teradata.tpcds.Table.ACTIVE_CITIES;
 import static com.teradata.tpcds.Table.ACTIVE_COUNTIES;
-import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.DEFAULT;
-import static com.teradata.tpcds.distribution.StreetNamesDistribution.WeightType.HALF_EMPTY;
+import static com.teradata.tpcds.distribution.AddressDistributions.CitiesWeights.UNIFIED_STEP_FUNCTION;
+import static com.teradata.tpcds.distribution.AddressDistributions.StreetNamesWeights.DEFAULT;
+import static com.teradata.tpcds.distribution.AddressDistributions.StreetNamesWeights.HALF_EMPTY;
+import static com.teradata.tpcds.distribution.AddressDistributions.getCityAtIndex;
+import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomCity;
+import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomStreetName;
+import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomStreetType;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.getCountyAtIndex;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.getGmtOffsetAtIndex;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.getIndexForCounty;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.getStateAbbreviationAtIndex;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.getZipPrefixAtIndex;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.pickRandomCounty;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
@@ -88,9 +96,9 @@ public class Address
         AddressBuilder builder = new AddressBuilder();
         RandomNumberStream randomNumberStream = column.getRandomNumberStream();
         builder.setStreetNumber(generateUniformRandomInt(1, 1000, randomNumberStream));
-        builder.setStreetName1(StreetNamesDistribution.pickRandomStreetName(DEFAULT, randomNumberStream));
-        builder.setStreetName2(StreetNamesDistribution.pickRandomStreetName(HALF_EMPTY, randomNumberStream));
-        builder.setStreetType(StreetTypesDistribution.pickRandomStreetType(randomNumberStream));
+        builder.setStreetName1(pickRandomStreetName(DEFAULT, randomNumberStream));
+        builder.setStreetName2(pickRandomStreetName(HALF_EMPTY, randomNumberStream));
+        builder.setStreetType(pickRandomStreetType(randomNumberStream));
 
         int randomInt = generateUniformRandomInt(0, 100, randomNumberStream);
         if (randomInt % 2 == 1) {  // if i is odd, suiteNumber is a number
@@ -106,10 +114,10 @@ public class Address
         if ((table.isSmall())) {
             int maxCities = (int) scaling.getRowCount(ACTIVE_CITIES);
             randomInt = generateUniformRandomInt(1, (maxCities > rowCount) ? rowCount : maxCities, randomNumberStream);
-            city = CitiesDistribution.getMemberString(randomInt, 1);
+            city = getCityAtIndex(randomInt);
         }
         else {
-            city = CitiesDistribution.pickRandomValue(1, 6, column.getRandomNumberStream());
+            city = pickRandomCity(UNIFIED_STEP_FUNCTION, column.getRandomNumberStream());
         }
         builder.setCity(city);
 
@@ -118,29 +126,30 @@ public class Address
         if (table.isSmall()) {
             int maxCounties = (int) scaling.getRowCount(ACTIVE_COUNTIES);
             regionNumber = generateUniformRandomInt(1, (maxCounties > rowCount) ? rowCount : maxCounties, randomNumberStream);
-            builder.setCounty(FipsCountyDistribution.getMemberString(regionNumber, 2));
+            builder.setCounty(getCountyAtIndex(regionNumber));
         }
         else {
-            builder.setCounty(FipsCountyDistribution.pickRandomValue(2, 1, randomNumberStream));
-            regionNumber = 0;  //TODO: this is supposed to be equal to index + 1 of the random value chosen above.  In the c code both happen in pick_distribution, which is an alias for op 0 of dist_op.
+            String county = pickRandomCounty(FipsWeights.UNIFORM, randomNumberStream);
+            builder.setCounty(county);
+            regionNumber = getIndexForCounty(county);
         }
 
         // match state with the selected region/county
-        builder.setState(FipsCountyDistribution.getMemberString(regionNumber, 3));
+        builder.setState(getStateAbbreviationAtIndex(regionNumber));
 
         // match the zip prefix with the selected region/county
         int zip = computeCityHash(city);
 
         // 00000 - 00600 are unused. Avoid them
-        char zipPrefixChar = FipsCountyDistribution.getMemberString(regionNumber, 5).charAt(0);
-        if (zipPrefixChar == '0' && zip < 9400) {
+        int zipPrefix = getZipPrefixAtIndex(regionNumber);
+        if (zipPrefix == 0 && zip < 9400) {
             zip += 600;
         }
-        builder.setZip(zip + (zipPrefixChar - '0') * 10000);
+        builder.setZip(zip + (zipPrefix) * 10000);
 
         String addr = format("%d %s %s %s", builder.getStreetNumber(), builder.getStreetName1(), builder.getStreetName2(), builder.getStreetType());
         builder.setPlus4(computeCityHash(addr));
-        builder.setGmtOffset(FipsCountyDistribution.getMemberInt(regionNumber, 6));
+        builder.setGmtOffset(getGmtOffsetAtIndex(regionNumber));
         builder.setCountry("United States");
 
         return builder.build();

@@ -26,6 +26,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -62,25 +64,31 @@ public final class DistributionUtils
         URL resource = Resources.getResource(DistributionUtils.class, filename);
         checkState(resource != null, "Distribution file '%s' not found", filename);
         try {
-            // get an iterator that iterates over lists of the comma separated values from the distribution files
+            // get an iterator that iterates over lists of the colon separated values from the distribution files
             return transform(
                     filter(Resources.asCharSource(resource, StandardCharsets.UTF_8).readLines().iterator(), line -> {
                         line = line.trim();
                         return !line.isEmpty() && !line.startsWith("--");
-                    }), line -> ImmutableList.copyOf(Splitter.on(',').trimResults().split(line)));
+                    }), line -> ImmutableList.copyOf(Splitter.on(Pattern.compile("(?<!\\\\):")).trimResults().split(line)));
         }
         catch (IOException e) {
             throw Throwables.propagate(e);
         }
     }
 
+    protected static List<String> getListFromCommaSeparatedValues(String toSplit)
+    {
+        List<String> values = Splitter.on(Pattern.compile("(?<!\\\\),")).trimResults().splitToList(toSplit);
+        return values.stream().map(value -> value.replaceAll("\\\\", "")).collect(Collectors.toList());
+    }
+
     protected static <T> T pickRandomValue(List<T> values, List<Integer> weights, RandomNumberStream randomNumberStream)
     {
         int weight = generateUniformRandomInt(1, weights.get(weights.size() - 1), randomNumberStream);
-        return getSpecificValue(weight, values, weights);
+        return getValueForWeight(weight, values, weights);
     }
 
-    protected static <T> T getSpecificValue(int weight, List<T> values, List<Integer> weights)
+    protected static <T> T getValueForWeight(int weight, List<T> values, List<Integer> weights)
     {
         checkArgument(values.size() == weights.size());
         for (int index = 0; index < weights.size(); index++) {

@@ -15,9 +15,6 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.SlowlyChangingDimensionUtils.SlowlyChangingDimensionKey;
-import com.teradata.tpcds.distribution.CallCentersDistribution;
-import com.teradata.tpcds.distribution.FirstNamesDistribution;
-import com.teradata.tpcds.distribution.LastNamesDistribution;
 import com.teradata.tpcds.type.Decimal;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -42,6 +39,13 @@ import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.computeScdKey;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.getValueForSlowlyChangingDimension;
 import static com.teradata.tpcds.Table.CALL_CENTER;
+import static com.teradata.tpcds.distribution.CallCenterDistributions.getCallCenterAtIndex;
+import static com.teradata.tpcds.distribution.CallCenterDistributions.getNumberOfCallCenters;
+import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterClass;
+import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterHours;
+import static com.teradata.tpcds.distribution.NamesDistributions.FirstNamesWeights.MALE_FREQUENCY;
+import static com.teradata.tpcds.distribution.NamesDistributions.pickRandomFirstName;
+import static com.teradata.tpcds.distribution.NamesDistributions.pickRandomLastName;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateRandomText;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomDecimal;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
@@ -86,9 +90,9 @@ public class CallCenterRowGenerator
         // These fields only change when there is a new id.  They remain constant across different version of a row.
         if (isNewBusinessKey) {
             builder.setCcOpenDateId(JULIAN_DATE_START - generateUniformRandomInt(-365, 0, CC_CALL_CENTER_ID.getRandomNumberStream()));
-            int callCentersSize = CallCentersDistribution.getSize();
-            int suffix = (int) rowNumber / callCentersSize;
-            String ccName = CallCentersDistribution.getMemberString((int) (rowNumber % callCentersSize) + 1, 1);
+            int numberOfCallCenters = getNumberOfCallCenters();
+            int suffix = (int) rowNumber / numberOfCallCenters;
+            String ccName = getCallCenterAtIndex((int) (rowNumber % numberOfCallCenters) + 1);
             if (suffix > 0) {
                 ccName = format("%s_%d", ccName, suffix);
             }
@@ -109,7 +113,7 @@ public class CallCenterRowGenerator
         // We use a random number to determine which fields to replace and which to retain.
         // A field changes if isNewBusinessKey is true or the lowest order bit of the random number is zero.
         // Then we divide the fieldChangeFlag by 2 so the next field is determined by the next lower bit.
-        String ccClass = CallCentersDistribution.pickRandomValue(1, 1, CC_CLASS.getRandomNumberStream());
+        String ccClass = pickRandomCallCenterClass(CC_CLASS.getRandomNumberStream());
         builder.setCcClass(getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.getCcClass(), ccClass));
         fieldChangeFlag /= 2;
 
@@ -122,12 +126,12 @@ public class CallCenterRowGenerator
         builder.setCcSqFt(getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.getCcSqFt(), ccSqFt));
         fieldChangeFlag /= 2;
 
-        String ccHours = CallCentersDistribution.pickRandomValue(1, 1, CC_HOURS.getRandomNumberStream());
+        String ccHours = pickRandomCallCenterHours(CC_HOURS.getRandomNumberStream());
         builder.setCcHours(getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.getCcHours(), ccHours));
         fieldChangeFlag /= 2;
 
-        String managerFirstName = FirstNamesDistribution.pickRandomValue(1, 1, CC_MANAGER.getRandomNumberStream());
-        String managerLastName = LastNamesDistribution.pickRandomValue(1, 1, CC_MANAGER.getRandomNumberStream());
+        String managerFirstName = pickRandomFirstName(MALE_FREQUENCY, CC_MANAGER.getRandomNumberStream());
+        String managerLastName = pickRandomLastName(CC_MANAGER.getRandomNumberStream());
         String ccManager = format("%s %s", managerFirstName, managerLastName);
         builder.setCcManager(getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.getCcManager(), ccManager));
         fieldChangeFlag /= 2;
@@ -144,8 +148,8 @@ public class CallCenterRowGenerator
         builder.setCcMarketDesc(getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.getCcMarketDesc(), ccMarketDesc));
         fieldChangeFlag /= 2;
 
-        String marketManagerFirstName = FirstNamesDistribution.pickRandomValue(1, 1, CC_MARKET_MANAGER.getRandomNumberStream());
-        String marketManagerLastName = LastNamesDistribution.pickRandomValue(1, 1, CC_MARKET_MANAGER.getRandomNumberStream());
+        String marketManagerFirstName = pickRandomFirstName(MALE_FREQUENCY, CC_MARKET_MANAGER.getRandomNumberStream());
+        String marketManagerLastName = pickRandomLastName(CC_MARKET_MANAGER.getRandomNumberStream());
         String ccMarketManager = format("%s %s", marketManagerFirstName, marketManagerLastName);
         builder.setCcMarketManager(getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.getCcMarketManager(), ccMarketManager));
         fieldChangeFlag /= 2;

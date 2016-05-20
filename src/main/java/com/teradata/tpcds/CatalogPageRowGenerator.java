@@ -14,8 +14,6 @@
 
 package com.teradata.tpcds;
 
-import com.teradata.tpcds.distribution.CatalogPageTypesDistribution;
-
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.CatalogPageColumn.CP_DESCRIPTION;
 import static com.teradata.tpcds.CatalogPageColumn.CP_NULLS;
@@ -45,13 +43,13 @@ public class CatalogPageRowGenerator
         int cpCatalogPageNumber = (int) ((rowNumber - 1) % catalogPageMax + 1);
 
         int catalogInterval = (cpCatalogNumber - 1) % CATALOGS_PER_YEAR;
-        int typeNumber;
+        String cpType;
         int duration;
         int offset;
         switch (catalogInterval) {
             case 0:
             case 1:
-                typeNumber = 1; // semi-annual
+                cpType = "bi-annual";
                 duration = 182;
                 offset = catalogInterval * duration;
                 break;
@@ -59,19 +57,18 @@ public class CatalogPageRowGenerator
             case 3:         // Q2
             case 4:         // Q3
             case 5:         // Q4
-                typeNumber = 2;  // quarterly
+                cpType = "quarterly";
                 duration = 91;
                 offset = (catalogInterval - 2) * duration;
                 break;
             default:
-                typeNumber = 3;  // monthly
+                cpType = "monthly";
                 duration = 30;
                 offset = (catalogInterval - 6) * duration;
         }
 
         long cpStartDateId = JULIAN_DATA_START_DATE + offset + ((cpCatalogNumber - 1) / CATALOGS_PER_YEAR) * 365;
         long cpEndDateId = cpStartDateId + duration - 1;
-        String cpType = CatalogPageTypesDistribution.getMemberString(typeNumber, 1);
         String cpDescription = generateRandomText(WIDTH_CP_DESCRIPTION / 2, WIDTH_CP_DESCRIPTION - 1, CP_DESCRIPTION.getRandomNumberStream());
 
         return new CatalogPageRow(cpCatalogPageSk,
