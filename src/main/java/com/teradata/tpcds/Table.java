@@ -98,18 +98,7 @@ public enum Table
     S_WEB_PROMOTIONAL_ITEM,
     S_WEB_RETURNS,
     S_WEB_SITE,
-    S_ZIPG,
-
-    //PSEUDO TABLES from here on; used in hierarchies
-    ITEM_BRAND(),
-    ITEM_CLASS(),
-    ITEM_CATEGORY(),
-    DIVISIONS(),
-    COMPANY(),
-    CONCURRENT_WEB_SITES(),
-    ACTIVE_CITIES(),
-    ACTIVE_COUNTIES(),
-    ACTIVE_STATES();
+    S_ZIPG;
 
     private final TableFlags tableFlags;
     private final int nullBasisPoints;

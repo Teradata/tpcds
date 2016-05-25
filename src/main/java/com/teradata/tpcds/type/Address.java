@@ -21,8 +21,8 @@ import com.teradata.tpcds.distribution.FipsCountyDistribution.FipsWeights;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.teradata.tpcds.Table.ACTIVE_CITIES;
-import static com.teradata.tpcds.Table.ACTIVE_COUNTIES;
+import static com.teradata.tpcds.PseudoTableScalingInfos.ACTIVE_CITIES;
+import static com.teradata.tpcds.PseudoTableScalingInfos.ACTIVE_COUNTIES;
 import static com.teradata.tpcds.distribution.AddressDistributions.CitiesWeights.UNIFIED_STEP_FUNCTION;
 import static com.teradata.tpcds.distribution.AddressDistributions.StreetNamesWeights.DEFAULT;
 import static com.teradata.tpcds.distribution.AddressDistributions.StreetNamesWeights.HALF_EMPTY;
@@ -112,8 +112,8 @@ public class Address
         int rowCount = (int) scaling.getRowCount(column.getTable());
         String city;
         if ((table.isSmall())) {
-            int maxCities = (int) scaling.getRowCount(ACTIVE_CITIES);
-            randomInt = generateUniformRandomInt(1, (maxCities > rowCount) ? rowCount : maxCities, randomNumberStream);
+            int maxCities = (int) ACTIVE_CITIES.getRowCountForScale(scaling.getScale());
+            randomInt = generateUniformRandomInt(0, (maxCities > rowCount) ? rowCount - 1 : maxCities - 1, randomNumberStream);
             city = getCityAtIndex(randomInt);
         }
         else {
