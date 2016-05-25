@@ -21,18 +21,16 @@ public class Decimal
     // XXX: Definitions of precision and scale are reversed. This was done to
     // make it easier to follow the C code, which reverses the definitions.  Here,
     // precision means the number of decimal places and scale means the total number
-    // of digits.
+    // of digits.  We leave out the scale field because it's never used, and the c implementation
+    // was buggy.
+
     private final int precision;
-    private final int scale;
     private final long number;
 
-    public Decimal(int precision, int scale, long number)
+    public Decimal(int precision, long number)
     {
-        checkArgument(scale > 0, "scale must be greater than zero");
         checkArgument(precision >= 0, "precision must be greater than or equal to zero");
-        checkArgument(precision <= scale, "precision must be less than or equal to scale");
         this.precision = precision;
-        this.scale = scale;
         this.number = number;
     }
 
@@ -41,13 +39,24 @@ public class Decimal
         return precision;
     }
 
-    public int getScale()
-    {
-        return scale;
-    }
-
     public long getNumber()
     {
         return number;
+    }
+
+    @Override
+    public String toString()
+    {
+        // this loses all of the benefit of having exact numeric types
+        // but it's what the C code does, so we have to follow it.
+        // In particular this copies the behavior of print_decimal in print.c
+        // the C code has a different function called dectostr in decimal.c that
+        // does a proper string representatio but it never gets called.
+        double temp = number;
+        for (int i = 0; i < precision; i++) {
+            temp /= 10.0;
+        }
+
+        return String.format("%." + precision + "f", temp);
     }
 }
