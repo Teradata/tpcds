@@ -99,11 +99,4 @@ public class StringValuesDistribution
     {
         return valuesLists.get(valueListIndex).get(valueIndex);
     }
-
-    public String getValueForWeight(int weight, int valueListIndex, int weightListIndex)
-    {
-        checkArgument(valueListIndex < valuesLists.size(), "index out of range, max value index is " + (valuesLists.size() - 1));
-        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
-        return DistributionUtils.getValueForWeight(weight, valuesLists.get(valueListIndex), weightsLists.get(weightListIndex));
-    }
 }

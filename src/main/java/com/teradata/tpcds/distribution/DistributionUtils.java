@@ -88,7 +88,7 @@ public final class DistributionUtils
         return getValueForWeight(weight, values, weights);
     }
 
-    protected static <T> T getValueForWeight(int weight, List<T> values, List<Integer> weights)
+    private static <T> T getValueForWeight(int weight, List<T> values, List<Integer> weights)
     {
         checkArgument(values.size() == weights.size());
         for (int index = 0; index < weights.size(); index++) {
