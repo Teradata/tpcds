@@ -238,7 +238,7 @@ public final class RandomValueGenerator
             isSentenceBeginning = (generated.charAt(generatedLength - 1) == '.');
 
             // truncate so as not to exceed target length
-            if (targetLength <= generatedLength) {
+            if (targetLength < generatedLength) {
                 generated = generated.substring(0, targetLength);
             }
 
@@ -285,7 +285,7 @@ public final class RandomValueGenerator
                     verbiage.append(pickRandomTerminator(stream));
                     break;
                 default:
-                    verbiage.append(syntax.charAt(i));  // this is for patterns that include punctuation.
+                    verbiage.append(syntax.charAt(i));  // this is for adding punctuation and white space.
                     break;
             }
         }
@@ -299,7 +299,7 @@ public final class RandomValueGenerator
         long size = getSyllablesSize();
         StringBuilder word = new StringBuilder();
         while (seed > 0) {
-            String syllable = getSyllableAtIndex((int) (seed % size) + 1);
+            String syllable = getSyllableAtIndex((int) (seed % size));
             seed /= size;
             if ((word.length() + syllable.length()) <= maxChars) {
                 word.append(syllable);

@@ -28,7 +28,7 @@ public class CatalogPageRowGenerator
         implements RowGenerator
 {
     private static final int CATALOGS_PER_YEAR = 18;
-    private static final int WIDTH_CP_DESCRIPTION = 20;
+    private static final int WIDTH_CP_DESCRIPTION = 100;
 
     @Override
     public TableRow generateRow(long rowNumber, Scaling scaling)

@@ -17,7 +17,6 @@ package com.teradata.tpcds.type;
 import com.teradata.tpcds.Column;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.distribution.FipsCountyDistribution.FipsWeights;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -30,6 +29,7 @@ import static com.teradata.tpcds.distribution.AddressDistributions.getCityAtInde
 import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomCity;
 import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomStreetName;
 import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomStreetType;
+import static com.teradata.tpcds.distribution.FipsCountyDistribution.FipsWeights.UNIFORM;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getCountyAtIndex;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getGmtOffsetAtIndex;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getIndexForCounty;
@@ -100,12 +100,12 @@ public class Address
         builder.setStreetName2(pickRandomStreetName(HALF_EMPTY, randomNumberStream));
         builder.setStreetType(pickRandomStreetType(randomNumberStream));
 
-        int randomInt = generateUniformRandomInt(0, 100, randomNumberStream);
+        int randomInt = generateUniformRandomInt(1, 100, randomNumberStream);
         if (randomInt % 2 == 1) {  // if i is odd, suiteNumber is a number
             builder.setSuiteNumber(format("Suite %d", (randomInt / 2) * 10));
         }
         else { // if i is even, suiteNumber is a letter
-            builder.setSuiteNumber(format("Suite %c", (randomInt / 2) % 25) + 'A');
+            builder.setSuiteNumber(format("Suite %c", ((randomInt / 2) % 25) + 'A'));
         }
 
         Table table = column.getTable();
@@ -124,12 +124,12 @@ public class Address
         // county is picked from a distribution, based on population and keys the rest
         int regionNumber;
         if (table.isSmall()) {
-            int maxCounties = (int) scaling.getRowCount(ACTIVE_COUNTIES);
-            regionNumber = generateUniformRandomInt(1, (maxCounties > rowCount) ? rowCount : maxCounties, randomNumberStream);
+            int maxCounties = (int) ACTIVE_COUNTIES.getRowCountForScale(scaling.getScale());
+            regionNumber = generateUniformRandomInt(0, (maxCounties > rowCount) ? rowCount - 1 : maxCounties - 1, randomNumberStream);
             builder.setCounty(getCountyAtIndex(regionNumber));
         }
         else {
-            String county = pickRandomCounty(FipsWeights.UNIFORM, randomNumberStream);
+            String county = pickRandomCounty(UNIFORM, randomNumberStream);
             builder.setCounty(county);
             regionNumber = getIndexForCounty(county);
         }
@@ -173,6 +173,56 @@ public class Address
         result += hashValue;
         result %= 10000;   // looking for a 4 digit result
         return result;
+    }
+
+    public int getStreetNumber()
+    {
+        return streetNumber;
+    }
+
+    public String getStreetName()
+    {
+        return format("%s %s", streetName1, streetName2);
+    }
+
+    public String getSuiteNumber()
+    {
+        return suiteNumber;
+    }
+
+    public String getStreetType()
+    {
+        return streetType;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public String getCounty()
+    {
+        return county;
+    }
+
+    public String getState()
+    {
+        return state;
+    }
+
+    public int getZip()
+    {
+        return zip;
+    }
+
+    public String getCountry()
+    {
+        return country;
+    }
+
+    public int getGmtOffset()
+    {
+        return gmtOffset;
     }
 
     public static class AddressBuilder
