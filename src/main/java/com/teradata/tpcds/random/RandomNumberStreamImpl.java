@@ -19,12 +19,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class RandomNumberStreamImpl
         implements RandomNumberStream
 {
+    private static final int DEFAULT_SEED_BASE = 19620718;
     private static final int MULTIPLIER = 16807;
     private static final int QUOTIENT = 127773;   // the quotient MAX_INT / MULTIPLIER
     private static final int REMAINDER = 2836;    // the remainder MAX_INT % MULTIPLIER
 
-    private long seed = 0;
-    private final long initialSeed = 0;
+    private long seed;
+    private final long initialSeed;
     private int seedsUsed = 0;
     private final int seedsPerRow;
     private long totalSeedsUsed = 0;
@@ -32,6 +33,21 @@ public class RandomNumberStreamImpl
     public RandomNumberStreamImpl(int seedsPerRow)
     {
         checkArgument(seedsPerRow >= 0, "seedsPerRow must be >=0");
+        this.initialSeed = 3;
+        this.seed = 3;
+        this.seedsPerRow = seedsPerRow;
+    }
+
+    public RandomNumberStreamImpl(int globalColumnNumber, int seedsPerRow)
+    {
+        this(globalColumnNumber, DEFAULT_SEED_BASE, seedsPerRow);
+    }
+
+    public RandomNumberStreamImpl(int globalColumnNumber, int seedBase, int seedsPerRow)
+    {
+        checkArgument(seedsPerRow >= 0, "seedsPerRow must be >=0");
+        this.initialSeed = seedBase + globalColumnNumber * (Integer.MAX_VALUE / 799);
+        this.seed = initialSeed;
         this.seedsPerRow = seedsPerRow;
     }
 

@@ -20,4 +20,5 @@ public interface Column
 {
     public Table getTable();
     public RandomNumberStream getRandomNumberStream();
+    public int getGlobalColumnNumber();
 }

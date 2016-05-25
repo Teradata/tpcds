@@ -22,23 +22,25 @@ import static com.teradata.tpcds.Table.CATALOG_PAGE;
 public enum CatalogPageColumn
         implements Column
 {
-    CP_CATALOG_PAGE_SK(1),
-    CP_CATALOG_PAGE_ID(1),
-    CP_START_DATE_ID(1),
-    CP_END_DATE_ID(1),
-    CP_PROMO_ID(1),
-    CP_DEPARTMENT(1),
-    CP_CATALOG_NUMBER(1),
-    CP_CATALOG_PAGE_NUMBER(1),
-    CP_DESCRIPTION(100), //S_CP_DESCRIPTION
-    CP_TYPE(1),
-    CP_NULLS(2);
+    CP_CATALOG_PAGE_SK(35, 1),
+    CP_CATALOG_PAGE_ID(36, 1),
+    CP_START_DATE_ID(37, 1),
+    CP_END_DATE_ID(38, 1),
+    CP_PROMO_ID(39, 1),
+    CP_DEPARTMENT(40, 1),
+    CP_CATALOG_NUMBER(41, 1),
+    CP_CATALOG_PAGE_NUMBER(42, 1),
+    CP_DESCRIPTION(43, 100), //S_CP_DESCRIPTION
+    CP_TYPE(44, 1),
+    CP_NULLS(45, 2);
 
     private final RandomNumberStream randomNumberStream;
+    private final int globalColumnNumber;
 
-    CatalogPageColumn(int seedsPerRow)
+    CatalogPageColumn(int globalColumnNumber, int seedsPerRow)
     {
-        this.randomNumberStream = new RandomNumberStreamImpl(seedsPerRow);
+        this.globalColumnNumber = globalColumnNumber;
+        this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
     }
 
     @Override
@@ -51,5 +53,11 @@ public enum CatalogPageColumn
     public RandomNumberStream getRandomNumberStream()
     {
         return randomNumberStream;
+    }
+
+    @Override
+    public int getGlobalColumnNumber()
+    {
+        return globalColumnNumber;
     }
 }
