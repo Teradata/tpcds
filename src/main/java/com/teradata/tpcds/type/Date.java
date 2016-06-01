@@ -20,6 +20,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static java.lang.String.format;
 
 public class Date
 {
@@ -127,5 +128,11 @@ public class Date
         }
 
         return 28;
+    }
+
+    @Override
+    public String toString()
+    {
+        return format("%4d-%02d-%02d", year, month, day);
     }
 }

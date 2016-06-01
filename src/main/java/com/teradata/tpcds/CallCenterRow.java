@@ -17,8 +17,44 @@ package com.teradata.tpcds;
 import com.teradata.tpcds.type.Address;
 import com.teradata.tpcds.type.Decimal;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.teradata.tpcds.CallCenterColumn.CC_ADDRESS;
+import static com.teradata.tpcds.CallCenterColumn.CC_CALL_CENTER_ID;
+import static com.teradata.tpcds.CallCenterColumn.CC_CALL_CENTER_SK;
+import static com.teradata.tpcds.CallCenterColumn.CC_CITY;
+import static com.teradata.tpcds.CallCenterColumn.CC_CLASS;
+import static com.teradata.tpcds.CallCenterColumn.CC_CLOSED_DATE_ID;
+import static com.teradata.tpcds.CallCenterColumn.CC_COMPANY;
+import static com.teradata.tpcds.CallCenterColumn.CC_COMPANY_NAME;
+import static com.teradata.tpcds.CallCenterColumn.CC_COUNTRY;
+import static com.teradata.tpcds.CallCenterColumn.CC_DIVISION;
+import static com.teradata.tpcds.CallCenterColumn.CC_DIVISION_NAME;
+import static com.teradata.tpcds.CallCenterColumn.CC_EMPLOYEES;
+import static com.teradata.tpcds.CallCenterColumn.CC_GMT_OFFSET;
+import static com.teradata.tpcds.CallCenterColumn.CC_HOURS;
+import static com.teradata.tpcds.CallCenterColumn.CC_MANAGER;
+import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_CLASS;
+import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_DESC;
+import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_ID;
+import static com.teradata.tpcds.CallCenterColumn.CC_MARKET_MANAGER;
+import static com.teradata.tpcds.CallCenterColumn.CC_NAME;
+import static com.teradata.tpcds.CallCenterColumn.CC_OPEN_DATE_ID;
+import static com.teradata.tpcds.CallCenterColumn.CC_REC_END_DATE_ID;
+import static com.teradata.tpcds.CallCenterColumn.CC_REC_START_DATE_ID;
+import static com.teradata.tpcds.CallCenterColumn.CC_SQ_FT;
+import static com.teradata.tpcds.CallCenterColumn.CC_STATE;
+import static com.teradata.tpcds.CallCenterColumn.CC_STREET_NAME;
+import static com.teradata.tpcds.CallCenterColumn.CC_STREET_NUMBER;
+import static com.teradata.tpcds.CallCenterColumn.CC_STREET_TYPE;
+import static com.teradata.tpcds.CallCenterColumn.CC_SUITE_NUMBER;
+import static com.teradata.tpcds.CallCenterColumn.CC_TAX_PERCENTAGE;
+import static com.teradata.tpcds.CallCenterColumn.CC_ZIP;
+import static java.lang.String.format;
+
 public class CallCenterRow
-        implements TableRow
+        extends TableRowWithNulls
 {
     private final long ccCallCenterSk;
     private final String ccCallCenterId;
@@ -42,7 +78,6 @@ public class CallCenterRow
     private final String ccCompanyName;
     private final Address ccAddress;
     private final Decimal ccTaxPercentage;
-    private final long nullBitMap;
 
     private CallCenterRow(long ccCallCenterSk,
                           String ccCallCenterId,
@@ -68,6 +103,7 @@ public class CallCenterRow
                           Decimal ccTaxPercentage,
                           long nullBitMap)
     {
+        super(nullBitMap);
         this.ccCallCenterSk = ccCallCenterSk;
         this.ccCallCenterId = ccCallCenterId;
         this.ccRecStartDateId = ccRecStartDateId;
@@ -90,7 +126,6 @@ public class CallCenterRow
         this.ccCompanyName = ccCompanyName;
         this.ccAddress = ccAddress;
         this.ccTaxPercentage = ccTaxPercentage;
-        this.nullBitMap = nullBitMap;
     }
 
     public long getCcCallCenterSk()
@@ -204,10 +239,40 @@ public class CallCenterRow
     }
 
     @Override
-    public String toFormattedString()
+    public List<String> getValues()
     {
-        // TODO: implement
-        throw new RuntimeException("Not yet implemented");
+        Column firstColumn = CC_CALL_CENTER_SK;
+        return newArrayList(getStringOrNullForKey(ccCallCenterSk, firstColumn, CC_CALL_CENTER_SK),
+                            getStringOrNull(ccCallCenterId, firstColumn, CC_CALL_CENTER_ID),
+                            getDateStringOrNullFromJulianDays(ccRecStartDateId, firstColumn, CC_REC_START_DATE_ID),
+                            getDateStringOrNullFromJulianDays(ccRecEndDateId, firstColumn, CC_REC_END_DATE_ID),
+                            getStringOrNullForKey(ccClosedDateId, firstColumn, CC_CLOSED_DATE_ID),
+                            getStringOrNullForKey(ccOpenDateId, firstColumn, CC_OPEN_DATE_ID),
+                            getStringOrNull(ccName, firstColumn, CC_NAME),
+                            getStringOrNull(ccClass, firstColumn, CC_CLASS),
+                            getStringOrNull(ccEmployees, firstColumn, CC_EMPLOYEES),
+                            getStringOrNull(ccSqFt, firstColumn, CC_SQ_FT),
+                            getStringOrNull(ccHours, firstColumn, CC_HOURS),
+                            getStringOrNull(ccManager, firstColumn, CC_MANAGER),
+                            getStringOrNull(ccMarketId, firstColumn, CC_MARKET_ID),
+                            getStringOrNull(ccMarketClass, firstColumn, CC_MARKET_CLASS),
+                            getStringOrNull(ccMarketDesc, firstColumn, CC_MARKET_DESC),
+                            getStringOrNull(ccMarketManager, firstColumn, CC_MARKET_MANAGER),
+                            getStringOrNull(ccDivisionId, firstColumn, CC_DIVISION),
+                            getStringOrNull(ccDivisionName, firstColumn, CC_DIVISION_NAME),
+                            getStringOrNull(ccCompany, firstColumn, CC_COMPANY),
+                            getStringOrNull(ccCompanyName, firstColumn, CC_COMPANY_NAME),
+                            getStringOrNull(ccAddress.getStreetNumber(), firstColumn, CC_STREET_NUMBER),
+                            getStringOrNull(ccAddress.getStreetName(), firstColumn, CC_STREET_NAME),
+                            getStringOrNull(ccAddress.getStreetType(), firstColumn, CC_STREET_TYPE),
+                            getStringOrNull(ccAddress.getSuiteNumber(), firstColumn, CC_SUITE_NUMBER),
+                            getStringOrNull(ccAddress.getCity(), firstColumn, CC_CITY),
+                            getStringOrNull(ccAddress.getCounty(), firstColumn, CC_ADDRESS),
+                            getStringOrNull(ccAddress.getState(), firstColumn, CC_STATE),
+                            getStringOrNull(format("%05d", ccAddress.getZip()), firstColumn, CC_ZIP),
+                            getStringOrNull(ccAddress.getCountry(), firstColumn, CC_COUNTRY),
+                            getStringOrNull(ccAddress.getGmtOffset(), firstColumn, CC_GMT_OFFSET),
+                            getStringOrNull(ccTaxPercentage, firstColumn, CC_TAX_PERCENTAGE));
     }
 
     public static class Builder

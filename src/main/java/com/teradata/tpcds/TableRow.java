@@ -14,7 +14,9 @@
 
 package com.teradata.tpcds;
 
+import java.util.List;
+
 public interface TableRow
 {
-    String toFormattedString();
+    List<String> getValues();
 }

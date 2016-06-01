@@ -16,16 +16,19 @@ package com.teradata.tpcds;
 
 import com.teradata.tpcds.random.RandomNumberStream;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 public class TableGenerator
 {
-    private static final char PATH_SEPARATOR = '/';
     private final Session session;
 
     public TableGenerator(Session session)
@@ -38,16 +41,45 @@ public class TableGenerator
         String path = getPath(table);
         try (FileWriter fileWriter = new FileWriter(path, true)) {
             RowGenerator rowGenerator = table.getRowGenerator();
-            for (long i = startingRowNumber; i < rowCount; i++) {
+            for (long i = startingRowNumber; i <= rowCount; i++) {
                 // TODO: apparently not all generated rows should be printed and that depends on some return code
                 // I'll wait on that until I see a case that has a non-zero return code.
-                fileWriter.write(rowGenerator.generateRow(i, session.getScaling()).toFormattedString());
+                fileWriter.write(formatRow(rowGenerator.generateRow(i, session.getScaling()).getValues()));
                 rowStop(table);
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getPath(Table table)
+    {
+        // TODO: path names for update and parallel cases
+        return format("%s%s%s%s",
+                      session.getTargetDirectory(),
+                      File.separator,
+                      table.toString(),
+                      session.getSuffix());
+    }
+
+    private String formatRow(List<String> values)
+    {
+        // replace nulls with the string representation for null
+        values = values.stream().map(value -> value != null ? value : session.getNullString()).collect(Collectors.toList());
+
+        StringBuilder stringBuilder = new StringBuilder();
+        char separator = session.getSeparator();
+        stringBuilder.append(values.get(0));
+        for (int i = 1; i < values.size(); i++) {
+            stringBuilder.append(separator);
+            stringBuilder.append(values.get(i));
+        }
+        if (session.terminateRowsWithSeparator()) {
+            stringBuilder.append(separator);
+        }
+        stringBuilder.append('\n');
+        return stringBuilder.toString();
     }
 
     private void rowStop(Table table)
@@ -64,17 +96,8 @@ public class TableGenerator
                 generateUniformRandomInt(1, 100, randomNumberStream);
             }
 
+            checkState(randomNumberStream.getSeedsUsed() == randomNumberStream.getSeedsPerRow());
             randomNumberStream.resetSeedsUsed();
         }
-    }
-
-    private String getPath(Table table)
-    {
-        // TODO: path names for update and parallel cases
-        return format("%s%c%s%s",
-                      session.getTargetDirectory(),
-                      PATH_SEPARATOR,
-                      table.toString(),
-                      session.getSuffix());
     }
 }

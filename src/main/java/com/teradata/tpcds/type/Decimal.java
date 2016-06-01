@@ -47,11 +47,11 @@ public class Decimal
     @Override
     public String toString()
     {
-        // this loses all of the benefit of having exact numeric types
+        // This loses all of the benefit of having exact numeric types
         // but it's what the C code does, so we have to follow it.
-        // In particular this copies the behavior of print_decimal in print.c
-        // the C code has a different function called dectostr in decimal.c that
-        // does a proper string representatio but it never gets called.
+        // In particular this copies the behavior of print_decimal in print.c.
+        // The C code has a different function called dectostr in decimal.c that
+        // does a proper string representation but it never gets called.
         double temp = number;
         for (int i = 0; i < precision; i++) {
             temp /= 10.0;
