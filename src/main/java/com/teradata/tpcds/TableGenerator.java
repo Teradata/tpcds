@@ -44,7 +44,7 @@ public class TableGenerator
             for (long i = startingRowNumber; i <= rowCount; i++) {
                 // TODO: apparently not all generated rows should be printed and that depends on some return code
                 // I'll wait on that until I see a case that has a non-zero return code.
-                fileWriter.write(formatRow(rowGenerator.generateRow(i, session.getScaling()).getValues()));
+                fileWriter.write(formatRow(rowGenerator.generateRow(i, session).getValues()));
                 rowStop(table);
             }
         }

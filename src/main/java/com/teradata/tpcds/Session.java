@@ -25,8 +25,9 @@ public class Session
     private final String nullString;
     private final char separator;
     private final boolean terminate;
+    private final boolean noSexism;
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism)
     {
         this.separator = separator;
         this.terminate = terminate;
@@ -35,6 +36,7 @@ public class Session
         this.suffix = suffix;
         this.table = table;
         this.nullString = nullString;
+        this.noSexism = noSexism;
     }
 
     public Scaling getScaling()
@@ -78,5 +80,10 @@ public class Session
     public boolean terminateRowsWithSeparator()
     {
         return terminate;
+    }
+
+    public boolean isSexist()
+    {
+        return !noSexism;
     }
 }

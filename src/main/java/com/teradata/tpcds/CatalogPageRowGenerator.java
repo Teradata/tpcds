@@ -31,14 +31,14 @@ public class CatalogPageRowGenerator
     private static final int WIDTH_CP_DESCRIPTION = 100;
 
     @Override
-    public TableRow generateRow(long rowNumber, Scaling scaling)
+    public TableRow generateRow(long rowNumber, Session session)
     {
         long cpCatalogPageSk = rowNumber;
         String cpDepartment = "DEPARTMENT";
         long nullBitMap = createNullBitMap(CP_NULLS);
         String cpCatalogPageId = makeBusinessKey(rowNumber);
 
-        int catalogPageMax = ((int) (scaling.getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR)) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
+        int catalogPageMax = ((int) (session.getScaling().getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR)) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
         int cpCatalogNumber = (int) ((rowNumber - 1) / catalogPageMax + 1);
         int cpCatalogPageNumber = (int) ((rowNumber - 1) % catalogPageMax + 1);
 

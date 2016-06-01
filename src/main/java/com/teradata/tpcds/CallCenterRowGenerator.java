@@ -45,6 +45,7 @@ import static com.teradata.tpcds.distribution.CallCenterDistributions.getCallCen
 import static com.teradata.tpcds.distribution.CallCenterDistributions.getNumberOfCallCenters;
 import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterClass;
 import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterHours;
+import static com.teradata.tpcds.distribution.NamesDistributions.FirstNamesWeights.GENERAL_FREQUENCY;
 import static com.teradata.tpcds.distribution.NamesDistributions.FirstNamesWeights.MALE_FREQUENCY;
 import static com.teradata.tpcds.distribution.NamesDistributions.pickRandomFirstName;
 import static com.teradata.tpcds.distribution.NamesDistributions.pickRandomLastName;
@@ -71,7 +72,7 @@ public class CallCenterRowGenerator
     private Optional<CallCenterRow> previousRow = Optional.empty();
 
     @Override
-    public TableRow generateRow(long rowNumber, Scaling scaling)
+    public TableRow generateRow(long rowNumber, Session session)
     {
         CallCenterRow.Builder builder = new CallCenterRow.Builder();
         builder.setNullBitMap(createNullBitMap(CC_NULLS));
@@ -88,6 +89,7 @@ public class CallCenterRowGenerator
         // -1 indicates null. This never gets set to anything else.  Copying C code.
         builder.setCcClosedDateId(-1);
 
+        Scaling scaling = session.getScaling();
         boolean isNewBusinessKey = slowlyChangingDimensionKey.isNewBusinessKey();
         // These fields only change when there is a new id.  They remain constant across different version of a row.
         if (isNewBusinessKey) {
@@ -142,7 +144,7 @@ public class CallCenterRowGenerator
         builder.setCcHours(ccHours);
         fieldChangeFlag /= 2;
 
-        String managerFirstName = pickRandomFirstName(MALE_FREQUENCY, CC_MANAGER.getRandomNumberStream());
+        String managerFirstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, CC_MANAGER.getRandomNumberStream());
         String managerLastName = pickRandomLastName(CC_MANAGER.getRandomNumberStream());
         String ccManager = format("%s %s", managerFirstName, managerLastName);
         if (previousRow.isPresent()) {
@@ -172,7 +174,7 @@ public class CallCenterRowGenerator
         builder.setCcMarketDesc(ccMarketDesc);
         fieldChangeFlag /= 2;
 
-        String marketManagerFirstName = pickRandomFirstName(MALE_FREQUENCY, CC_MARKET_MANAGER.getRandomNumberStream());
+        String marketManagerFirstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, CC_MARKET_MANAGER.getRandomNumberStream());
         String marketManagerLastName = pickRandomLastName(CC_MARKET_MANAGER.getRandomNumberStream());
         String ccMarketManager = format("%s %s", marketManagerFirstName, marketManagerLastName);
         if (previousRow.isPresent()) {
