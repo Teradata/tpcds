@@ -61,8 +61,8 @@ import static java.lang.String.format;
 public class CallCenterRowGenerator
         implements RowGenerator
 {
-    private static final Decimal MIN_TAX_PERCENTAGE = new Decimal(2, 0);  // 0.00
-    private static final Decimal MAX_TAX_PERCENTAGE = new Decimal(2, 12); // 0.12
+    private static final Decimal MIN_TAX_PERCENTAGE = new Decimal(0, 2);  // 0.00
+    private static final Decimal MAX_TAX_PERCENTAGE = new Decimal(12, 2); // 0.12
     private static final int WIDTH_CC_DIVISION_NAME = 50;
     private static final int WIDTH_CC_MARKET_CLASS = 50;
     private static final int WIDTH_CC_MARKET_DESC = 100;

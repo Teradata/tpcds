@@ -67,7 +67,7 @@ public final class RandomValueGenerator
         number %= max.getNumber() - min.getNumber() + 1;
         number += min.getNumber();
 
-        return new Decimal(precision, number);
+        return new Decimal(number, precision);
     }
 
     public static Date generateUniformRandomDate(Date min, Date max, RandomNumberStream randomNumberStream)
@@ -198,7 +198,7 @@ public final class RandomValueGenerator
 
         long number = mean.getNumber() + (int) ((max.getNumber() - min.getNumber() + 1) * doubleResult);
 
-        return new Decimal(precision, number);
+        return new Decimal(number, precision);
     }
 
     public static Date generateExponentialRandomDate(Date min, Date max, RandomNumberStream randomNumberStream)

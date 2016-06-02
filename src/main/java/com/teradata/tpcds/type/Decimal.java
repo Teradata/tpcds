@@ -27,7 +27,7 @@ public class Decimal
     private final int precision;
     private final long number;
 
-    public Decimal(int precision, long number)
+    public Decimal(long number, int precision)
     {
         checkArgument(precision >= 0, "precision must be greater than or equal to zero");
         this.precision = precision;
