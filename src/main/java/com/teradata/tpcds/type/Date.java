@@ -135,4 +135,9 @@ public class Date
     {
         return format("%4d-%02d-%02d", year, month, day);
     }
+
+    public int getMonth()
+    {
+        return month;
+    }
 }

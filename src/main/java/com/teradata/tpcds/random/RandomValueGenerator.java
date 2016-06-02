@@ -19,6 +19,7 @@ import com.teradata.tpcds.distribution.TopDomainsDistribution;
 import com.teradata.tpcds.type.Date;
 import com.teradata.tpcds.type.Decimal;
 
+import static com.teradata.tpcds.distribution.CalendarDistribution.getWeightForDayNumber;
 import static com.teradata.tpcds.distribution.EnglishDistributions.getSyllableAtIndex;
 import static com.teradata.tpcds.distribution.EnglishDistributions.getSyllablesSize;
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomAdjective;
@@ -76,7 +77,7 @@ public final class RandomValueGenerator
         return fromJulianDays(julianDays);
     }
 
-    public static Date generateSalesReturnsRandomDate(Date min, Date max, int distIndex, RandomNumberStream randomNumberStream)
+    public static Date generateSalesReturnsRandomDate(Date min, Date max, CalendarDistribution.Weights weights, RandomNumberStream randomNumberStream)
     {
         // get random date based on distribution.
         // Copying behavior of dsdgen, but unclear what's going on there
@@ -87,10 +88,9 @@ public final class RandomValueGenerator
         int year = min.getYear();
         int totalWeight = 0;
         int range = toJulianDays(max) - toJulianDays(min);
-        //TODO: may want to pass in the distribution itself, not an index.
-        // calculate the sum of all the weights in the range
+
         for (int i = 0; i < range; i++) {
-            totalWeight += CalendarDistribution.getWeight(dayCount, distIndex);
+            totalWeight += getWeightForDayNumber(dayCount, weights);
             if (dayCount == getDaysInYear(year)) {
                 year += 1;
                 dayCount = 1;
@@ -108,7 +108,7 @@ public final class RandomValueGenerator
         int julianDays = Date.toJulianDays(min);
         year = min.getYear();
         while (tempWeightSum > 0) {
-            tempWeightSum -= CalendarDistribution.getWeight(dayCount, distIndex);
+            tempWeightSum -= getWeightForDayNumber(dayCount, weights);
             dayCount += 1;
             julianDays += 1;
             if (dayCount > getDaysInYear(year)) {
