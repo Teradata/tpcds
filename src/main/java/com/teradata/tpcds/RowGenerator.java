@@ -16,5 +16,5 @@ package com.teradata.tpcds;
 
 public interface RowGenerator
 {
-    TableRow generateRow(long rowNumber, Session session);
+    RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session);
 }

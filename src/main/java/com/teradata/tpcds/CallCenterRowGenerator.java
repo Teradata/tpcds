@@ -72,7 +72,7 @@ public class CallCenterRowGenerator
     private Optional<CallCenterRow> previousRow = Optional.empty();
 
     @Override
-    public TableRow generateRow(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
     {
         CallCenterRow.Builder builder = new CallCenterRow.Builder();
         builder.setNullBitMap(createNullBitMap(CC_NULLS));
@@ -219,6 +219,6 @@ public class CallCenterRowGenerator
 
         CallCenterRow newRow = builder.build();
         previousRow = Optional.of(newRow);
-        return newRow;
+        return new RowGeneratorResult(newRow);
     }
 }

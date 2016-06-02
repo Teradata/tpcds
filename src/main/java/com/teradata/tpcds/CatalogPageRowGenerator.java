@@ -31,12 +31,13 @@ public class CatalogPageRowGenerator
     private static final int WIDTH_CP_DESCRIPTION = 100;
 
     @Override
-    public TableRow generateRow(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
     {
         long cpCatalogPageSk = rowNumber;
         String cpDepartment = "DEPARTMENT";
         long nullBitMap = createNullBitMap(CP_NULLS);
         String cpCatalogPageId = makeBusinessKey(rowNumber);
+        Scaling scaling = session.getScaling();
 
         int catalogPageMax = ((int) (session.getScaling().getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR)) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
         int cpCatalogNumber = (int) ((rowNumber - 1) / catalogPageMax + 1);
@@ -71,15 +72,16 @@ public class CatalogPageRowGenerator
         long cpEndDateId = cpStartDateId + duration - 1;
         String cpDescription = generateRandomText(WIDTH_CP_DESCRIPTION / 2, WIDTH_CP_DESCRIPTION - 1, CP_DESCRIPTION.getRandomNumberStream());
 
-        return new CatalogPageRow(cpCatalogPageSk,
-                                  cpCatalogPageId,
-                                  cpStartDateId,
-                                  cpEndDateId,
-                                  cpDepartment,
-                                  cpCatalogNumber,
-                                  cpCatalogPageNumber,
-                                  cpDescription,
-                                  cpType,
-                                  nullBitMap);
+        return new RowGeneratorResult(new CatalogPageRow(
+                cpCatalogPageSk,
+                cpCatalogPageId,
+                cpStartDateId,
+                cpEndDateId,
+                cpDepartment,
+                cpCatalogNumber,
+                cpCatalogPageNumber,
+                cpDescription,
+                cpType,
+                nullBitMap));
     }
 }
