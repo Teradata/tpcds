@@ -90,6 +90,39 @@ public final class SlowlyChangingDimensionUtils
         return flags % 2 == 0 || isNewKey;
     }
 
+    public static long matchSurrogateKey(long unique, long julianDate, Table table, Scaling scaling)
+    {
+        long surrogateKey = (unique / 3) * 6;
+        switch ((int) (unique % 3)) { // number of revisions for the ID.
+            case 1: // only one occurrence of this ID
+                surrogateKey += 1;
+                break;
+            case 2: // two revisions of this ID
+                surrogateKey += 2;
+                if (julianDate > ONE_HALF_DATE) {
+                    surrogateKey += 1;
+                }
+                break;
+            case 0: // three revisions of this ID
+                surrogateKey -= 2;
+                if (julianDate > ONE_THIRD_DATE) {
+                    surrogateKey += 1;
+                }
+                if (julianDate > TWO_THIRDS_DATE) {
+                    surrogateKey += 1;
+                }
+                break;
+            default:
+                throw new TpcdsException("unique % 3 did not equal 0, 1, or 2");
+        }
+
+        if (surrogateKey > scaling.getRowCount(table)) {
+            surrogateKey = scaling.getRowCount(table);
+        }
+
+        return surrogateKey;
+    }
+
     public static class SlowlyChangingDimensionKey
     {
         // A slowly changing dimension table is a dimension table that contains relatively static data that changes
