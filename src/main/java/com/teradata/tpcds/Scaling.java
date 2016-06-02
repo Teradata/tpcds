@@ -14,15 +14,30 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.distribution.CalendarDistribution;
+import com.teradata.tpcds.type.Date;
+
 import java.util.EnumMap;
 import java.util.Map;
 
+import static com.teradata.tpcds.Table.CATALOG_SALES;
 import static com.teradata.tpcds.Table.INVENTORY;
 import static com.teradata.tpcds.Table.ITEM;
+import static com.teradata.tpcds.Table.STORE_SALES;
 import static com.teradata.tpcds.Table.S_INVENTORY;
 import static com.teradata.tpcds.Table.WAREHOUSE;
+import static com.teradata.tpcds.Table.WEB_SALES;
+import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
+import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
+import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM;
+import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM_LEAP_YEAR;
+import static com.teradata.tpcds.distribution.CalendarDistribution.getIndexForDate;
+import static com.teradata.tpcds.distribution.CalendarDistribution.getMaxWeight;
+import static com.teradata.tpcds.distribution.CalendarDistribution.getWeightForDayNumber;
 import static com.teradata.tpcds.type.Date.JULIAN_DATE_MAXIMUM;
 import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
+import static com.teradata.tpcds.type.Date.fromJulianDays;
+import static com.teradata.tpcds.type.Date.isLeapYear;
 
 public class Scaling
 {
@@ -96,5 +111,58 @@ public class Scaling
     public int getScale()
     {
         return scale;
+    }
+
+    public long getRowCountForDate(Table table, long julianDate)
+    {
+        long rowCount;
+        switch (table) {
+            case STORE_SALES:
+            case CATALOG_SALES:
+            case WEB_SALES:
+                rowCount = getRowCount(table);
+                break;
+            case S_CATALOG_ORDER:
+                rowCount = getRowCount(CATALOG_SALES);
+                break;
+            case S_PURCHASE:
+                rowCount = getRowCount(STORE_SALES);
+                break;
+            case S_WEB_ORDER:
+                rowCount = getRowCount(WEB_SALES);
+                break;
+            case S_INVENTORY:
+            case INVENTORY:
+                rowCount = getRowCount(WAREHOUSE) * getIdCount(ITEM);
+                break;
+            default:
+                throw new TpcdsException("Invalid table for date scaling");
+        }
+
+        Date date = fromJulianDays((int) julianDate);
+        CalendarDistribution.Weights weights;
+        if (table != INVENTORY) {
+            if (table == S_INVENTORY) {
+                weights = UNIFORM;
+                if (isLeapYear(date.getYear())) {
+                    weights = UNIFORM_LEAP_YEAR;
+                }
+            }
+            else {
+                weights = SALES;
+                if (isLeapYear(date.getYear())) {
+                    weights = SALES_LEAP_YEAR;
+                }
+            }
+
+            int calendarTotal = getMaxWeight(weights) * 5; // assumes date range is 5 years
+
+            int dayWeight = getWeightForDayNumber(getIndexForDate(date), weights);
+            rowCount *= dayWeight;
+            rowCount += calendarTotal / 2;
+            rowCount /= calendarTotal;
+        }
+
+        return rowCount;
     }
 }
