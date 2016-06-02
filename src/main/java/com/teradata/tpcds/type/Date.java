@@ -26,6 +26,7 @@ public class Date
 {
     public static final int JULIAN_DATA_START_DATE = toJulianDays(new Date(1998, 1, 1)); // earliest date in the data set
     public static final int JULIAN_DATA_END_DATE = toJulianDays(new Date(2003, 12, 31)); // latest date in the data set
+    public static final int JULIAN_TODAYS_DATE = toJulianDays(new Date(2003, 1, 8)); // the generator's sense of "today"
 
     public static final Date DATE_MAXIMUM = new Date(2002, 12, 31);
     public static final Date DATE_MINIMUM = new Date(1998, 1, 1);

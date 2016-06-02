@@ -27,7 +27,7 @@ import static com.teradata.tpcds.type.Date.JULIAN_DATA_START_DATE;
 public class CatalogPageRowGenerator
         implements RowGenerator
 {
-    private static final int CATALOGS_PER_YEAR = 18;
+    public static final int CATALOGS_PER_YEAR = 18;
     private static final int WIDTH_CP_DESCRIPTION = 100;
 
     @Override
