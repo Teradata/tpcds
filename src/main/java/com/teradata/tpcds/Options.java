@@ -48,6 +48,9 @@ public class Options
                     "But on the other hand it won't be sexist.")
     public boolean noSexism = false;
 
+    @Option(name = {"--parallelism"}, title = "parallelism", description = "Build data in <n> separate chunks (Default: 1)")
+    public int parallelism = 1;
+
     public Session toSession()
     {
         validateProperties();
@@ -58,7 +61,8 @@ public class Options
                 nullString,
                 separator,
                 terminate,
-                noSexism);
+                noSexism,
+                parallelism);
     }
 
     private static Optional<Table> toTableOptional(String table)
@@ -85,6 +89,9 @@ public class Options
         }
         if (suffix.equals("")) {
             throw new InvalidOptionException("suffix", suffix, "Suffix cannot be an empty string");
+        }
+        if (parallelism < 1) {
+            throw new InvalidOptionException("parallelism", Integer.toString(parallelism), "Parallelism must be >= 1");
         }
     }
 }

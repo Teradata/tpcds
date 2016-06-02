@@ -26,17 +26,26 @@ public class Session
     private final char separator;
     private final boolean terminate;
     private final boolean noSexism;
+    private final int parallelism;
+    private final int chunkNumber;
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism)
     {
-        this.separator = separator;
-        this.terminate = terminate;
+        this(scale, targetDirectory, suffix, table, nullString, separator, terminate, noSexism, parallelism, 1);
+    }
+
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism, int chunkNumber)
+    {
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
         this.suffix = suffix;
         this.table = table;
         this.nullString = nullString;
+        this.separator = separator;
+        this.terminate = terminate;
         this.noSexism = noSexism;
+        this.parallelism = parallelism;
+        this.chunkNumber = chunkNumber;
     }
 
     public Scaling getScaling()
@@ -85,5 +94,15 @@ public class Session
     public boolean isSexist()
     {
         return !noSexism;
+    }
+
+    public int getParallelism()
+    {
+        return parallelism;
+    }
+
+    public int getChunkNumber()
+    {
+        return chunkNumber;
     }
 }
