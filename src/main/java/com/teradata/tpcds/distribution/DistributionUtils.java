@@ -103,7 +103,7 @@ public final class DistributionUtils
     protected static int getWeightForIndex(int index, List<Integer> weights)
     {
         checkArgument(index < weights.size(), "index larger than distribution");
-        return weights.get(index) - weights.get(index - 1);  // reverse the accumulation of weights.
+        return index == 0 ? weights.get(index) :  weights.get(index) - weights.get(index - 1);  // reverse the accumulation of weights.
     }
 
     protected static <T> int getIndexForValue(T value, List<T> values)
