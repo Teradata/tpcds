@@ -28,7 +28,7 @@ public class Driver
     public HelpOption helpOption;
 
     @Inject
-    public Options options;
+    public Options options = new Options();
 
     public static void main(String[] args)
     {
