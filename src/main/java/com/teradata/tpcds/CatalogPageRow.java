@@ -51,7 +51,7 @@ public class CatalogPageRow
                           String cpType,
                           long nullBitMap)
     {
-        super(nullBitMap);
+        super(nullBitMap, CP_CATALOG_PAGE_SK);
         this.cpCatalogPageSk = cpCatalogPageSk;
         this.cpCatalogPageId = cpCatalogPageId;
         this.cpStartDateId = cpStartDateId;
@@ -66,15 +66,14 @@ public class CatalogPageRow
     @Override
     public List<String> getValues()
     {
-        Column firstColumn = CP_CATALOG_PAGE_SK;
-        return newArrayList(getStringOrNullForKey(cpCatalogPageSk, firstColumn, CP_CATALOG_PAGE_SK),
-                            getStringOrNull(cpCatalogPageId, firstColumn, CP_CATALOG_PAGE_ID),
-                            getStringOrNullForKey(cpStartDateId, firstColumn, CP_START_DATE_ID),
-                            getStringOrNullForKey(cpEndDateId, firstColumn, CP_END_DATE_ID),
-                            getStringOrNull(cpDepartment, firstColumn, CP_DEPARTMENT),
-                            getStringOrNull(cpCatalogNumber, firstColumn, CP_CATALOG_NUMBER),
-                            getStringOrNull(cpCatalogPageNumber, firstColumn, CP_CATALOG_PAGE_NUMBER),
-                            getStringOrNull(cpDescription, firstColumn, CP_DESCRIPTION),
-                            getStringOrNull(cpType, firstColumn, CP_TYPE));
+        return newArrayList(getStringOrNullForKey(cpCatalogPageSk, CP_CATALOG_PAGE_SK),
+                            getStringOrNull(cpCatalogPageId, CP_CATALOG_PAGE_ID),
+                            getStringOrNullForKey(cpStartDateId, CP_START_DATE_ID),
+                            getStringOrNullForKey(cpEndDateId, CP_END_DATE_ID),
+                            getStringOrNull(cpDepartment, CP_DEPARTMENT),
+                            getStringOrNull(cpCatalogNumber, CP_CATALOG_NUMBER),
+                            getStringOrNull(cpCatalogPageNumber, CP_CATALOG_PAGE_NUMBER),
+                            getStringOrNull(cpDescription, CP_DESCRIPTION),
+                            getStringOrNull(cpType, CP_TYPE));
     }
 }

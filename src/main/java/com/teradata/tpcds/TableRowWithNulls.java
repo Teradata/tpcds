@@ -20,30 +20,32 @@ public abstract class TableRowWithNulls
         implements TableRow
 {
     private long nullBitMap;
+    private Column firstColumn;
 
-    protected TableRowWithNulls(long nullBitMap)
+    protected TableRowWithNulls(long nullBitMap, Column firstColumn)
     {
         this.nullBitMap = nullBitMap;
+        this.firstColumn = firstColumn;
     }
 
-    private boolean isNull(Column firstColumn, Column column)
+    private boolean isNull(Column column)
     {
         long kBitMask = 1 << (column.getGlobalColumnNumber() - firstColumn.getGlobalColumnNumber());
         return (nullBitMap & kBitMask) != 0;
     }
 
-    protected <T> String getStringOrNull(T value, Column firstColumn, Column column)
+    protected <T> String getStringOrNull(T value, Column column)
     {
-        return isNull(firstColumn, column) ? null : value.toString();
+        return isNull(column) ? null : value.toString();
     }
 
-    protected <T> String getStringOrNullForKey(long value, Column firstColumn, Column column)
+    protected <T> String getStringOrNullForKey(long value, Column column)
     {
-        return (isNull(firstColumn, column) || value == -1) ? null : Long.toString(value);
+        return (isNull(column) || value == -1) ? null : Long.toString(value);
     }
 
-    protected <T> String getDateStringOrNullFromJulianDays(long value, Column firstColumn, Column column)
+    protected <T> String getDateStringOrNullFromJulianDays(long value, Column column)
     {
-        return (isNull(firstColumn, column) || value < 0) ? null : fromJulianDays((int) value).toString();
+        return (isNull(column) || value < 0) ? null : fromJulianDays((int) value).toString();
     }
 }
