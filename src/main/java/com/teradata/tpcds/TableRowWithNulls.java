@@ -30,7 +30,7 @@ public abstract class TableRowWithNulls
 
     private boolean isNull(Column column)
     {
-        long kBitMask = 1 << (column.getGlobalColumnNumber() - firstColumn.getGlobalColumnNumber());
+        long kBitMask = 1L << (column.getGlobalColumnNumber() - firstColumn.getGlobalColumnNumber());
         return (nullBitMap & kBitMask) != 0;
     }
 
