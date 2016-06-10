@@ -48,6 +48,75 @@ public class Session
         this.chunkNumber = chunkNumber;
     }
 
+    public static Session getDefaultSession()
+    {
+        return new Options().toSession();
+    }
+
+    public Session withTable(Table table)
+    {
+        return new Session(
+                this.scaling.getScale(),
+                this.targetDirectory,
+                this.suffix,
+                Optional.of(table),
+                this.nullString,
+                this.separator,
+                this.terminate,
+                this.noSexism,
+                this.parallelism,
+                this.chunkNumber
+        );
+    }
+
+    public Session withScale(int scale)
+    {
+        return new Session(
+                scale,
+                this.targetDirectory,
+                this.suffix,
+                this.table,
+                this.nullString,
+                this.separator,
+                this.terminate,
+                this.noSexism,
+                this.parallelism,
+                this.chunkNumber
+        );
+    }
+
+    public Session withParallelism(int parallelism)
+    {
+        return new Session(
+                this.scaling.getScale(),
+                this.targetDirectory,
+                this.suffix,
+                this.table,
+                this.nullString,
+                this.separator,
+                this.terminate,
+                this.noSexism,
+                parallelism,
+                this.chunkNumber
+        );
+    }
+
+    public Session withChunkNumber(int chunkNumber)
+    {
+        return new Session(
+                this.scaling.getScale(),
+                this.targetDirectory,
+                this.suffix,
+                this.table,
+                this.nullString,
+                this.separator,
+                this.terminate,
+                this.noSexism,
+                this.parallelism,
+                chunkNumber
+        );
+    }
+
     public Scaling getScaling()
     {
         return scaling;
