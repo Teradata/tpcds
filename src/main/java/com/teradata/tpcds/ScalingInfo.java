@@ -80,7 +80,7 @@ public class ScalingInfo
         long delta = getRowCountForScale(DEFINED_SCALES[scaleSlot]) - getRowCountForScale(DEFINED_SCALES[scaleSlot - 1]);
         float floatOffset = (float) (scale - DEFINED_SCALES[scaleSlot - 1]) / (float) (DEFINED_SCALES[scaleSlot] - DEFINED_SCALES[scaleSlot - 1]);
 
-        return (int) (floatOffset * (float) delta) + getRowCountForScale(0);
+        return (int) (floatOffset * (float) delta) + getRowCountForScale(DEFINED_SCALES[0]);
     }
 
     private static int getScaleSlot(int scale)
