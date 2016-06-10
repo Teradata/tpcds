@@ -166,6 +166,18 @@ public class CatalogSalesRowGenerator
         return new RowGeneratorResult(generatedRows, isLastRowInOrder());
     }
 
+    @Override
+    public void reset()
+    {
+        itemPermutation = null;
+        julianDate = 0;
+        nextDateIndex = 0;
+
+        remainingLineItems = 0;
+        orderInfo = new OrderInfo(); // initialize with all zeros because one of the fields is used in generation of new orderInfos.
+        ticketItemBase = 0;
+    }
+
     private boolean isLastRowInOrder()
     {
         return remainingLineItems == 0;

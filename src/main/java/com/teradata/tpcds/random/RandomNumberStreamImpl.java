@@ -28,7 +28,6 @@ public class RandomNumberStreamImpl
     private final long initialSeed;
     private int seedsUsed = 0;
     private final int seedsPerRow;
-    private long totalSeedsUsed = 0;
 
     public RandomNumberStreamImpl(int seedsPerRow)
     {
@@ -65,7 +64,6 @@ public class RandomNumberStreamImpl
 
         seed = nextSeed;
         seedsUsed += 1;
-        totalSeedsUsed += 1;
         return seed;
     }
 
@@ -89,7 +87,6 @@ public class RandomNumberStreamImpl
             multiplier = (multiplier * multiplier) % Integer.MAX_VALUE;
         }
         seed = nextSeed;
-        totalSeedsUsed = numberOfValuesToSkip;
         seedsUsed = 0;
     }
 
@@ -97,6 +94,7 @@ public class RandomNumberStreamImpl
     public void resetSeed()
     {
         seed = initialSeed;
+        seedsUsed = 0;
     }
 
     @Override

@@ -221,4 +221,10 @@ public class CallCenterRowGenerator
         previousRow = Optional.of(newRow);
         return new RowGeneratorResult(newRow);
     }
+
+    @Override
+    public void reset()
+    {
+        previousRow = Optional.empty();
+    }
 }

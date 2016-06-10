@@ -84,4 +84,7 @@ public class CatalogPageRowGenerator
                 cpType,
                 nullBitMap));
     }
+
+    @Override
+    public void reset() {}
 }

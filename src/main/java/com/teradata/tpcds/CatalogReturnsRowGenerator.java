@@ -65,6 +65,9 @@ public class CatalogReturnsRowGenerator
         }
     }
 
+    @Override
+    public void reset() {}
+
     public TableRow generateRow(Session session, CatalogSalesRow salesRow)
     {
         long nullBitMap = createNullBitMap(CR_NULLS);
