@@ -20,7 +20,7 @@ public interface RandomNumberStream
 
     double nextRandomDouble();
 
-    void skipRows(int numberOfRows);
+    void skipRows(long numberOfRows);
 
     void resetSeed();
 

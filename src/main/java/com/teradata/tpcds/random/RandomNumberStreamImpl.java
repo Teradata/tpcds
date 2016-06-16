@@ -76,14 +76,14 @@ public class RandomNumberStreamImpl
     }
 
     @Override
-    public void skipRows(int numberOfRows)
+    public void skipRows(long numberOfRows)
     {
-        int numberOfValuesToSkip = numberOfRows * seedsPerRow;
+        long numberOfValuesToSkip = numberOfRows * seedsPerRow;
         long nextSeed = initialSeed;
         long multiplier = MULTIPLIER;
         while (numberOfValuesToSkip > 0) {
             if (numberOfValuesToSkip % 2 != 0) { // n is odd
-                nextSeed = multiplier * nextSeed - Integer.MAX_VALUE;
+                nextSeed = (multiplier * nextSeed) % Integer.MAX_VALUE;
             }
             numberOfValuesToSkip = numberOfValuesToSkip / 2;
             multiplier = (multiplier * multiplier) % Integer.MAX_VALUE;
