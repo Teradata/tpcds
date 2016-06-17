@@ -45,7 +45,7 @@ public final class Parallel
         if (extraRows != 0 && chunk <= extraRows) {
             rowCount += 1;
         }
-        return new ChunkBoundaries(firstRowOfChunk, rowCount);
+        return new ChunkBoundaries(firstRowOfChunk, firstRowOfChunk + rowCount - 1);
     }
 
     public static DateNextIndexPair skipDaysUntilFirstRowOfChunk(Table table, Session session)
@@ -73,14 +73,14 @@ public final class Parallel
     public static class ChunkBoundaries
     {
         private final long firstRow;
-        private final long rowCount;
+        private final long lastRow;
 
-        private ChunkBoundaries(long firstRow, long rowCount)
+        private ChunkBoundaries(long firstRow, long lastRow)
         {
             checkArgument(firstRow >= 0, "firstRow is negative");
-            checkArgument(rowCount >= 0, "rowCount is negative");
+            checkArgument(lastRow >= 0, "lastRow is negative");
             this.firstRow = firstRow;
-            this.rowCount = rowCount;
+            this.lastRow = lastRow;
         }
 
         public long getFirstRow()
@@ -88,9 +88,9 @@ public final class Parallel
             return firstRow;
         }
 
-        public long getRowCount()
+        public long getLastRow()
         {
-            return rowCount;
+            return lastRow;
         }
     }
 
