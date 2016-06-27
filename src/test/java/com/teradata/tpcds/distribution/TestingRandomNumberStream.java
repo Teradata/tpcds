@@ -42,7 +42,7 @@ public class TestingRandomNumberStream
     }
 
     @Override
-    public void skipRandom(long numberOfValuesToSkip) {}
+    public void skipRows(int numberOfValuesToSkip) {}
 
     @Override
     public void resetSeed() {}

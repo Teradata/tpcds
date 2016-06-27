@@ -16,13 +16,15 @@ package com.teradata.tpcds;
 
 public class TableFlags
 {
-    private final boolean keepsHistory; // FL_TYPE_2 in the c code.   this dimension keeps history -- rowcount shows unique entities (not including revisions).
+    private final boolean keepsHistory; // FL_TYPE_2 in the c code. this dimension keeps history -- rowcount shows unique entities (not including revisions).
     private final boolean isSmall;      // this table has low rowcount; used by Address.java
+    private final boolean isDateBased;
 
-    public TableFlags(boolean keepsHistory, boolean isSmall)
+    public TableFlags(boolean keepsHistory, boolean isSmall, boolean isDateBased)
     {
         this.keepsHistory = keepsHistory;
         this.isSmall = isSmall;
+        this.isDateBased = isDateBased;
     }
 
     public boolean keepsHistory()
@@ -39,10 +41,9 @@ public class TableFlags
     {
         private boolean keepsHistory = false;
         private boolean isSmall = false;
+        private boolean isDateBased = false;
 
-        public TableFlagsBuilder()
-        {
-        }
+        public TableFlagsBuilder() {}
 
         public TableFlagsBuilder setKeepsHistory()
         {
@@ -56,9 +57,15 @@ public class TableFlags
             return this;
         }
 
+        public TableFlagsBuilder setIsDateBased()
+        {
+            this.isDateBased = true;
+            return this;
+        }
+
         public TableFlags build()
         {
-            return new TableFlags(keepsHistory, isSmall);
+            return new TableFlags(keepsHistory, isSmall, isDateBased);
         }
     }
 }

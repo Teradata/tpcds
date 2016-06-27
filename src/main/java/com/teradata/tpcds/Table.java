@@ -17,6 +17,7 @@ package com.teradata.tpcds;
 import com.teradata.tpcds.TableFlags.TableFlagsBuilder;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LINEAR;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LOGARITHMIC;
@@ -25,35 +26,46 @@ import static com.teradata.tpcds.ScalingInfo.ScalingModel.STATIC;
 public enum Table
 {
     CALL_CENTER(new TableFlagsBuilder().setIsSmall().setKeepsHistory().build(),
-                100,
-                0xB,
-                CallCenterRowGenerator.class,
-                CallCenterColumn.values(),
-                new ScalingInfo(0, LOGARITHMIC, new int[]{3, 12, 15, 18, 21, 24, 27, 30, 30}, 0)),
+            100,
+            0xB,
+            CallCenterRowGenerator.class,
+            CallCenterColumn.values(),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {3, 12, 15, 18, 21, 24, 27, 30, 30}, 0)),
     CATALOG_PAGE(new TableFlagsBuilder().build(),
-                 200,
-                 0x3,
-                 CatalogPageRowGenerator.class,
-                 CatalogPageColumn.values(),
-                 new ScalingInfo(0, STATIC, new int[]{11718, 12000, 20400, 26000, 30000, 36000, 40000, 46000, 50000}, 0)),
-    CATALOG_RETURNS,
-    CUSTOMER,
-    CUSTOMER_ADDRESS,
-    CUSTOMER_DEMOGRAPHICS,
+            200,
+            0x3,
+            CatalogPageRowGenerator.class,
+            CatalogPageColumn.values(),
+            new ScalingInfo(0, STATIC, new int[] {11718, 12000, 20400, 26000, 30000, 36000, 40000, 46000, 50000}, 0)),
+    CATALOG_RETURNS(new TableFlagsBuilder().build(),
+            400,
+            0x10007,
+            CatalogReturnsRowGenerator.class,
+            CatalogReturnsColumn.values(),
+            new ScalingInfo(4, LINEAR, new int[] {16, 160, 1600, 4800, 16000, 48000, 160000, 480000, 1600000}, 0)),
+    CATALOG_SALES(new TableFlagsBuilder().setIsDateBased().build(),
+            100,
+            0x28000,
+            CatalogSalesRowGenerator.class,
+            CatalogSalesColumn.values(),
+            new ScalingInfo(4, LINEAR, new int[] {16, 160, 1600, 4800, 16000, 48000, 160000, 480000, 1600000}, 0)),
+    CUSTOMER(new ScalingInfo(3, LOGARITHMIC, new int[] {100, 500, 2000, 5000, 12000, 30000, 65000, 80000, 100000}, 0)),
+    CUSTOMER_ADDRESS(new ScalingInfo(3, LOGARITHMIC, new int[] {50, 250, 1000, 2500, 6000, 15000, 32500, 40000, 50000}, 0)),
+    CUSTOMER_DEMOGRAPHICS(new ScalingInfo(2, STATIC, new int[] {19208, 19208, 19208, 19208, 19208, 19208, 19208, 19208, 19208}, 0)),
     DATE_DIM,
     DSDGEN_VERSION,
-    HOUSEHOLD_DEMOGRAPHICS,
+    HOUSEHOLD_DEMOGRAPHICS(new ScalingInfo(0, STATIC, new int[] {7200, 7200, 7200, 7200, 7200, 7200, 7200, 7200, 7200}, 0)),
     INCOME_BAND,
     INVENTORY,
-    ITEM,
-    PROMOTION,
-    REASON,
-    SHIP_MODE,
+    ITEM(new TableFlagsBuilder().setKeepsHistory().build(), new ScalingInfo(3, LOGARITHMIC, new int[] {9, 51, 102, 132, 150, 180, 201, 231, 251}, 0)),
+    PROMOTION(new ScalingInfo(0, LOGARITHMIC, new int[] {300, 500, 1000, 1300, 1500, 1800, 2000, 2300, 2500}, 0)),
+    REASON(new ScalingInfo(0, LOGARITHMIC, new int[] {35, 45, 55, 60, 65, 67, 70, 72, 75}, 0)),
+    SHIP_MODE(new ScalingInfo(0, STATIC, new int[] {20, 20, 20, 20, 20, 20, 20, 20, 20}, 0)),
     STORE,
     STORE_RETURNS,
     STORE_SALES,
     TIME_DIM,
-    WAREHOUSE,
+    WAREHOUSE(new ScalingInfo(0, LOGARITHMIC, new int[] {5, 10, 15, 17, 20, 22, 25, 27, 30}, 0)),
     WEB_PAGE,
     WEB_RETURNS,
     WEB_SALES,
@@ -106,6 +118,16 @@ public enum Table
     private final ThreadLocal<RowGenerator> rowGeneratorThreadLocal;
     private final Column[] columns;
     private final ScalingInfo scalingInfo;
+    private Optional<Table> parent = Optional.empty();
+    private Optional<Table> child = Optional.empty();
+
+    static {
+        // initialize parent and child relationships here because in
+        // table constructors can't refer to tables that have not yet been
+        // defined
+        CATALOG_RETURNS.parent = Optional.of(CATALOG_SALES);
+        CATALOG_SALES.child = Optional.of(CATALOG_RETURNS);
+    }
 
     // TODO: This constructor is a stop-gap until all the tables are implemented.  Remove it when it is no longer needed.
     Table()
@@ -114,8 +136,25 @@ public enum Table
         this.nullBasisPoints = 0;
         this.notNullBitMap = 0;
         this.rowGeneratorThreadLocal = null;
-        columns = new Column[0];
-        scalingInfo = new ScalingInfo(0, LINEAR, new int[9], 0);
+        this.columns = new Column[0];
+        this.scalingInfo = new ScalingInfo(0, LINEAR, new int[9], 0);
+    }
+
+    // TODO: Remove when no longer needed.
+    Table(ScalingInfo scalingInfo)
+    {
+        this(new TableFlagsBuilder().build(), scalingInfo);
+    }
+
+    // TODO: Remove when no longer needed
+    Table(TableFlags tableFlags, ScalingInfo scalingInfo)
+    {
+        this.tableFlags = tableFlags;
+        this.nullBasisPoints = 0;
+        this.notNullBitMap = 0;
+        this.rowGeneratorThreadLocal = null;
+        this.columns = new Column[0];
+        this.scalingInfo = scalingInfo;
     }
 
     Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, Column[] columns, ScalingInfo scalingInfo)
@@ -154,6 +193,26 @@ public enum Table
     public boolean isSmall()
     {
         return tableFlags.isSmall();
+    }
+
+    public boolean hasChild()
+    {
+        return child.isPresent();
+    }
+
+    public Table getChild()
+    {
+        return child.get();
+    }
+
+    public boolean isChild()
+    {
+        return parent.isPresent();
+    }
+
+    public Table getParent()
+    {
+        return parent.get();
     }
 
     public int getNullBasisPoints()

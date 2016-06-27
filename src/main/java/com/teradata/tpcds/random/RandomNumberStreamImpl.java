@@ -76,9 +76,9 @@ public class RandomNumberStreamImpl
     }
 
     @Override
-    public void skipRandom(long numberOfValuesToSkip)
+    public void skipRows(int numberOfRows)
     {
-        totalSeedsUsed = numberOfValuesToSkip;
+        int numberOfValuesToSkip = numberOfRows * seedsPerRow;
         long nextSeed = initialSeed;
         long multiplier = MULTIPLIER;
         while (numberOfValuesToSkip > 0) {
@@ -89,6 +89,8 @@ public class RandomNumberStreamImpl
             multiplier = (multiplier * multiplier) % Integer.MAX_VALUE;
         }
         seed = nextSeed;
+        totalSeedsUsed = numberOfValuesToSkip;
+        seedsUsed = 0;
     }
 
     @Override
