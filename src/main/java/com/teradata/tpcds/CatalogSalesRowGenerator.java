@@ -14,7 +14,7 @@
 
 package com.teradata.tpcds;
 
-import com.teradata.tpcds.TableGenerator.DateNextIndexPair;
+import com.teradata.tpcds.Parallel.DateNextIndexPair;
 import com.teradata.tpcds.type.Decimal;
 import com.teradata.tpcds.type.Pricing;
 
@@ -46,6 +46,7 @@ import static com.teradata.tpcds.CatalogSalesColumn.CS_SOLD_ITEM_SK;
 import static com.teradata.tpcds.CatalogSalesColumn.CS_SOLD_TIME_SK;
 import static com.teradata.tpcds.CatalogSalesColumn.CS_WAREHOUSE_SK;
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
+import static com.teradata.tpcds.Parallel.skipDaysUntilFirstRowOfChunk;
 import static com.teradata.tpcds.Permutations.getPermutationEntry;
 import static com.teradata.tpcds.Permutations.makePermutation;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
@@ -62,7 +63,6 @@ import static com.teradata.tpcds.Table.PROMOTION;
 import static com.teradata.tpcds.Table.SHIP_MODE;
 import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.Table.WAREHOUSE;
-import static com.teradata.tpcds.TableGenerator.skipDaysUntilFirstRowOfChunk;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.type.Pricing.generatePricingForSalesTable;
 

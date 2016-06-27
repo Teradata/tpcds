@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.teradata.tpcds.type.Date.JULIAN_DATA_START_DATE;
 
 public final class Parallel
 {
@@ -47,6 +48,28 @@ public final class Parallel
         return new ChunkBoundaries(firstRowOfChunk, rowCount);
     }
 
+    public static DateNextIndexPair skipDaysUntilFirstRowOfChunk(Table table, Session session)
+    {
+        // set initial conditions
+        long julianDate = JULIAN_DATA_START_DATE;
+        Scaling scaling = session.getScaling();
+        int index = 1;
+        long newDateIndex = scaling.getRowCountForDate(table, julianDate) + index;
+
+        // move forward one day at a time
+        ChunkBoundaries boundary = splitWork(table, session);
+        while (index < boundary.getFirstRow()) {
+            index += scaling.getRowCountForDate(table, julianDate);
+            julianDate += 1;
+            newDateIndex = index;
+        }
+        if (index > boundary.getFirstRow()) {
+            julianDate -= 1;
+        }
+
+        return new DateNextIndexPair(julianDate, newDateIndex);
+    }
+
     public static class ChunkBoundaries
     {
         private final long firstRow;
@@ -68,6 +91,28 @@ public final class Parallel
         public long getRowCount()
         {
             return rowCount;
+        }
+    }
+
+    public static final class DateNextIndexPair
+    {
+        private final long julianDate;
+        private final long nextDateIndex;
+
+        public DateNextIndexPair(long julianDate, long nextDateIndex)
+        {
+            this.julianDate = julianDate;
+            this.nextDateIndex = nextDateIndex;
+        }
+
+        long getJulianDate()
+        {
+            return julianDate;
+        }
+
+        long getNextDateIndex()
+        {
+            return nextDateIndex;
         }
     }
 }

@@ -14,7 +14,6 @@
 
 package com.teradata.tpcds;
 
-import com.teradata.tpcds.Parallel.ChunkBoundaries;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import java.io.File;
@@ -24,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.teradata.tpcds.Parallel.splitWork;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
-import static com.teradata.tpcds.type.Date.JULIAN_DATA_START_DATE;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
@@ -137,50 +134,6 @@ public class TableGenerator
                 generateUniformRandomInt(1, 100, randomNumberStream);
             }
             randomNumberStream.resetSeedsUsed();
-        }
-    }
-
-    public static DateNextIndexPair skipDaysUntilFirstRowOfChunk(Table table, Session session)
-    {
-        // set initial conditions
-        long julianDate = JULIAN_DATA_START_DATE;
-        Scaling scaling = session.getScaling();
-        int index = 1;
-        long newDateIndex = scaling.getRowCountForDate(table, julianDate) + index;
-
-        // move forward one day at a time
-        ChunkBoundaries boundary = splitWork(table, session);
-        while (index < boundary.getFirstRow()) {
-            index += scaling.getRowCountForDate(table, julianDate);
-            julianDate += 1;
-            newDateIndex = index;
-        }
-        if (index > boundary.getFirstRow()) {
-            julianDate -= 1;
-        }
-
-        return new DateNextIndexPair(julianDate, newDateIndex);
-    }
-
-    public static final class DateNextIndexPair
-    {
-        private final long julianDate;
-        private final long nextDateIndex;
-
-        public DateNextIndexPair(long julianDate, long nextDateIndex)
-        {
-            this.julianDate = julianDate;
-            this.nextDateIndex = nextDateIndex;
-        }
-
-        public long getJulianDate()
-        {
-            return julianDate;
-        }
-
-        public long getNextDateIndex()
-        {
-            return nextDateIndex;
         }
     }
 }
