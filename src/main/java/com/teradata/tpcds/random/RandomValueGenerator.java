@@ -15,7 +15,6 @@
 package com.teradata.tpcds.random;
 
 import com.teradata.tpcds.distribution.CalendarDistribution;
-import com.teradata.tpcds.distribution.TopDomainsDistribution;
 import com.teradata.tpcds.type.Date;
 import com.teradata.tpcds.type.Decimal;
 
@@ -31,6 +30,7 @@ import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomPre
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomSentence;
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomTerminator;
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomVerb;
+import static com.teradata.tpcds.distribution.TopDomainsDistribution.pickRandomTopDomain;
 import static com.teradata.tpcds.type.Date.fromJulianDays;
 import static com.teradata.tpcds.type.Date.getDaysInYear;
 import static com.teradata.tpcds.type.Date.toJulianDays;
@@ -141,7 +141,7 @@ public final class RandomValueGenerator
 
     public static String generateRandomEmail(String first, String last, RandomNumberStream randomNumberStream)
     {
-        String domain = TopDomainsDistribution.pickRandomValue(1, 1, randomNumberStream);
+        String domain = pickRandomTopDomain(randomNumberStream);
         int companyLength = generateUniformRandomInt(10, 20, randomNumberStream);
         String company = generateRandomCharset(ALPHA_NUMERIC, 1, 20, randomNumberStream);
         company = company.substring(0, companyLength);

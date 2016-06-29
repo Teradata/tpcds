@@ -83,11 +83,23 @@ public class StringValuesDistribution
         return new StringValuesDistribution(valuesLists, weightsLists);
     }
 
-    public String pickRandomValue(int valueIndex, int weightIndex, RandomNumberStream stream)
+    public String pickRandomValue(int valueListIndex, int weightListIndex, RandomNumberStream stream)
     {
-        checkArgument(valueIndex < valuesLists.size(), "index out of range, max value index is " + (valuesLists.size() - 1));
-        checkArgument(weightIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
-        return DistributionUtils.pickRandomValue(valuesLists.get(valueIndex), weightsLists.get(weightIndex), stream);
+        checkArgument(valueListIndex < valuesLists.size(), "index out of range, max value index is " + (valuesLists.size() - 1));
+        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
+        return DistributionUtils.pickRandomValue(valuesLists.get(valueListIndex), weightsLists.get(weightListIndex), stream);
+    }
+
+    public int pickRandomIndex(int weightListIndex, RandomNumberStream stream)
+    {
+        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
+        return DistributionUtils.pickRandomIndex(weightsLists.get(weightListIndex), stream);
+    }
+
+    public int getWeightForIndex(int index, int weightListIndex)
+    {
+        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
+        return DistributionUtils.getWeightForIndex(index, weightsLists.get(weightListIndex));
     }
 
     public int getSize()

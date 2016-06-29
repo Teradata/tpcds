@@ -23,30 +23,12 @@ public abstract class Distribution
     public static String pickRandomValue(int valueSet, int weightSet, RandomNumberStream randomNumberStream)
     {
         //TODO: implement
-        return "foo";
-    }
-
-    public static int getWeight(int index, int weightSet)
-    {
-        //TODO: implement
-        return 0;
+        throw new RuntimeException("not yet implemented");
     }
 
     public static int getSize()
     {
         //TODO: implement
-        return 0;
-    }
-
-    public static String getMemberString(int valueSet, int weightSet)
-    {
-        //TODO: implement.  Also rename to something clearer, e.g. getValueForWeight
-        return "foo";
-    }
-
-    public static int getMemberInt(int valueSet, int weightSet)
-    {
-        //TODO: implement.  Also rename to something clearer, e.g. getValueForWeight
-        return 0;
+        throw new RuntimeException("not yet implemented");
     }
 }

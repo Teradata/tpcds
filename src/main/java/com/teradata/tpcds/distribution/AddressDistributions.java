@@ -24,6 +24,7 @@ public final class AddressDistributions
     private static final StringValuesDistribution STREET_NAMES_DISTRIBUTION = buildStringValuesDistribution("street_names.dst", 1, 2);
     private static final StringValuesDistribution STREET_TYPES_DISTRIBUTION = buildStringValuesDistribution("street_types.dst", 1, 1);
     private static final StringValuesDistribution CITIES_DISTRIBUTION = buildStringValuesDistribution("cities.dst", 1, 6);
+    private static final StringValuesDistribution COUNTRIES_DISTRIBUTION = buildStringValuesDistribution("countries.dst", 1, 1);
 
     private AddressDistributions() {}
 
@@ -40,6 +41,11 @@ public final class AddressDistributions
     public static String pickRandomCity(CitiesWeights citiesWeights, RandomNumberStream stream)
     {
         return CITIES_DISTRIBUTION.pickRandomValue(0, citiesWeights.ordinal(), stream);
+    }
+
+    public static String pickRandomCountry(RandomNumberStream stream)
+    {
+        return COUNTRIES_DISTRIBUTION.pickRandomValue(0, 0, stream);
     }
 
     public static String getCityAtIndex(int index)
