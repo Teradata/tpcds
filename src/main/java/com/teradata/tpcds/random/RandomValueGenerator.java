@@ -144,7 +144,7 @@ public final class RandomValueGenerator
         String domain = pickRandomTopDomain(randomNumberStream);
         int companyLength = generateUniformRandomInt(10, 20, randomNumberStream);
         String company = generateRandomCharset(ALPHA_NUMERIC, 1, 20, randomNumberStream);
-        company = company.substring(0, companyLength);
+        company = company.length() < companyLength ? company : company.substring(0, companyLength);
 
         return String.format("%s.%s@%s.%s", first, last, company, domain);
     }

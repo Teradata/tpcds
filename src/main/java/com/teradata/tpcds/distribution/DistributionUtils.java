@@ -106,6 +106,23 @@ public final class DistributionUtils
         return index == 0 ? weights.get(index) :  weights.get(index) - weights.get(index - 1);  // reverse the accumulation of weights.
     }
 
+    protected static int pickRandomIndex(List<Integer> weights, RandomNumberStream randomNumberStream)
+    {
+        int weight = generateUniformRandomInt(1, weights.get(weights.size() - 1), randomNumberStream);
+        return getIndexForWeight(weight, weights);
+    }
+
+    private static int getIndexForWeight(int weight, List<Integer> weights)
+    {
+        for (int index = 0; index < weights.size(); index++) {
+            if (weight <= weights.get(index)) {
+                return index;
+            }
+        }
+
+        throw new TpcdsException("random weight was greater than max weight");
+    }
+
     protected static <T> int getIndexForValue(T value, List<T> values)
     {
         int index = values.indexOf(value);

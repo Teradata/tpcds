@@ -44,6 +44,15 @@ public abstract class TableRowWithNulls
         return (isNull(column) || value == -1) ? null : Long.toString(value);
     }
 
+    protected <T> String getStringOrNullForBoolean(boolean value, Column column)
+    {
+        if (isNull(column)) {
+            return null;
+        }
+
+        return value ? "Y" : "N";
+    }
+
     protected <T> String getDateStringOrNullFromJulianDays(long value, Column column)
     {
         return (isNull(column) || value < 0) ? null : fromJulianDays((int) value).toString();

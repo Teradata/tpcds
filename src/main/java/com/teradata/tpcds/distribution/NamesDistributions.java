@@ -31,9 +31,19 @@ public final class NamesDistributions
         return FIRST_NAMES_DISTRIBUTION.pickRandomValue(0, firstNamesWeights.ordinal(), stream);
     }
 
-    public static int getWeightForFirstName(String firstName, FirstNamesWeights firstNamesWeights)
+    public static int pickRandomIndex(FirstNamesWeights firstNamesWeights, RandomNumberStream stream)
     {
-        return FIRST_NAMES_DISTRIBUTION.getWeightForIndex(FIRST_NAMES_DISTRIBUTION.getIndexForValue(firstName, 0), firstNamesWeights.ordinal());
+        return FIRST_NAMES_DISTRIBUTION.pickRandomIndex(firstNamesWeights.ordinal(), stream);
+    }
+
+    public static String getFirstNameFromIndex(int index)
+    {
+        return FIRST_NAMES_DISTRIBUTION.getValueAtIndex(0, index);
+    }
+
+    public static int getWeightForIndex(int index, FirstNamesWeights firstNamesWeights)
+    {
+        return FIRST_NAMES_DISTRIBUTION.getWeightForIndex(index, firstNamesWeights.ordinal());
     }
 
     public static String pickRandomLastName(RandomNumberStream stream)
