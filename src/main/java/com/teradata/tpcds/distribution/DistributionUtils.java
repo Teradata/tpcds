@@ -66,7 +66,7 @@ public final class DistributionUtils
         try {
             // get an iterator that iterates over lists of the colon separated values from the distribution files
             return transform(
-                    filter(Resources.asCharSource(resource, StandardCharsets.UTF_8).readLines().iterator(), line -> {
+                    filter(Resources.asCharSource(resource, StandardCharsets.ISO_8859_1).readLines().iterator(), line -> {
                         line = line.trim();
                         return !line.isEmpty() && !line.startsWith("--");
                     }), line -> ImmutableList.copyOf(Splitter.on(Pattern.compile("(?<!\\\\):")).trimResults().split(line)));

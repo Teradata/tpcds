@@ -26,7 +26,7 @@ import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static com.teradata.tpcds.Results.constructResults;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.testng.Assert.assertEquals;
 
 public final class GeneratorAssertions
@@ -38,7 +38,7 @@ public final class GeneratorAssertions
         try {
             DigestOutputStream out = md5OutputStream(ByteStreams.nullOutputStream());
             for (List<String> parentAndChildRows : results) {
-                out.write(parentAndChildRows.get(0).getBytes(UTF_8));
+                out.write(parentAndChildRows.get(0).getBytes(ISO_8859_1));
             }
             byte[] md5Digest = out.getMessageDigest().digest();
             assertEquals(base16().lowerCase().encode(md5Digest), expectedMD5);

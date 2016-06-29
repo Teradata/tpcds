@@ -15,8 +15,10 @@
 package com.teradata.tpcds;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class TableGenerator
             return;
         }
 
-        List<FileWriter> fileWriters = new ArrayList<>();
+        List<OutputStreamWriter> fileWriters = new ArrayList<>();
         try {
             addFileWritersForTableAndChildren(fileWriters, table);
             Results results = constructResults(table, startingRowNumber, endingRowNumber, session);
@@ -54,7 +56,7 @@ public class TableGenerator
             e.printStackTrace();
         }
         finally {
-            for (FileWriter fileWriter : fileWriters) {
+            for (OutputStreamWriter fileWriter : fileWriters) {
                 try {
                     fileWriter.close();
                 }
@@ -65,10 +67,10 @@ public class TableGenerator
         }
     }
 
-    private void addFileWritersForTableAndChildren(List<FileWriter> fileWriters, Table table)
+    private void addFileWritersForTableAndChildren(List<OutputStreamWriter> fileWriters, Table table)
             throws IOException
     {
-        FileWriter fileWriter = new FileWriter(getPath(table), true);
+        OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(getPath(table), true), StandardCharsets.ISO_8859_1);
         fileWriters.add(fileWriter);
         if (table.hasChild() && !session.hasTable()) {
             addFileWritersForTableAndChildren(fileWriters, table.getChild());
