@@ -17,6 +17,7 @@ package com.teradata.tpcds.type;
 import com.teradata.tpcds.Column;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
+import com.teradata.tpcds.distribution.FipsCountyDistribution;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -32,10 +33,8 @@ import static com.teradata.tpcds.distribution.AddressDistributions.pickRandomStr
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.FipsWeights.UNIFORM;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getCountyAtIndex;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getGmtOffsetAtIndex;
-import static com.teradata.tpcds.distribution.FipsCountyDistribution.getIndexForCounty;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getStateAbbreviationAtIndex;
 import static com.teradata.tpcds.distribution.FipsCountyDistribution.getZipPrefixAtIndex;
-import static com.teradata.tpcds.distribution.FipsCountyDistribution.pickRandomCounty;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
@@ -52,21 +51,19 @@ public class Address
     private final String state;
     private final String country;
     private final int zip;
-    private final int plus4;
     private final int gmtOffset;
 
     public Address(String suiteNumber,
-                   int streetNumber,
-                   String streetName1,
-                   String streetName2,
-                   String streetType,
-                   String city,
-                   String county,
-                   String state,
-                   String country,
-                   int zip,
-                   int plus4,
-                   int gmtOffset)
+            int streetNumber,
+            String streetName1,
+            String streetName2,
+            String streetType,
+            String city,
+            String county,
+            String state,
+            String country,
+            int zip,
+            int gmtOffset)
     {
         requireNonNull(suiteNumber, "suiteNumber is null");
         checkArgument(streetNumber >= 1 && streetNumber <= 1000, "streetNumber is not between 1 and 1000");
@@ -76,7 +73,6 @@ public class Address
         requireNonNull(city, "city is null");
         requireNonNull(country, "country is null");
         checkArgument(zip >= 0 && zip <= 99999, "zip is not between 0 and 99999");
-        checkArgument(plus4 >= 0 && plus4 <= 9999, "plus4 is not between 0 and 9999");
         this.suiteNumber = suiteNumber;
         this.streetNumber = streetNumber;
         this.streetName1 = streetName1;
@@ -87,7 +83,6 @@ public class Address
         this.state = state;
         this.country = country;
         this.zip = zip;
-        this.plus4 = plus4;
         this.gmtOffset = gmtOffset;
     }
 
@@ -129,9 +124,9 @@ public class Address
             builder.setCounty(getCountyAtIndex(regionNumber));
         }
         else {
-            String county = pickRandomCounty(UNIFORM, randomNumberStream);
+            regionNumber = FipsCountyDistribution.pickRandomIndex(UNIFORM, randomNumberStream);
+            String county = getCountyAtIndex(regionNumber);
             builder.setCounty(county);
-            regionNumber = getIndexForCounty(county);
         }
 
         // match state with the selected region/county
@@ -147,8 +142,6 @@ public class Address
         }
         builder.setZip(zip + (zipPrefix) * 10000);
 
-        String addr = format("%d %s %s %s", builder.getStreetNumber(), builder.getStreetName1(), builder.getStreetName2(), builder.getStreetType());
-        builder.setPlus4(computeCityHash(addr));
         builder.setGmtOffset(getGmtOffsetAtIndex(regionNumber));
         builder.setCountry("United States");
 
@@ -237,7 +230,6 @@ public class Address
         private String state;
         private String country;
         private int zip;
-        private int plus4;
         private int gmtOffset;
 
         public AddressBuilder setSuiteNumber(String suiteNumber)
@@ -300,12 +292,6 @@ public class Address
             return this;
         }
 
-        public AddressBuilder setPlus4(int plus4)
-        {
-            this.plus4 = plus4;
-            return this;
-        }
-
         public AddressBuilder setGmtOffset(int gmtOffset)
         {
             this.gmtOffset = gmtOffset;
@@ -314,7 +300,7 @@ public class Address
 
         public Address build()
         {
-            return new Address(suiteNumber, streetNumber, streetName1, streetName2, streetType, city, county, state, country, zip, plus4, gmtOffset);
+            return new Address(suiteNumber, streetNumber, streetName1, streetName2, streetType, city, county, state, country, zip, gmtOffset);
         }
 
         public int getStreetNumber()

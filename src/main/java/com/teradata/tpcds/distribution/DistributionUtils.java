@@ -37,7 +37,7 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 
 public final class DistributionUtils
 {
-    private DistributionUtils(){}
+    private DistributionUtils() {}
 
     protected static final class WeightsBuilder
     {
@@ -88,24 +88,6 @@ public final class DistributionUtils
         return getValueForWeight(weight, values, weights);
     }
 
-    private static <T> T getValueForWeight(int weight, List<T> values, List<Integer> weights)
-    {
-        checkArgument(values.size() == weights.size());
-        for (int index = 0; index < weights.size(); index++) {
-            if (weight <= weights.get(index)) {
-                return values.get(index);
-            }
-        }
-
-        throw new TpcdsException("random weight was greater than max weight");
-    }
-
-    protected static int getWeightForIndex(int index, List<Integer> weights)
-    {
-        checkArgument(index < weights.size(), "index larger than distribution");
-        return index == 0 ? weights.get(index) :  weights.get(index) - weights.get(index - 1);  // reverse the accumulation of weights.
-    }
-
     protected static int pickRandomIndex(List<Integer> weights, RandomNumberStream randomNumberStream)
     {
         int weight = generateUniformRandomInt(1, weights.get(weights.size() - 1), randomNumberStream);
@@ -121,6 +103,24 @@ public final class DistributionUtils
         }
 
         throw new TpcdsException("random weight was greater than max weight");
+    }
+
+    private static <T> T getValueForWeight(int weight, List<T> values, List<Integer> weights)
+    {
+        checkArgument(values.size() == weights.size());
+        for (int index = 0; index < weights.size(); index++) {
+            if (weight <= weights.get(index)) {
+                return values.get(index);
+            }
+        }
+
+        throw new TpcdsException("random weight was greater than max weight");
+    }
+
+    protected static int getWeightForIndex(int index, List<Integer> weights)
+    {
+        checkArgument(index < weights.size(), "index larger than distribution");
+        return index == 0 ? weights.get(index) : weights.get(index) - weights.get(index - 1);  // reverse the accumulation of weights.
     }
 
     protected static <T> int getIndexForValue(T value, List<T> values)

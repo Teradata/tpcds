@@ -41,12 +41,12 @@ public class FipsCountyDistribution
     private final ImmutableList<ImmutableList<Integer>> weightsLists;
 
     public FipsCountyDistribution(ImmutableList<Integer> fipsCodes,
-                                  ImmutableList<String> counties,
-                                  ImmutableList<String> stateAbbreviations,
-                                  ImmutableList<String> stateNames,
-                                  ImmutableList<Integer> zipPrefixes,
-                                  ImmutableList<Integer> gmtOffsets,
-                                  ImmutableList<ImmutableList<Integer>> weightsLists)
+            ImmutableList<String> counties,
+            ImmutableList<String> stateAbbreviations,
+            ImmutableList<String> stateNames,
+            ImmutableList<Integer> zipPrefixes,
+            ImmutableList<Integer> gmtOffsets,
+            ImmutableList<ImmutableList<Integer>> weightsLists)
     {
         this.fipsCodes = fipsCodes;
         this.counties = counties;
@@ -99,24 +99,17 @@ public class FipsCountyDistribution
         }
 
         return new FipsCountyDistribution(fipsBuilder.build(),
-                                          countiesBuilder.build(),
-                                          stateAbbreviationsBuilder.build(),
-                                          stateNamesBuilder.build(),
-                                          zipPrefixesBuilder.build(),
-                                          gmtOffsetsBuilder.build(),
-                                          weightsListBuilder.build());
+                countiesBuilder.build(),
+                stateAbbreviationsBuilder.build(),
+                stateNamesBuilder.build(),
+                zipPrefixesBuilder.build(),
+                gmtOffsetsBuilder.build(),
+                weightsListBuilder.build());
     }
 
-    public static String pickRandomCounty(FipsWeights weights, RandomNumberStream stream)
+    public static int pickRandomIndex(FipsWeights weights, RandomNumberStream stream)
     {
-        return DistributionUtils.pickRandomValue(FIPS_COUNTY_DISTRIBUTION.counties,
-                                                 FIPS_COUNTY_DISTRIBUTION.weightsLists.get(weights.ordinal()),
-                                                 stream);
-    }
-
-    public static int getIndexForCounty(String county)
-    {
-        return DistributionUtils.getIndexForValue(county, FIPS_COUNTY_DISTRIBUTION.counties);
+        return DistributionUtils.pickRandomIndex(FIPS_COUNTY_DISTRIBUTION.weightsLists.get(weights.ordinal()), stream);
     }
 
     public static String getCountyAtIndex(int index)
