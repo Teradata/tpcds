@@ -16,7 +16,6 @@ package com.teradata.tpcds.distribution;
 
 import com.google.common.collect.ImmutableList;
 import com.teradata.tpcds.distribution.DistributionUtils.WeightsBuilder;
-import com.teradata.tpcds.random.RandomNumberStream;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,25 +25,26 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.teradata.tpcds.distribution.DistributionUtils.getDistributionIterator;
 import static com.teradata.tpcds.distribution.DistributionUtils.getListFromCommaSeparatedValues;
+import static java.lang.Integer.parseInt;
 
-public class StringValuesDistribution
+public class IntValuesDistribution
 {
-    private final ImmutableList<ImmutableList<String>> valuesLists;
+    private final ImmutableList<ImmutableList<Integer>> valuesLists;
     private final ImmutableList<ImmutableList<Integer>> weightsLists;
 
-    public StringValuesDistribution(ImmutableList<ImmutableList<String>> valuesLists, ImmutableList<ImmutableList<Integer>> weightsLists)
+    public IntValuesDistribution(ImmutableList<ImmutableList<Integer>> valuesLists, ImmutableList<ImmutableList<Integer>> weightsLists)
     {
         this.valuesLists = valuesLists;
         this.weightsLists = weightsLists;
     }
 
-    public static StringValuesDistribution buildStringValuesDistribution(String valuesAndWeightsFilename, int numValueFields, int numWeightFields)
+    public static IntValuesDistribution buildIntValuesDistribution(String valuesAndWeightsFilename, int numValueFields, int numWeightFields)
     {
         Iterator<List<String>> iterator = getDistributionIterator(valuesAndWeightsFilename);
 
-        List<ImmutableList.Builder<String>> valuesBuilders = new ArrayList<>(numValueFields);
+        List<ImmutableList.Builder<Integer>> valuesBuilders = new ArrayList<>(numValueFields);
         for (int i = 0; i < numValueFields; i++) {
-            valuesBuilders.add(ImmutableList.<String>builder());
+            valuesBuilders.add(ImmutableList.<Integer>builder());
         }
 
         List<WeightsBuilder> weightsBuilders = new ArrayList<>(numWeightFields);
@@ -59,62 +59,38 @@ public class StringValuesDistribution
             List<String> values = getListFromCommaSeparatedValues(fields.get(0));
             checkState(values.size() == numValueFields, "Expected line to contain %d values, but it contained %d, %s", numValueFields, values.size(), values);
             for (int i = 0; i < values.size(); i++) {
-                valuesBuilders.get(i).add(values.get(i));
+                valuesBuilders.get(i).add(parseInt(values.get(i)));
             }
 
             List<String> weights = getListFromCommaSeparatedValues(fields.get(1));
             checkState(weights.size() == numWeightFields, "Expected line to contain %d weights, but it contained %d, %s", numWeightFields, weights.size(), values);
             for (int i = 0; i < weights.size(); i++) {
-                weightsBuilders.get(i).computeAndAddNextWeight(Integer.parseInt(weights.get(i)));
+                weightsBuilders.get(i).computeAndAddNextWeight(parseInt(weights.get(i)));
             }
         }
 
-        ImmutableList.Builder<ImmutableList<String>> valuesListsBuilder = ImmutableList.<ImmutableList<String>>builder();
-        for (ImmutableList.Builder<String> valuesBuilder : valuesBuilders) {
+        ImmutableList.Builder<ImmutableList<Integer>> valuesListsBuilder = ImmutableList.builder();
+        for (ImmutableList.Builder<Integer> valuesBuilder : valuesBuilders) {
             valuesListsBuilder.add(valuesBuilder.build());
         }
-        ImmutableList<ImmutableList<String>> valuesLists = valuesListsBuilder.build();
+        ImmutableList<ImmutableList<Integer>> valuesLists = valuesListsBuilder.build();
 
-        ImmutableList.Builder<ImmutableList<Integer>> weightsListBuilder = ImmutableList.<ImmutableList<Integer>>builder();
+        ImmutableList.Builder<ImmutableList<Integer>> weightsListBuilder = ImmutableList.builder();
         for (WeightsBuilder weightsBuilder : weightsBuilders) {
             weightsListBuilder.add(weightsBuilder.build());
         }
         ImmutableList<ImmutableList<Integer>> weightsLists = weightsListBuilder.build();
-        return new StringValuesDistribution(valuesLists, weightsLists);
+        return new IntValuesDistribution(valuesLists, weightsLists);
     }
 
-    public String pickRandomValue(int valueListIndex, int weightListIndex, RandomNumberStream stream)
-    {
-        checkArgument(valueListIndex < valuesLists.size(), "index out of range, max value index is " + (valuesLists.size() - 1));
-        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
-        return DistributionUtils.pickRandomValue(valuesLists.get(valueListIndex), weightsLists.get(weightListIndex), stream);
-    }
-
-    public String getValueForIndexModSize(long index, int valueListIndex)
+    public Integer getValueForIndexModSize(long index, int valueListIndex)
     {
         checkArgument(valueListIndex < valuesLists.size(), "index out of range, max value index is " + (valuesLists.size() - 1));
         return DistributionUtils.getValueForIndexModSize(index, valuesLists.get(valueListIndex));
     }
 
-    public int pickRandomIndex(int weightListIndex, RandomNumberStream stream)
-    {
-        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
-        return DistributionUtils.pickRandomIndex(weightsLists.get(weightListIndex), stream);
-    }
-
-    public int getWeightForIndex(int index, int weightListIndex)
-    {
-        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
-        return DistributionUtils.getWeightForIndex(index, weightsLists.get(weightListIndex));
-    }
-
     public int getSize()
     {
         return valuesLists.get(0).size();
-    }
-
-    public String getValueAtIndex(int valueListIndex, int valueIndex)
-    {
-        return valuesLists.get(valueListIndex).get(valueIndex);
     }
 }
