@@ -122,6 +122,16 @@ public class CalendarDistribution
         return DAYS_BEFORE_MONTH[isLeapYear(date.getYear()) ? 1 : 0][date.getMonth() - 1] + date.getDay() - 1;
     }
 
+    public static int getQuarterAtIndex(int index)
+    {
+        return CALENDAR_DISTRIBUTION.quarters.get(index - 1); // number passed in is a 1-based index
+    }
+
+    public static int getIsHolidayFlagAtIndex(int index)
+    {
+        return CALENDAR_DISTRIBUTION.holidayFlags.get(index - 1); // number passed in is a 1-based index
+    }
+
     public static int getWeightForDayNumber(int dayNumber, Weights weights)
     {
         return getWeightForIndex(dayNumber, getWeights(weights));
