@@ -86,7 +86,12 @@ public enum Table
             IncomeBandRowGenerator.class,
             IncomeBandColumn.values(),
             new ScalingInfo(0, STATIC, new int[] {20, 20, 20, 20, 20, 20, 20, 20, 20}, 0)),
-    INVENTORY,
+    INVENTORY(new TableFlagsBuilder().setIsDateBased().build(),
+            1000,
+            0x07,
+            InventoryRowGenerator.class,
+            InventoryColumn.values(),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}, 0)), // the inventory table is scaled based on item and warehouse
     ITEM(new TableFlagsBuilder().setKeepsHistory().build(), new ScalingInfo(3, LOGARITHMIC, new int[] {9, 51, 102, 132, 150, 180, 201, 231, 251}, 0)),
     PROMOTION(new ScalingInfo(0, LOGARITHMIC, new int[] {300, 500, 1000, 1300, 1500, 1800, 2000, 2300, 2500}, 0)),
     REASON(new ScalingInfo(0, LOGARITHMIC, new int[] {35, 45, 55, 60, 65, 67, 70, 72, 75}, 0)),
