@@ -24,6 +24,10 @@ public final class DemographicsDistributions
     public static final StringValuesDistribution EDUCATION_DISTRIBUTION = buildStringValuesDistribution("education.dst", 1, 4);
     public static final IntValuesDistribution PURCHASE_BAND_DISTRIBUTION = buildIntValuesDistribution("purchase_band.dst", 1, 1);
     public static final StringValuesDistribution CREDIT_RATING_DISTRIBUTION = buildStringValuesDistribution("credit_ratings.dst", 1, 1);
+    public static final IntValuesDistribution INCOME_BAND_DISTRIBUTION = buildIntValuesDistribution("income_band.dst", 2, 1);
+    public static final StringValuesDistribution BUY_POTENTIAL_DISTRIBUTION = buildStringValuesDistribution("buy_potential.dst", 1, 1);
+    public static final IntValuesDistribution DEP_COUNT_DISTRIBUTION = buildIntValuesDistribution("dep_count.dst", 1, 1);
+    public static final IntValuesDistribution VEHICLE_COUNT_DISTRIBUTION = buildIntValuesDistribution("vehicle_count.dst", 1, 1);
 
     private DemographicsDistributions() {}
 
@@ -50,5 +54,20 @@ public final class DemographicsDistributions
     public static String getCreditRatingForIndexModSize(long index)
     {
         return CREDIT_RATING_DISTRIBUTION.getValueForIndexModSize(index, 0);
+    }
+
+    public static String getBuyPotentialForIndexModSize(long index)
+    {
+        return BUY_POTENTIAL_DISTRIBUTION.getValueForIndexModSize(index, 0);
+    }
+
+    public static Integer getDepCountForIndexModSize(long index)
+    {
+        return DEP_COUNT_DISTRIBUTION.getValueForIndexModSize(index, 0);
+    }
+
+    public static Integer getVehicleCountForIndexModSize(long index)
+    {
+        return VEHICLE_COUNT_DISTRIBUTION.getValueForIndexModSize(index, 0);
     }
 }
