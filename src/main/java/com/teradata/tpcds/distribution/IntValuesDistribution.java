@@ -89,6 +89,11 @@ public class IntValuesDistribution
         return DistributionUtils.getValueForIndexModSize(index, valuesLists.get(valueListIndex));
     }
 
+    public Integer getValueAtIndex(int valueListIndex, int valueIndex)
+    {
+        return valuesLists.get(valueListIndex).get(valueIndex);
+    }
+
     public int getSize()
     {
         return valuesLists.get(0).size();

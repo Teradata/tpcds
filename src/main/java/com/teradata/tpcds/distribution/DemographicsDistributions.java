@@ -70,4 +70,14 @@ public final class DemographicsDistributions
     {
         return VEHICLE_COUNT_DISTRIBUTION.getValueForIndexModSize(index, 0);
     }
+
+    public static Integer getIncomeBandLowerBoundAtIndex(int index)
+    {
+        return INCOME_BAND_DISTRIBUTION.getValueAtIndex(0, index);
+    }
+
+    public static Integer getIncomeBandUpperBoundAtIndex(int index)
+    {
+        return INCOME_BAND_DISTRIBUTION.getValueAtIndex(1, index);
+    }
 }
