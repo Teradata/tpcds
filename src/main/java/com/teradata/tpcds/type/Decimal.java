@@ -15,6 +15,7 @@
 package com.teradata.tpcds.type;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.Integer.parseInt;
 
 public class Decimal
 {
@@ -39,14 +40,21 @@ public class Decimal
         this.number = number;
     }
 
-    public int getPrecision()
+    public static Decimal parseDecimal(String decimalString)
     {
-        return precision;
-    }
-
-    public long getNumber()
-    {
-        return number;
+        long number;
+        int precision;
+        int decimalPointIndex = decimalString.indexOf('.');
+        if (decimalPointIndex == -1) {
+            number = parseInt(decimalString);
+            precision = 0;
+        }
+        else {
+            String fractional = decimalString.substring(decimalPointIndex + 1);
+            precision = fractional.length();
+            number = parseInt(decimalString.substring(0, decimalPointIndex) + fractional);
+        }
+        return new Decimal(number, precision);
     }
 
     public static Decimal add(Decimal decimal1, Decimal decimal2)
@@ -102,6 +110,16 @@ public class Decimal
     public static Decimal fromInteger(int from)
     {
         return new Decimal(from, 0);
+    }
+
+    public int getPrecision()
+    {
+        return precision;
+    }
+
+    public long getNumber()
+    {
+        return number;
     }
 
     @Override
