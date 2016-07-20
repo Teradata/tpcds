@@ -27,7 +27,7 @@ public final class EnglishDistributions
     private static final StringValuesDistribution PREPOSITIONS_DISTRIBUTION = buildStringValuesDistribution("prepositions.dst", 1, 1);
     private static final StringValuesDistribution NOUNS_DISTRIBUTION = buildStringValuesDistribution("nouns.dst", 1, 1);
     private static final StringValuesDistribution SENTENCES_DISTRIBUTION = buildStringValuesDistribution("sentences.dst", 1, 1);
-    private static final StringValuesDistribution SYLLABLES_DISTRIBUTION = buildStringValuesDistribution("syllables.dst", 1, 1);
+    public static final StringValuesDistribution SYLLABLES_DISTRIBUTION = buildStringValuesDistribution("syllables.dst", 1, 1);
     private static final StringValuesDistribution TERMINATORS_DISTRIBUTION = buildStringValuesDistribution("terminators.dst", 1, 1);
     private static final StringValuesDistribution VERBS_DISTRIBUTION = buildStringValuesDistribution("verbs.dst", 1, 1);
 

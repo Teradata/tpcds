@@ -15,12 +15,11 @@
 package com.teradata.tpcds.random;
 
 import com.teradata.tpcds.distribution.CalendarDistribution;
+import com.teradata.tpcds.distribution.StringValuesDistribution;
 import com.teradata.tpcds.type.Date;
 import com.teradata.tpcds.type.Decimal;
 
 import static com.teradata.tpcds.distribution.CalendarDistribution.getWeightForDayNumber;
-import static com.teradata.tpcds.distribution.EnglishDistributions.getSyllableAtIndex;
-import static com.teradata.tpcds.distribution.EnglishDistributions.getSyllablesSize;
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomAdjective;
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomAdverb;
 import static com.teradata.tpcds.distribution.EnglishDistributions.pickRandomArticle;
@@ -39,6 +38,7 @@ import static java.util.Objects.requireNonNull;
 public final class RandomValueGenerator
 {
     private static final String ALPHA_NUMERIC = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789";
+    public static final String DIGITS = "0123456789";
 
     private RandomValueGenerator() {}
 
@@ -280,12 +280,12 @@ public final class RandomValueGenerator
 
     // TODO: there are some callers of mk_word() that use "syllables" as the distribution name .  Others use "Syllables".
     // There is no distribution that has the upper case name. I wonder if distribution names are case insensitive.
-    public static String generateWord(long seed, int maxChars)
+    public static String generateWord(long seed, int maxChars, StringValuesDistribution distribution)
     {
-        long size = getSyllablesSize();
+        long size = distribution.getSize();
         StringBuilder word = new StringBuilder();
         while (seed > 0) {
-            String syllable = getSyllableAtIndex((int) (seed % size));
+            String syllable = distribution.getValueAtIndex(0, (int) (seed % size));
             seed /= size;
             if ((word.length() + syllable.length()) <= maxChars) {
                 word.append(syllable);

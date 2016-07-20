@@ -45,6 +45,7 @@ import static com.teradata.tpcds.distribution.CallCenterDistributions.getCallCen
 import static com.teradata.tpcds.distribution.CallCenterDistributions.getNumberOfCallCenters;
 import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterClass;
 import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterHours;
+import static com.teradata.tpcds.distribution.EnglishDistributions.SYLLABLES_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.NamesDistributions.FirstNamesWeights.GENERAL_FREQUENCY;
 import static com.teradata.tpcds.distribution.NamesDistributions.FirstNamesWeights.MALE_FREQUENCY;
 import static com.teradata.tpcds.distribution.NamesDistributions.pickRandomFirstName;
@@ -197,14 +198,14 @@ public class CallCenterRowGenerator
         builder.setCcDivisionId(ccDivisionId);
         fieldChangeFlag /= 2;
 
-        String ccDivisionName = generateWord(ccDivisionId, WIDTH_CC_DIVISION_NAME);
+        String ccDivisionName = generateWord(ccDivisionId, WIDTH_CC_DIVISION_NAME, SYLLABLES_DISTRIBUTION);
         if (previousRow.isPresent()) {
             ccDivisionName = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcDivisionName(), ccDivisionName);
         }
         builder.setCcDivisionName(ccDivisionName);
         fieldChangeFlag /= 2;
 
-        String ccCompanyName = generateWord(ccCompany, 10);
+        String ccCompanyName = generateWord(ccCompany, 10, SYLLABLES_DISTRIBUTION);
         if (previousRow.isPresent()) {
             ccCompanyName = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcCompanyName(), ccCompanyName);
         }
