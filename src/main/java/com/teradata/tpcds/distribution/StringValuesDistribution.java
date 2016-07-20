@@ -54,16 +54,16 @@ public class StringValuesDistribution
 
         while (iterator.hasNext()) {
             List<String> fields = iterator.next();
-            checkState(fields.size() == 2, "Expected line to contain 2 parts but it contains %d: %s", fields.size(), fields);
+            checkState(fields.size() == 2, "Expected line to contain 2 parts but it contains %s: %s", fields.size(), fields);
 
             List<String> values = getListFromCommaSeparatedValues(fields.get(0));
-            checkState(values.size() == numValueFields, "Expected line to contain %d values, but it contained %d, %s", numValueFields, values.size(), values);
+            checkState(values.size() == numValueFields, "Expected line to contain %s values, but it contained %s, %s", numValueFields, values.size(), values);
             for (int i = 0; i < values.size(); i++) {
                 valuesBuilders.get(i).add(values.get(i));
             }
 
             List<String> weights = getListFromCommaSeparatedValues(fields.get(1));
-            checkState(weights.size() == numWeightFields, "Expected line to contain %d weights, but it contained %d, %s", numWeightFields, weights.size(), values);
+            checkState(weights.size() == numWeightFields, "Expected line to contain %s weights, but it contained %s, %s", numWeightFields, weights.size(), weights);
             for (int i = 0; i < weights.size(); i++) {
                 weightsBuilders.get(i).computeAndAddNextWeight(Integer.parseInt(weights.get(i)));
             }

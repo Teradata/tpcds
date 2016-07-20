@@ -16,6 +16,7 @@ package com.teradata.tpcds.distribution;
 
 import com.google.common.collect.ImmutableList;
 import com.teradata.tpcds.distribution.DistributionUtils.WeightsBuilder;
+import com.teradata.tpcds.random.RandomNumberStream;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -92,6 +93,12 @@ public class IntValuesDistribution
     public Integer getValueAtIndex(int valueListIndex, int valueIndex)
     {
         return valuesLists.get(valueListIndex).get(valueIndex);
+    }
+
+    public int pickRandomIndex(int weightListIndex, RandomNumberStream stream)
+    {
+        checkArgument(weightListIndex < weightsLists.size(), "index out of range, max weight index is " + (weightsLists.size() - 1));
+        return DistributionUtils.pickRandomIndex(weightsLists.get(weightListIndex), stream);
     }
 
     public int getSize()
