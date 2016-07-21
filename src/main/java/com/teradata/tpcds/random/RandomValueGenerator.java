@@ -37,7 +37,7 @@ import static java.util.Objects.requireNonNull;
 
 public final class RandomValueGenerator
 {
-    private static final String ALPHA_NUMERIC = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789";
+    public static final String ALPHA_NUMERIC = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789";
     public static final String DIGITS = "0123456789";
 
     private RandomValueGenerator() {}
