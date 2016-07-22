@@ -218,6 +218,16 @@ public class Address
         return gmtOffset;
     }
 
+    public String getStreetName1()
+    {
+        return streetName1;
+    }
+
+    public String getStreetName2()
+    {
+        return streetName2;
+    }
+
     public static class AddressBuilder
     {
         private String suiteNumber;
