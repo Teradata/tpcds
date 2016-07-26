@@ -123,14 +123,14 @@ public class CallCenterRowGenerator
         // so it always uses the new value
         String ccClass = pickRandomCallCenterClass(CC_CLASS.getRandomNumberStream());
         builder.setCcClass(ccClass);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         int ccEmployees = generateUniformRandomInt(1, MAX_NUMBER_OF_EMPLOYEES_UNSCALED * scaling.getScale() * scaling.getScale(), CC_EMPLOYEES.getRandomNumberStream());
         if (previousRow.isPresent()) {
             ccEmployees = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcEmployees(), ccEmployees);
         }
         builder.setCcEmployees(ccEmployees);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         int ccSqFt = generateUniformRandomInt(100, 700, CC_SQ_FT.getRandomNumberStream());
         ccSqFt *= ccEmployees;
@@ -138,12 +138,12 @@ public class CallCenterRowGenerator
             ccSqFt = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcSqFt(), ccSqFt);
         }
         builder.setCcSqFt(ccSqFt);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         // Another casualty of the bug with pointer types in the C code (see comment above by ccClass).  Will always use a new value.
         String ccHours = pickRandomCallCenterHours(CC_HOURS.getRandomNumberStream());
         builder.setCcHours(ccHours);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         String managerFirstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, CC_MANAGER.getRandomNumberStream());
         String managerLastName = pickRandomLastName(CC_MANAGER.getRandomNumberStream());
@@ -152,28 +152,28 @@ public class CallCenterRowGenerator
             ccManager = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcManager(), ccManager);
         }
         builder.setCcManager(ccManager);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         int ccMarketId = generateUniformRandomInt(1, 6, CC_MARKET_ID.getRandomNumberStream());
         if (previousRow.isPresent()) {
             ccMarketId = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcMarketId(), ccMarketId);
         }
         builder.setCcMarketId(ccMarketId);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         String ccMarketClass = generateRandomText(20, WIDTH_CC_MARKET_CLASS, CC_MARKET_CLASS.getRandomNumberStream());
         if (previousRow.isPresent()) {
             ccMarketClass = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcMarketClass(), ccMarketClass);
         }
         builder.setCcMarketClass(ccMarketClass);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         String ccMarketDesc = generateRandomText(20, WIDTH_CC_MARKET_DESC, CC_MARKET_DESC.getRandomNumberStream());
         if (previousRow.isPresent()) {
             ccMarketDesc = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcMarketDesc(), ccMarketDesc);
         }
         builder.setCcMarketDesc(ccMarketDesc);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         String marketManagerFirstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, CC_MARKET_MANAGER.getRandomNumberStream());
         String marketManagerLastName = pickRandomLastName(CC_MARKET_MANAGER.getRandomNumberStream());
@@ -182,35 +182,35 @@ public class CallCenterRowGenerator
             ccMarketManager = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcMarketManager(), ccMarketManager);
         }
         builder.setCcMarketManager(ccMarketManager);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         int ccCompany = generateUniformRandomInt(1, 6, CC_COMPANY.getRandomNumberStream());
         if (previousRow.isPresent()) {
             ccCompany = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcCompany(), ccCompany);
         }
         builder.setCcCompany(ccCompany);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         int ccDivisionId = generateUniformRandomInt(1, 6, CC_COMPANY.getRandomNumberStream());
         if (previousRow.isPresent()) {
             ccDivisionId = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcDivisionId(), ccDivisionId);
         }
         builder.setCcDivisionId(ccDivisionId);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         String ccDivisionName = generateWord(ccDivisionId, WIDTH_CC_DIVISION_NAME, SYLLABLES_DISTRIBUTION);
         if (previousRow.isPresent()) {
             ccDivisionName = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcDivisionName(), ccDivisionName);
         }
         builder.setCcDivisionName(ccDivisionName);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         String ccCompanyName = generateWord(ccCompany, 10, SYLLABLES_DISTRIBUTION);
         if (previousRow.isPresent()) {
             ccCompanyName = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcCompanyName(), ccCompanyName);
         }
         builder.setCcCompanyName(ccCompanyName);
-        fieldChangeFlag /= 2;
+        fieldChangeFlag >>= 1;
 
         Decimal ccTaxPercentage = generateUniformRandomDecimal(MIN_TAX_PERCENTAGE, MAX_TAX_PERCENTAGE, CC_TAX_PERCENTAGE.getRandomNumberStream());
         if (previousRow.isPresent()) {
