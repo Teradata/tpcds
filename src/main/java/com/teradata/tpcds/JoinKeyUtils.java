@@ -21,6 +21,8 @@ import static com.teradata.tpcds.CatalogPageRowGenerator.CATALOGS_PER_YEAR;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MAX_SHIP_DELAY;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MIN_SHIP_DELAY;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
+import static com.teradata.tpcds.StoreSalesRowGenerator.SS_MAX_SHIP_DELAY;
+import static com.teradata.tpcds.StoreSalesRowGenerator.SS_MIN_SHIP_DELAY;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
@@ -137,8 +139,8 @@ public final class JoinKeyUtils
         int max;
         switch (fromTable) {
             case STORE_RETURNS:
-                // TODO: set min and max
-                throw new RuntimeException("not yet implemented");
+                min = SS_MIN_SHIP_DELAY;
+                max = SS_MAX_SHIP_DELAY;
             case CATALOG_RETURNS:
                 min = CS_MIN_SHIP_DELAY;
                 max = CS_MAX_SHIP_DELAY;

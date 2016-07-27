@@ -121,8 +121,18 @@ public enum Table
             StoreRowGenerator.class,
             StoreColumn.values(),
             new ScalingInfo(0, LOGARITHMIC, new int[] {6, 51, 201, 402, 501, 675, 750, 852, 951}, 0)),
-    STORE_RETURNS,
-    STORE_SALES,
+    STORE_RETURNS(new TableFlagsBuilder().build(),
+            700,
+            0x204,
+            StoreReturnsRowGenerator.class,
+            StoreReturnsColumn.values(),
+            new ScalingInfo(4, LINEAR, new int[] {24, 240, 2400, 7200, 24000, 72000, 240000, 720000, 2400000}, 0)),
+    STORE_SALES(new TableFlagsBuilder().setIsDateBased().build(),
+            900,
+            0x204,
+            StoreSalesRowGenerator.class,
+            StoreSalesColumn.values(),
+            new ScalingInfo(4, LINEAR, new int[] {24, 240, 2400, 7200, 24000, 72000, 240000, 720000, 2400000}, 0)),
     TIME_DIM,
     WAREHOUSE(new ScalingInfo(0, LOGARITHMIC, new int[] {5, 10, 15, 17, 20, 22, 25, 27, 30}, 0)),
     WEB_PAGE,
@@ -186,6 +196,8 @@ public enum Table
         // defined
         CATALOG_RETURNS.parent = Optional.of(CATALOG_SALES);
         CATALOG_SALES.child = Optional.of(CATALOG_RETURNS);
+        STORE_RETURNS.parent = Optional.of(STORE_SALES);
+        STORE_SALES.child = Optional.of(STORE_RETURNS);
     }
 
     // TODO: This constructor is a stop-gap until all the tables are implemented.  Remove it when it is no longer needed.

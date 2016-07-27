@@ -27,6 +27,7 @@ import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_DISCOUNT_MAX;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MARKUP_MAX;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_QUANTITY_MAX;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_WHOLESALE_MAX;
+import static com.teradata.tpcds.StoreSalesColumn.SS_PRICING;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomDecimal;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.type.Decimal.NINE_PERCENT;
@@ -48,7 +49,8 @@ public class Pricing
 
     // TODO: add Limits for other columns as they are relevant
     private static final Map<Column, Limits> LIMITS_PER_COLUMN = ImmutableMap.of(
-            CS_PRICING, new Limits(CS_QUANTITY_MAX, CS_MARKUP_MAX, CS_DISCOUNT_MAX, CS_WHOLESALE_MAX, CS_COUPON_MAX));
+            CS_PRICING, new Limits(CS_QUANTITY_MAX, CS_MARKUP_MAX, CS_DISCOUNT_MAX, CS_WHOLESALE_MAX, CS_COUPON_MAX),
+            SS_PRICING, new Limits(100, ONE, ONE, ONE_HUNDRED, ONE_HALF));
 
     private final Decimal wholesaleCost;
     private final Decimal listPrice;
