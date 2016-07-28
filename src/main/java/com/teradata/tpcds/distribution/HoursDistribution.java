@@ -97,6 +97,47 @@ public class HoursDistribution
         return pickRandomValue(HOURS_DISTRIBUTION.hours, HOURS_DISTRIBUTION.weightsLists.get(weights.ordinal()), randomNumberStream);
     }
 
+    public static HourInfo getHourInfoForHour(int hour)
+    {
+        return new HourInfo(HOURS_DISTRIBUTION.amPm.get(hour), HOURS_DISTRIBUTION.shifts.get(hour), HOURS_DISTRIBUTION.subShifts.get(hour), HOURS_DISTRIBUTION.meals.get(hour));
+    }
+
+    public static class HourInfo
+    {
+        private final String amPm;
+        private final String shift;
+        private final String subShift;
+        private final String meal;
+
+        public HourInfo(String amPm, String shift, String subShift, String meal)
+        {
+            this.amPm = amPm;
+            this.shift = shift;
+            this.subShift = subShift;
+            this.meal = meal;
+        }
+
+        public String getAmPm()
+        {
+            return amPm;
+        }
+
+        public String getShift()
+        {
+            return shift;
+        }
+
+        public String getSubShift()
+        {
+            return subShift;
+        }
+
+        public String getMeal()
+        {
+            return meal;
+        }
+    }
+
     public enum Weights
     {
         UNIFORM,
