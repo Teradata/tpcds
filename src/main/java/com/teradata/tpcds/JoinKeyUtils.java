@@ -21,9 +21,8 @@ import static com.teradata.tpcds.CatalogPageRowGenerator.CATALOGS_PER_YEAR;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MAX_SHIP_DELAY;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MIN_SHIP_DELAY;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
-import static com.teradata.tpcds.StoreSalesRowGenerator.SS_MAX_SHIP_DELAY;
-import static com.teradata.tpcds.StoreSalesRowGenerator.SS_MIN_SHIP_DELAY;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
+import static com.teradata.tpcds.WebPageColumn.WP_CREATION_DATE_SK;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM_LEAP_YEAR;
@@ -38,6 +37,8 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 import static com.teradata.tpcds.type.Date.DATE_MAXIMUM;
 import static com.teradata.tpcds.type.Date.DATE_MINIMUM;
 import static com.teradata.tpcds.type.Date.JULIAN_DATA_START_DATE;
+import static com.teradata.tpcds.type.Date.JULIAN_DATE_MAXIMUM;
+import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
 import static com.teradata.tpcds.type.Date.JULIAN_TODAYS_DATE;
 import static com.teradata.tpcds.type.Date.isLeapYear;
 import static com.teradata.tpcds.type.Date.toJulianDays;
@@ -45,6 +46,10 @@ import static java.lang.String.format;
 
 public final class JoinKeyUtils
 {
+    private static final long WEB_SITE_DURATION = JULIAN_DATE_MAXIMUM - JULIAN_DATE_MINIMUM;
+    private static final int WEB_PAGES_PER_SITE = 123;
+    private static final int WEB_DATE_STAGGER = 17;
+
     private JoinKeyUtils() {}
 
     public static long generateJoinKey(Column fromColumn, Table toTable, long joinCount, Scaling scaling)
@@ -120,8 +125,7 @@ public final class JoinKeyUtils
                 return generateDateReturnsJoinKey(fromTable, fromColumn, joinCount);
             case WEB_SITE:
             case WEB_PAGE:
-                // TODO: web_join
-                throw new RuntimeException("not yet implemented");
+                return generateWebJoinKey(fromColumn, joinCount);
             default:
                 weights = CalendarDistribution.Weights.UNIFORM;
                 if (isLeapYear(year)) {
@@ -133,14 +137,27 @@ public final class JoinKeyUtils
         }
     }
 
+    private static long generateWebJoinKey(Column fromColumn, long joinKey)
+    {
+        if (fromColumn == WP_CREATION_DATE_SK) {
+            // Page creation has to happen outside of the page window, to assure a constant number of pages,
+            // so it occurs in the gap between site creation and the site's actual activity. For sites that are replaced
+            // in the time span of the data set, this will depend on whether they are the first version or the second
+            int site = (int) (joinKey / WEB_PAGES_PER_SITE + 1);
+            int minResult = (int) (JULIAN_DATE_MINIMUM - ((site * WEB_DATE_STAGGER) % WEB_SITE_DURATION / 2));
+            return generateUniformRandomInt(minResult, JULIAN_DATE_MINIMUM, fromColumn.getRandomNumberStream());
+        }
+
+        // TODO: add more columns as needed
+        throw new RuntimeException("not yet implemented");
+    }
+
     private static long generateDateReturnsJoinKey(Table fromTable, Column fromColumn, long joinCount)
     {
         int min;
         int max;
         switch (fromTable) {
             case STORE_RETURNS:
-                min = SS_MIN_SHIP_DELAY;
-                max = SS_MAX_SHIP_DELAY;
             case CATALOG_RETURNS:
                 min = CS_MIN_SHIP_DELAY;
                 max = CS_MAX_SHIP_DELAY;
