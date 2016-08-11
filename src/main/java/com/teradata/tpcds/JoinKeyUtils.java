@@ -20,9 +20,12 @@ import com.teradata.tpcds.type.Date;
 import static com.teradata.tpcds.CatalogPageRowGenerator.CATALOGS_PER_YEAR;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MAX_SHIP_DELAY;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MIN_SHIP_DELAY;
+import static com.teradata.tpcds.PseudoTableScalingInfos.CONCURRENT_WEB_SITES;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
 import static com.teradata.tpcds.WebPageColumn.WP_CREATION_DATE_SK;
+import static com.teradata.tpcds.WebSiteColumn.WEB_CLOSE_DATE;
+import static com.teradata.tpcds.WebSiteColumn.WEB_OPEN_DATE;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM_LEAP_YEAR;
@@ -46,7 +49,6 @@ import static java.lang.String.format;
 
 public final class JoinKeyUtils
 {
-    private static final long WEB_SITE_DURATION = JULIAN_DATE_MAXIMUM - JULIAN_DATE_MINIMUM;
     private static final int WEB_PAGES_PER_SITE = 123;
     private static final int WEB_DATE_STAGGER = 17;
 
@@ -61,7 +63,7 @@ public final class JoinKeyUtils
                 return generateCatalogPageJoinKey(fromColumn, joinCount, scaling);
             case DATE_DIM:
                 int year = generateUniformRandomInt(DATE_MINIMUM.getYear(), DATE_MAXIMUM.getYear(), fromColumn.getRandomNumberStream());
-                return generateDateJoinKey(fromTable, fromColumn, joinCount, year);
+                return generateDateJoinKey(fromTable, fromColumn, joinCount, year, scaling);
             case TIME_DIM:
                 return generateTimeJoinKey(fromTable, fromColumn);
             default:
@@ -102,7 +104,7 @@ public final class JoinKeyUtils
         return count * pagesPerCatalog + page;
     }
 
-    private static long generateDateJoinKey(Table fromTable, Column fromColumn, long joinCount, int year)
+    private static long generateDateJoinKey(Table fromTable, Column fromColumn, long joinCount, int year, Scaling scaling)
     {
         int dayNumber;
         switch (fromTable) {
@@ -125,7 +127,7 @@ public final class JoinKeyUtils
                 return generateDateReturnsJoinKey(fromTable, fromColumn, joinCount);
             case WEB_SITE:
             case WEB_PAGE:
-                return generateWebJoinKey(fromColumn, joinCount);
+                return generateWebJoinKey(fromColumn, joinCount, scaling);
             default:
                 weights = CalendarDistribution.Weights.UNIFORM;
                 if (isLeapYear(year)) {
@@ -137,19 +139,53 @@ public final class JoinKeyUtils
         }
     }
 
-    private static long generateWebJoinKey(Column fromColumn, long joinKey)
+    private static long generateWebJoinKey(Column fromColumn, long joinKey, Scaling scaling)
     {
         if (fromColumn == WP_CREATION_DATE_SK) {
             // Page creation has to happen outside of the page window, to assure a constant number of pages,
             // so it occurs in the gap between site creation and the site's actual activity. For sites that are replaced
             // in the time span of the data set, this will depend on whether they are the first version or the second
             int site = (int) (joinKey / WEB_PAGES_PER_SITE + 1);
-            int minResult = (int) (JULIAN_DATE_MINIMUM - ((site * WEB_DATE_STAGGER) % WEB_SITE_DURATION / 2));
+            long webSiteDuration = getWebSiteDuration(scaling);
+            int minResult = (int) (JULIAN_DATE_MINIMUM - ((site * WEB_DATE_STAGGER) % webSiteDuration / 2));
             return generateUniformRandomInt(minResult, JULIAN_DATE_MINIMUM, fromColumn.getRandomNumberStream());
+        }
+
+        if (fromColumn == WEB_OPEN_DATE) {
+            long webSiteDuration = getWebSiteDuration(scaling);
+            return JULIAN_DATE_MINIMUM - ((joinKey * WEB_DATE_STAGGER) % webSiteDuration / 2);
+        }
+
+        if (fromColumn == WEB_CLOSE_DATE) {
+            long webSiteDuration = getWebSiteDuration(scaling);
+            long result = JULIAN_DATE_MINIMUM - ((joinKey * WEB_DATE_STAGGER) % webSiteDuration / 2);
+            result += -1 * webSiteDuration; // the -1 here and below are due to undefined values in the C code
+
+            // the site is completely replaced, and this is the first site
+            if (isReplaced(joinKey) && !isReplacement(joinKey)) {
+                // the close date of the first site needs to align on a revision boundary
+                result -= -1 * webSiteDuration / 2;
+            }
+            return result;
         }
 
         // TODO: add more columns as needed
         throw new RuntimeException("not yet implemented");
+    }
+
+    private static long getWebSiteDuration(Scaling scaling)
+    {
+        return (JULIAN_DATE_MAXIMUM - JULIAN_DATE_MINIMUM) * CONCURRENT_WEB_SITES.getRowCountForScale(scaling.getScale());
+    }
+
+    private static boolean isReplaced(long joinKey)
+    {
+        return (joinKey % 2) == 0;
+    }
+
+    private static boolean isReplacement(long joinKey)
+    {
+        return (joinKey / 2 % 2) != 0;
     }
 
     private static long generateDateReturnsJoinKey(Table fromTable, Column fromColumn, long joinCount)

@@ -164,6 +164,10 @@ public enum Table
             WebSalesColumn.values(),
             new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0)),
     WEB_SITE(new TableFlagsBuilder().setKeepsHistory().setIsSmall().build(),
+            100,
+            0x0B,
+            WebSiteRowGenerator.class,
+            WebSiteColumn.values(),
             new ScalingInfo(0, LOGARITHMIC, new int[] {15, 21, 12, 21, 27, 33, 39, 42, 48}, 0)),
 
     DBGEN_VERSION,
