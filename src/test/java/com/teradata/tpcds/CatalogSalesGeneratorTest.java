@@ -17,8 +17,6 @@ package com.teradata.tpcds;
 import com.teradata.tpcds.Parallel.ChunkBoundaries;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
 import static com.teradata.tpcds.GeneratorAssertions.assertPartialMD5;
 import static com.teradata.tpcds.Parallel.splitWork;
 import static com.teradata.tpcds.Session.getDefaultSession;
@@ -30,7 +28,6 @@ public class CatalogSalesGeneratorTest
 
     @Test
     public void testScaleFactor1()
-            throws IOException
     {
         Session session = TEST_SESSION.withScale(1);
         assertPartialMD5(1, 10000, CATALOG_SALES, session, "4619dc9c59c9a4314fb3e66c68fe5d5d");

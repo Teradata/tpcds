@@ -151,9 +151,20 @@ public enum Table
             WebPageRowGenerator.class,
             WebPageColumn.values(),
             new ScalingInfo(0, LOGARITHMIC, new int[] {30, 100, 1020, 1302, 1500, 1800, 2001, 2301, 2502}, 0)),
-    WEB_RETURNS,
-    WEB_SALES,
-    WEB_SITE,
+    WEB_RETURNS(new TableFlagsBuilder().build(),
+            900,
+            0x2004,
+            WebReturnsRowGenerator.class,
+            WebReturnsColumn.values(),
+            new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0)),
+    WEB_SALES(new TableFlagsBuilder().setIsDateBased().build(),
+            5,
+            0x20008,
+            WebSalesRowGenerator.class,
+            WebSalesColumn.values(),
+            new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0)),
+    WEB_SITE(new TableFlagsBuilder().setKeepsHistory().setIsSmall().build(),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {15, 21, 12, 21, 27, 33, 39, 42, 48}, 0)),
 
     DBGEN_VERSION,
 
@@ -213,6 +224,8 @@ public enum Table
         CATALOG_SALES.child = Optional.of(CATALOG_RETURNS);
         STORE_RETURNS.parent = Optional.of(STORE_SALES);
         STORE_SALES.child = Optional.of(STORE_RETURNS);
+        WEB_RETURNS.parent = Optional.of(WEB_SALES);
+        WEB_SALES.child = Optional.of(WEB_RETURNS);
     }
 
     // TODO: This constructor is a stop-gap until all the tables are implemented.  Remove it when it is no longer needed.

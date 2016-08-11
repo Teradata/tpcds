@@ -163,8 +163,9 @@ public final class JoinKeyUtils
                 max = CS_MAX_SHIP_DELAY;
                 break;
             case WEB_RETURNS:
-                // TODO: set min and max
-                throw new RuntimeException("not yet implemented");
+                min = 1;
+                max = 120;
+                break;
             default:
                 throw new TpcdsException("Invalid table for dateJoinReturns");
         }
