@@ -28,13 +28,14 @@ public class Session
     private final boolean noSexism;
     private final int parallelism;
     private final int chunkNumber;
+    private final boolean overwrite;
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism, boolean overwrite)
     {
-        this(scale, targetDirectory, suffix, table, nullString, separator, terminate, noSexism, parallelism, 1);
+        this(scale, targetDirectory, suffix, table, nullString, separator, terminate, noSexism, parallelism, 1, overwrite);
     }
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism, int chunkNumber)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
     {
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
@@ -46,6 +47,7 @@ public class Session
         this.noSexism = noSexism;
         this.parallelism = parallelism;
         this.chunkNumber = chunkNumber;
+        this.overwrite = overwrite;
     }
 
     public static Session getDefaultSession()
@@ -65,7 +67,8 @@ public class Session
                 this.terminate,
                 this.noSexism,
                 this.parallelism,
-                this.chunkNumber
+                this.chunkNumber,
+                this.overwrite
         );
     }
 
@@ -81,7 +84,8 @@ public class Session
                 this.terminate,
                 this.noSexism,
                 this.parallelism,
-                this.chunkNumber
+                this.chunkNumber,
+                this.overwrite
         );
     }
 
@@ -97,7 +101,8 @@ public class Session
                 this.terminate,
                 this.noSexism,
                 parallelism,
-                this.chunkNumber
+                this.chunkNumber,
+                this.overwrite
         );
     }
 
@@ -113,7 +118,8 @@ public class Session
                 this.terminate,
                 this.noSexism,
                 this.parallelism,
-                chunkNumber
+                chunkNumber,
+                this.overwrite
         );
     }
 
@@ -173,5 +179,10 @@ public class Session
     public int getChunkNumber()
     {
         return chunkNumber;
+    }
+
+    public boolean shouldOverwrite()
+    {
+        return overwrite;
     }
 }

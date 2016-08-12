@@ -70,7 +70,20 @@ public class TableGenerator
     private void addFileWritersForTableAndChildren(List<OutputStreamWriter> fileWriters, Table table)
             throws IOException
     {
-        OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(getPath(table), true), StandardCharsets.ISO_8859_1);
+        String path = getPath(table);
+        File file = new File(path);
+        boolean newFileCreated = file.createNewFile();
+        if (!newFileCreated) {
+            if (session.shouldOverwrite()) {
+                // truncate the file
+                new FileOutputStream(path).close();
+            }
+            else {
+                throw new TpcdsException(format("File %s exists.  Remove it or run with the '--overwrite' option", path));
+            }
+        }
+
+        OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(path, true), StandardCharsets.ISO_8859_1);
         fileWriters.add(fileWriter);
         if (table.hasChild() && !session.hasTable()) {
             addFileWritersForTableAndChildren(fileWriters, table.getChild());

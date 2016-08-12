@@ -51,6 +51,9 @@ public class Options
     @Option(name = {"--parallelism"}, title = "parallelism", description = "Build data in <n> separate chunks (Default: 1)")
     public int parallelism = 1;
 
+    @Option(name = {"--overwrite"}, title = "overwrite", description = "Overwrite existing data files for tables")
+    public boolean overwrite = false;
+
     public Session toSession()
     {
         validateProperties();
@@ -62,7 +65,8 @@ public class Options
                 separator,
                 terminate,
                 noSexism,
-                parallelism);
+                parallelism,
+                overwrite);
     }
 
     private static Optional<Table> toTableOptional(String table)
