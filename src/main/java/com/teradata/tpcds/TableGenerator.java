@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.teradata.tpcds.Results.constructResults;
@@ -42,32 +41,24 @@ public class TableGenerator
             return;
         }
 
-        List<OutputStreamWriter> fileWriters = new ArrayList<>();
-        try {
-            addFileWritersForTableAndChildren(fileWriters, table);
+        try (OutputStreamWriter parentWriter = addFileWriterForTable(table); OutputStreamWriter childWriter = table.hasChild() ? addFileWriterForTable(table.getChild()) : null) {
             Results results = constructResults(table, startingRowNumber, endingRowNumber, session);
             for (List<String> parentAndChildRows : results) {
-                for (int i = 0; i < parentAndChildRows.size(); i++) {
-                    fileWriters.get(i).write(parentAndChildRows.get(i));
+                if (parentAndChildRows.size() > 0) {
+                    parentWriter.write(parentAndChildRows.get(0));
+                }
+                if (parentAndChildRows.size() > 1) {
+                    requireNonNull(childWriter, "childWriter is null, but a child row was produced");
+                    childWriter.write(parentAndChildRows.get(1));
                 }
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            for (OutputStreamWriter fileWriter : fileWriters) {
-                try {
-                    fileWriter.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            throw new TpcdsException(e.getMessage());
         }
     }
 
-    private void addFileWritersForTableAndChildren(List<OutputStreamWriter> fileWriters, Table table)
+    private OutputStreamWriter addFileWriterForTable(Table table)
             throws IOException
     {
         String path = getPath(table);
@@ -83,11 +74,7 @@ public class TableGenerator
             }
         }
 
-        OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(path, true), StandardCharsets.ISO_8859_1);
-        fileWriters.add(fileWriter);
-        if (table.hasChild() && !session.hasTable()) {
-            addFileWritersForTableAndChildren(fileWriters, table.getChild());
-        }
+        return new OutputStreamWriter(new FileOutputStream(path, true), StandardCharsets.ISO_8859_1);
     }
 
     private String getPath(Table table)
