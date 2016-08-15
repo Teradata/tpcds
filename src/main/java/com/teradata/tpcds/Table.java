@@ -14,10 +14,13 @@
 
 package com.teradata.tpcds;
 
+import com.google.common.collect.ImmutableList;
 import com.teradata.tpcds.TableFlags.TableFlagsBuilder;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LINEAR;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LOGARITHMIC;
@@ -341,5 +344,21 @@ public enum Table
     public ScalingInfo getScalingInfo()
     {
         return scalingInfo;
+    }
+
+    public static List<Table> getBaseTables()
+    {
+        List<Table> allTables = ImmutableList.copyOf(Table.values());
+        return allTables.stream()
+                .filter(table -> !table.toString().startsWith("s_"))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Table> getSourceTables()
+    {
+        List<Table> allTables = ImmutableList.copyOf(Table.values());
+        return allTables.stream()
+                .filter(table -> table.toString().startsWith("s_"))
+                .collect(Collectors.toList());
     }
 }
