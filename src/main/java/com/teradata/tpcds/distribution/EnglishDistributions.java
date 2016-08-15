@@ -68,16 +68,6 @@ public final class EnglishDistributions
         return SENTENCES_DISTRIBUTION.pickRandomValue(0, 0, stream);
     }
 
-    public static int getSyllablesSize()
-    {
-        return SYLLABLES_DISTRIBUTION.getSize();
-    }
-
-    public static String getSyllableAtIndex(int index)
-    {
-        return SYLLABLES_DISTRIBUTION.getValueAtIndex(0, index);
-    }
-
     public static String pickRandomTerminator(RandomNumberStream stream)
     {
         return TERMINATORS_DISTRIBUTION.pickRandomValue(0, 0, stream);

@@ -33,14 +33,12 @@ public class CategoriesDistribution
     private static final CategoriesDistribution CATEGORIES_DISTRIBUTION = buildCategoriesDistribution();
 
     private final ImmutableList<String> names;
-    private final ImmutableList<String> classDistributions;
     private final ImmutableList<Integer> hasSizes;
     private final ImmutableList<Integer> weights;
 
-    private CategoriesDistribution(ImmutableList<String> names, ImmutableList<String> classDistributions, ImmutableList<Integer> hasSizes, ImmutableList<Integer> weights)
+    private CategoriesDistribution(ImmutableList<String> names, ImmutableList<Integer> hasSizes, ImmutableList<Integer> weights)
     {
         this.names = names;
-        this.classDistributions = classDistributions;
         this.hasSizes = hasSizes;
         this.weights = weights;
     }
@@ -48,7 +46,6 @@ public class CategoriesDistribution
     private static CategoriesDistribution buildCategoriesDistribution()
     {
         ImmutableList.Builder<String> namesBuilder = ImmutableList.builder();
-        ImmutableList.Builder<String> classDistributionsBuilder = ImmutableList.builder();
         ImmutableList.Builder<Integer> hasSizesBuilder = ImmutableList.builder();
         WeightsBuilder weightsBuilder = new WeightsBuilder();
 
@@ -61,7 +58,7 @@ public class CategoriesDistribution
             checkState(values.size() == 3, "Expected line to contain 3 values, but it contained %d, %s", values.size(), values);
 
             namesBuilder.add(values.get(0));
-            classDistributionsBuilder.add(values.get(1));
+            // we don't add the class distribution names because they are unused
             hasSizesBuilder.add(parseInt(values.get(2)));
 
             List<String> weights = getListFromCommaSeparatedValues(fields.get(1));
@@ -70,7 +67,6 @@ public class CategoriesDistribution
         }
 
         return new CategoriesDistribution(namesBuilder.build(),
-                classDistributionsBuilder.build(),
                 hasSizesBuilder.build(),
                 weightsBuilder.build());
     }

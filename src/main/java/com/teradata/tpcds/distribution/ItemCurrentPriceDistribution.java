@@ -36,14 +36,12 @@ public class ItemCurrentPriceDistribution
     private static final String VALUES_AND_WEIGHTS_FILENAME = "item_current_price.dst";
     private static final ItemCurrentPriceDistribution I_CURRENT_PRICE_DISTRIBUTION = buildICurrentPriceDistribution();
 
-    private final ImmutableList<Integer> indices;
     private final ImmutableList<Decimal> mins;
     private final ImmutableList<Decimal> maxes;
     private final ImmutableList<ImmutableList<Integer>> weightLists;
 
-    private ItemCurrentPriceDistribution(ImmutableList<Integer> indices, ImmutableList<Decimal> mins, ImmutableList<Decimal> maxes, ImmutableList<ImmutableList<Integer>> weightLists)
+    private ItemCurrentPriceDistribution(ImmutableList<Decimal> mins, ImmutableList<Decimal> maxes, ImmutableList<ImmutableList<Integer>> weightLists)
     {
-        this.indices = indices;
         this.mins = mins;
         this.maxes = maxes;
         this.weightLists = weightLists;
@@ -51,7 +49,6 @@ public class ItemCurrentPriceDistribution
 
     private static ItemCurrentPriceDistribution buildICurrentPriceDistribution()
     {
-        ImmutableList.Builder<Integer> indicesBuilder = ImmutableList.builder();
         ImmutableList.Builder<Decimal> minsBuilder = ImmutableList.builder();
         ImmutableList.Builder<Decimal> maxesBuilder = ImmutableList.builder();
 
@@ -68,7 +65,7 @@ public class ItemCurrentPriceDistribution
             List<String> values = getListFromCommaSeparatedValues(fields.get(0));
             checkState(values.size() == NUM_VALUE_FIELDS, "Expected line to contain %s values, but it contained %s, %s", NUM_VALUE_FIELDS, values.size(), values);
 
-            indicesBuilder.add(parseInt(values.get(0)));
+            // indices are never used
             minsBuilder.add(parseDecimal(values.get(1)));
             maxesBuilder.add(parseDecimal(values.get(2)));
 
@@ -84,8 +81,7 @@ public class ItemCurrentPriceDistribution
             weightsListBuilder.add(weightsBuilder.build());
         }
 
-        return new ItemCurrentPriceDistribution(indicesBuilder.build(),
-                minsBuilder.build(),
+        return new ItemCurrentPriceDistribution(minsBuilder.build(),
                 maxesBuilder.build(),
                 weightsListBuilder.build());
     }

@@ -32,26 +32,20 @@ public class FipsCountyDistribution
     private static final String VALUES_AND_WEIGHTS_FILENAME = "fips.dst";
     private static final int NUM_WEIGHT_FIELDS = 6;
 
-    private final ImmutableList<Integer> fipsCodes;
     private final ImmutableList<String> counties;
     private final ImmutableList<String> stateAbbreviations;
-    private final ImmutableList<String> stateNames;
     private final ImmutableList<Integer> zipPrefixes;
     private final ImmutableList<Integer> gmtOffsets;
     private final ImmutableList<ImmutableList<Integer>> weightsLists;
 
-    public FipsCountyDistribution(ImmutableList<Integer> fipsCodes,
-            ImmutableList<String> counties,
+    public FipsCountyDistribution(ImmutableList<String> counties,
             ImmutableList<String> stateAbbreviations,
-            ImmutableList<String> stateNames,
             ImmutableList<Integer> zipPrefixes,
             ImmutableList<Integer> gmtOffsets,
             ImmutableList<ImmutableList<Integer>> weightsLists)
     {
-        this.fipsCodes = fipsCodes;
         this.counties = counties;
         this.stateAbbreviations = stateAbbreviations;
-        this.stateNames = stateNames;
         this.zipPrefixes = zipPrefixes;
         this.gmtOffsets = gmtOffsets;
         this.weightsLists = weightsLists;
@@ -59,10 +53,8 @@ public class FipsCountyDistribution
 
     public static FipsCountyDistribution buildFipsCountyDistribution()
     {
-        ImmutableList.Builder<Integer> fipsBuilder = ImmutableList.builder();
         ImmutableList.Builder<String> countiesBuilder = ImmutableList.builder();
         ImmutableList.Builder<String> stateAbbreviationsBuilder = ImmutableList.builder();
-        ImmutableList.Builder<String> stateNamesBuilder = ImmutableList.builder();
         ImmutableList.Builder<Integer> zipPrefixesBuilder = ImmutableList.builder();
         ImmutableList.Builder<Integer> gmtOffsetsBuilder = ImmutableList.builder();
 
@@ -79,10 +71,9 @@ public class FipsCountyDistribution
             List<String> values = getListFromCommaSeparatedValues(fields.get(0));
             checkState(values.size() == 6, "Expected line to contain 6 values, but it contained %d, %s", values.size(), values);
 
-            fipsBuilder.add(Integer.parseInt(values.get(0)));
+            // fips codes and state names are never used, so we leave them out
             countiesBuilder.add(values.get(1));
             stateAbbreviationsBuilder.add(values.get(2));
-            stateNamesBuilder.add(values.get(3));
             zipPrefixesBuilder.add(Integer.parseInt(values.get(4)));
             gmtOffsetsBuilder.add(Integer.parseInt(values.get(5)));
 
@@ -98,10 +89,8 @@ public class FipsCountyDistribution
             weightsListBuilder.add(weightsBuilder.build());
         }
 
-        return new FipsCountyDistribution(fipsBuilder.build(),
-                countiesBuilder.build(),
+        return new FipsCountyDistribution(countiesBuilder.build(),
                 stateAbbreviationsBuilder.build(),
-                stateNamesBuilder.build(),
                 zipPrefixesBuilder.build(),
                 gmtOffsetsBuilder.build(),
                 weightsListBuilder.build());

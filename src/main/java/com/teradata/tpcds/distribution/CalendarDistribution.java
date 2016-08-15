@@ -38,25 +38,15 @@ public class CalendarDistribution
     private static final int[][] DAYS_BEFORE_MONTH = {{0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334}, {0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335}};
     private static final CalendarDistribution CALENDAR_DISTRIBUTION = buildCalendarDistribution();
 
-    private final ImmutableList<Integer> daysOfYear; // ordinal for the day of year.  Numbering is consistent across leap years and non-leap years   So e.g. March 1st will always be 61.
-    private final ImmutableList<String> monthNames;
-    private final ImmutableList<Integer> daysOfMonth;
-    private final ImmutableList<String> seasons;
-    private final ImmutableList<Integer> monthNumbers;
+    private final ImmutableList<Integer> daysOfYear; // ordinal for the day of year.  Numbering is consistent across leap years and non-leap years   For example, March 1st will always be 61.
     private final ImmutableList<Integer> quarters;
-    private final ImmutableList<Integer> firstsOfMonth; // the daysOfYear of the first of the month that this date is in.
     private final ImmutableList<Integer> holidayFlags;
     private final ImmutableList<ImmutableList<Integer>> weightLists;
 
-    private CalendarDistribution(ImmutableList<Integer> daysOfYear, ImmutableList<String> monthNames, ImmutableList<Integer> daysOfMonth, ImmutableList<String> seasons, ImmutableList<Integer> monthNumbers, ImmutableList<Integer> quarters, ImmutableList<Integer> firstsOfMonth, ImmutableList<Integer> holidayFlags, ImmutableList<ImmutableList<Integer>> weightLists)
+    private CalendarDistribution(ImmutableList<Integer> daysOfYear, ImmutableList<Integer> quarters, ImmutableList<Integer> holidayFlags, ImmutableList<ImmutableList<Integer>> weightLists)
     {
         this.daysOfYear = daysOfYear;
-        this.monthNames = monthNames;
-        this.daysOfMonth = daysOfMonth;
-        this.seasons = seasons;
-        this.monthNumbers = monthNumbers;
         this.quarters = quarters;
-        this.firstsOfMonth = firstsOfMonth;
         this.holidayFlags = holidayFlags;
         this.weightLists = weightLists;
     }
@@ -64,12 +54,7 @@ public class CalendarDistribution
     private static CalendarDistribution buildCalendarDistribution()
     {
         ImmutableList.Builder<Integer> daysOfYearBuilder = ImmutableList.builder();
-        ImmutableList.Builder<String> monthNamesBuilder = ImmutableList.builder();
-        ImmutableList.Builder<Integer> daysOfMonthBuilder = ImmutableList.builder();
-        ImmutableList.Builder<String> seasonsBuilder = ImmutableList.builder();
-        ImmutableList.Builder<Integer> monthNumbersBuilder = ImmutableList.builder();
         ImmutableList.Builder<Integer> quartersBuilder = ImmutableList.builder();
-        ImmutableList.Builder<Integer> firstsOfMonthBuilder = ImmutableList.builder();
         ImmutableList.Builder<Integer> holidayFlagsBuilder = ImmutableList.builder();
 
         List<WeightsBuilder> weightsBuilders = new ArrayList<>(NUM_WEIGHT_FIELDS);
@@ -85,13 +70,9 @@ public class CalendarDistribution
             List<String> values = getListFromCommaSeparatedValues(fields.get(0));
             checkState(values.size() == 8, "Expected line to contain 8 values, but it contained %d, %s", values.size(), values);
 
+            // month names, days of month, seasons, month numbers, and firsts of month are never used, so we ignore them
             daysOfYearBuilder.add(parseInt(values.get(0)));
-            monthNamesBuilder.add(values.get(1));
-            daysOfMonthBuilder.add(parseInt(values.get(2)));
-            seasonsBuilder.add(values.get(3));
-            monthNumbersBuilder.add(parseInt(values.get(4)));
             quartersBuilder.add(parseInt(values.get(5)));
-            firstsOfMonthBuilder.add(parseInt(values.get(6)));
             holidayFlagsBuilder.add(parseInt(values.get(7)));
 
             List<String> weights = getListFromCommaSeparatedValues(fields.get(1));
@@ -107,12 +88,7 @@ public class CalendarDistribution
         }
 
         return new CalendarDistribution(daysOfYearBuilder.build(),
-                monthNamesBuilder.build(),
-                daysOfMonthBuilder.build(),
-                seasonsBuilder.build(),
-                monthNumbersBuilder.build(),
                 quartersBuilder.build(),
-                firstsOfMonthBuilder.build(),
                 holidayFlagsBuilder.build(),
                 weightsListBuilder.build());
     }
