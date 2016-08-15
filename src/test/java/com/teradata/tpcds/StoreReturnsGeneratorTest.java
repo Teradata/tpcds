@@ -33,7 +33,7 @@ public class StoreReturnsGeneratorTest
             throws IOException
     {
         Session session = TEST_SESSION.withScale(1);
-        assertPartialMD5(1, session.getScaling().getRowCount(STORE_RETURNS), STORE_RETURNS, session, "9009d804c02ee839e0b2ecd5fb4ae03f");
+        assertPartialMD5(1, 10000, STORE_RETURNS, session, "dc7c3dd531a9effcd9115f64a1f54f1d");
     }
 
     @Test

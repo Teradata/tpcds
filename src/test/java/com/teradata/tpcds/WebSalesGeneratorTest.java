@@ -30,14 +30,14 @@ public class WebSalesGeneratorTest
     public void testScaleFactor1()
     {
         Session session = TEST_SESSION.withScale(1);
-        assertPartialMD5(1, session.getScaling().getRowCount(WEB_SALES), WEB_SALES, session, "15f9d835727f3a39a096c346f56e51f7");
+        assertPartialMD5(1, 1000, WEB_SALES, session, "e7e262c9c8c3db5107543814bb4b8572");
     }
 
     @Test
     public void testScaleFactor10()
     {
         Session session = TEST_SESSION.withScale(10);
-        assertPartialMD5(1, session.getScaling().getRowCount(WEB_SALES), WEB_SALES, session, "4da375300bcb0ce8785e1f100fb72efe");
+        assertPartialMD5(1, 1000, WEB_SALES, session, "6e17ab59aa7b634c4e099eb0fd19d7f1");
     }
 
     @Test
@@ -142,6 +142,6 @@ public class WebSalesGeneratorTest
     public void testUndefinedScale()
     {
         Session session = TEST_SESSION.withScale(15);
-        assertPartialMD5(1, session.getScaling().getRowCount(WEB_SALES), WEB_SALES, session, "61b25a5dde0522c0d7f88ba36356064a");
+        assertPartialMD5(1, 1000, WEB_SALES, session, "7ee63d2ab2251a4f141d077e32dd0c57");
     }
 }

@@ -65,15 +65,15 @@ public class CatalogSalesGeneratorTest
     @Test
     public void testScaleFactor300()
     {
-        Session session = TEST_SESSION.withScale(300).withParallelism(1000);
+        Session session = TEST_SESSION.withScale(300).withParallelism(3000);
         ChunkBoundaries chunkBoundaries = splitWork(CATALOG_SALES, session.withChunkNumber(1));
-        assertPartialMD5(chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), CATALOG_SALES, session, "ab7d84980812d5281fd1f69d1849362b");
+        assertPartialMD5(chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), CATALOG_SALES, session, "1264a75e95966f401843e9bbed923474");
 
         chunkBoundaries = splitWork(CATALOG_SALES, session.withChunkNumber(100));
-        assertPartialMD5(chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), CATALOG_SALES, session, "230af2d57bd4542a5b16036f4b28df7b");
+        assertPartialMD5(chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), CATALOG_SALES, session, "03bbf4492854a6eeb28bfdb554bff9ad");
 
         chunkBoundaries = splitWork(CATALOG_SALES, session.withChunkNumber(1000));
-        assertPartialMD5(chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), CATALOG_SALES, session, "7f234e8bbf033be6dd65c86d119d216f");
+        assertPartialMD5(chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), CATALOG_SALES, session, "78673e1cc3962a8d83638827b65fc463");
     }
 
     @Test
