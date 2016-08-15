@@ -74,7 +74,6 @@ public class CatalogSalesRowGenerator
     public static final Decimal CS_MARKUP_MAX = new Decimal(200, 2);
     public static final Decimal CS_DISCOUNT_MAX = new Decimal(100, 2);
     public static final Decimal CS_WHOLESALE_MAX = new Decimal(10000, 2);
-    public static final Decimal CS_COUPON_MAX = new Decimal(450, 2);
     public static final int CS_MIN_SHIP_DELAY = 2;  // minimum days from order to ship
     public static final int CS_MAX_SHIP_DELAY = 90;  // maximum days from order to ship
     public static final int GIFT_PERCENTAGE = 10;

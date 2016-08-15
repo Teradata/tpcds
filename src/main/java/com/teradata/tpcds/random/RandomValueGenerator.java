@@ -278,8 +278,6 @@ public final class RandomValueGenerator
         return verbiage.toString();
     }
 
-    // TODO: there are some callers of mk_word() that use "syllables" as the distribution name .  Others use "Syllables".
-    // There is no distribution that has the upper case name. I wonder if distribution names are case insensitive.
     public static String generateWord(long seed, int maxChars, StringValuesDistribution distribution)
     {
         long size = distribution.getSize();

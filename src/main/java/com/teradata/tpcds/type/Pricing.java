@@ -22,7 +22,6 @@ import com.teradata.tpcds.random.RandomNumberStream;
 import java.util.Map;
 
 import static com.teradata.tpcds.CatalogSalesColumn.CS_PRICING;
-import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_COUPON_MAX;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_DISCOUNT_MAX;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MARKUP_MAX;
 import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_QUANTITY_MAX;
@@ -50,9 +49,9 @@ public class Pricing
 
     // TODO: add Limits for other columns as they are relevant
     private static final Map<Column, Limits> LIMITS_PER_COLUMN = ImmutableMap.of(
-            CS_PRICING, new Limits(CS_QUANTITY_MAX, CS_MARKUP_MAX, CS_DISCOUNT_MAX, CS_WHOLESALE_MAX, CS_COUPON_MAX),
-            SS_PRICING, new Limits(100, ONE, ONE, ONE_HUNDRED, ONE_HALF),
-            WS_PRICING, new Limits(100, new Decimal(200, 2), ONE, ONE_HUNDRED, ONE_HALF));
+            CS_PRICING, new Limits(CS_QUANTITY_MAX, CS_MARKUP_MAX, CS_DISCOUNT_MAX, CS_WHOLESALE_MAX),
+            SS_PRICING, new Limits(100, ONE, ONE, ONE_HUNDRED),
+            WS_PRICING, new Limits(100, new Decimal(200, 2), ONE, ONE_HUNDRED));
 
     private final Decimal wholesaleCost;
     private final Decimal listPrice;
@@ -399,15 +398,13 @@ public class Pricing
         private final Decimal maxMarkup;
         private final Decimal maxDiscount;
         private final Decimal maxWholesaleCost;
-        private final Decimal maxCouponAmount; // TODO: never used.  Investigate later if it's still never used, and possibly remove.
 
-        Limits(int maxQuantitySold, Decimal maxMarkup, Decimal maxDiscount, Decimal maxWholesaleCost, Decimal maxCouponAmount)
+        Limits(int maxQuantitySold, Decimal maxMarkup, Decimal maxDiscount, Decimal maxWholesaleCost)
         {
             this.maxQuantitySold = maxQuantitySold;
             this.maxMarkup = maxMarkup;
             this.maxDiscount = maxDiscount;
             this.maxWholesaleCost = maxWholesaleCost;
-            this.maxCouponAmount = maxCouponAmount;
         }
 
         Decimal getMaxDiscount()
@@ -428,11 +425,6 @@ public class Pricing
         Decimal getMaxWholesaleCost()
         {
             return maxWholesaleCost;
-        }
-
-        Decimal getMaxCouponAmount()
-        {
-            return maxCouponAmount;
         }
     }
 }

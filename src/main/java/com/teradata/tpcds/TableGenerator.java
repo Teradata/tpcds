@@ -79,7 +79,17 @@ public class TableGenerator
 
     private String getPath(Table table)
     {
-        // TODO: path names for update and parallel cases
+        if (session.getParallelism() > 1) {
+            return format("%s%s%s_%d_%d%s",
+                    session.getTargetDirectory(),
+                    File.separator,
+                    table.toString(),
+                    session.getChunkNumber(),
+                    session.getParallelism(),
+                    session.getSuffix());
+        }
+
+        // TODO: path names for update case
         return format("%s%s%s%s",
                 session.getTargetDirectory(),
                 File.separator,

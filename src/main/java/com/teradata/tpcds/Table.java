@@ -246,23 +246,6 @@ public enum Table
         this.scalingInfo = new ScalingInfo(0, LINEAR, new int[9], 0);
     }
 
-    // TODO: Remove when no longer needed.
-    Table(ScalingInfo scalingInfo)
-    {
-        this(new TableFlagsBuilder().build(), scalingInfo);
-    }
-
-    // TODO: Remove when no longer needed
-    Table(TableFlags tableFlags, ScalingInfo scalingInfo)
-    {
-        this.tableFlags = tableFlags;
-        this.nullBasisPoints = 0;
-        this.notNullBitMap = 0;
-        this.rowGeneratorThreadLocal = null;
-        this.columns = new Column[0];
-        this.scalingInfo = scalingInfo;
-    }
-
     Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, Column[] columns, ScalingInfo scalingInfo)
     {
         this.tableFlags = tableFlags;

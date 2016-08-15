@@ -169,8 +169,7 @@ public final class JoinKeyUtils
             return result;
         }
 
-        // TODO: add more columns as needed
-        throw new RuntimeException("not yet implemented");
+        throw new TpcdsException("invalid column for web join");
     }
 
     private static long getWebSiteDuration(Scaling scaling)
