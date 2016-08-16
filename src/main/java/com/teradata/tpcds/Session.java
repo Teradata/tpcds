@@ -138,12 +138,12 @@ public class Session
         return suffix;
     }
 
-    public boolean hasTable()
+    public boolean generateOnlyOneTable()
     {
         return table.isPresent();
     }
 
-    public Table getTable()
+    public Table getOnlyTableToGenerate()
     {
         if (!table.isPresent()) {
             throw new TpcdsException("table not present");

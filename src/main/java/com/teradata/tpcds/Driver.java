@@ -47,7 +47,7 @@ public class Driver
         TableGenerator tableGenerator = new TableGenerator(session);
         Table[] tablesToGenerate;
 
-        if (session.hasTable()) {
+        if (session.generateOnlyOneTable()) {
             tablesToGenerate = new Table[]{session.getTable()};
         }
         else {

@@ -157,7 +157,7 @@ public class CatalogSalesRowGenerator
 
         // if the sale gets returned, generate a return row
         int randomInt = generateUniformRandomInt(0, 99, CR_IS_RETURNED.getRandomNumberStream());
-        if (randomInt < RETURN_PERCENT && (!session.hasTable() || session.getTable() != CATALOG_SALES)) {
+        if (randomInt < RETURN_PERCENT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != CATALOG_SALES)) {
             TableRow catalogReturnsRow = ((CatalogReturnsRowGenerator) CATALOG_RETURNS.getRowGenerator()).generateRow(session, catalogSalesRow);
             generatedRows.add(catalogReturnsRow);
         }

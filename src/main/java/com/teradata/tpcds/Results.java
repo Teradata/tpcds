@@ -143,10 +143,10 @@ public class Results
         private void rowStop(Table table)
         {
             consumeRemainingSeedsForRow(table);
-            if (table.hasChild() && !session.hasTable()) {
+            if (table.hasChild() && !session.generateOnlyOneTable()) {
                 rowStop(table.getChild());
             }
-            else if (session.hasTable() && table.isChild()) {
+            else if (session.generateOnlyOneTable() && table.isChild()) {
                 rowStop(table.getParent());
             }
         }

@@ -145,7 +145,7 @@ public class WebSalesRowGenerator
 
         // if the item gets returned, generate a returns row
         int randomInt = generateUniformRandomInt(0, 99, WR_IS_RETURNED.getRandomNumberStream());
-        if (randomInt < RETURN_PERCENTAGE && (!session.hasTable() || !(session.getTable() == WEB_SALES))) {
+        if (randomInt < RETURN_PERCENTAGE && (!session.generateOnlyOneTable() || !(session.getOnlyTableToGenerate() == WEB_SALES))) {
             TableRow returnsRow = ((WebReturnsRowGenerator) (WEB_RETURNS.getRowGenerator())).generateRow(session, salesRow);
             generatedRows.add(returnsRow);
         }

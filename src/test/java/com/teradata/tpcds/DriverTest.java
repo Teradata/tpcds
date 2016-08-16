@@ -33,7 +33,7 @@ public class DriverTest
         assertEquals(driver.options.suffix, "abcd");
         assertEquals(driver.options.directory, ".");
         Session session = driver.options.toSession();
-        assertFalse(session.hasTable());
+        assertFalse(session.generateOnlyOneTable());
     }
 
     @Test
@@ -42,8 +42,8 @@ public class DriverTest
         Driver driver = singleCommand(Driver.class).parse("--table", "call_center");
         assertEquals(driver.options.table, "call_center");
         Session session = driver.options.toSession();
-        assertTrue(session.hasTable());
-        assertEquals(session.getTable(), CALL_CENTER);
+        assertTrue(session.generateOnlyOneTable());
+        assertEquals(session.getOnlyTableToGenerate(), CALL_CENTER);
     }
 
     @Test
