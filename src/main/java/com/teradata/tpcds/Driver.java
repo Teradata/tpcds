@@ -14,10 +14,13 @@
 
 package com.teradata.tpcds;
 
+import com.google.common.collect.ImmutableList;
 import io.airlift.airline.Command;
 import io.airlift.airline.HelpOption;
 
 import javax.inject.Inject;
+
+import java.util.List;
 
 import static io.airlift.airline.SingleCommand.singleCommand;
 
@@ -45,13 +48,13 @@ public class Driver
         Session session = options.toSession();
 
         TableGenerator tableGenerator = new TableGenerator(session);
-        Table[] tablesToGenerate;
+        List<Table> tablesToGenerate;
 
         if (session.generateOnlyOneTable()) {
-            tablesToGenerate = new Table[]{session.getTable()};
+            tablesToGenerate = ImmutableList.of(session.getOnlyTableToGenerate());
         }
         else {
-            tablesToGenerate = Table.values();
+            tablesToGenerate = Table.getBaseTables();
         }
 
         Scaling scaling = session.getScaling();
