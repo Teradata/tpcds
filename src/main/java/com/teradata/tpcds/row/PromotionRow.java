@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row;
 
 import com.teradata.tpcds.type.Decimal;
 

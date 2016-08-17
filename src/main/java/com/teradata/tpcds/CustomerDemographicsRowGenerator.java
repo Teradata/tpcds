@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.CustomerDemographicsRow;
+
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.CREDIT_RATING_DISTRIBUTION;

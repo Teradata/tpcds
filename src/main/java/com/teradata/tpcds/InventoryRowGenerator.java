@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.InventoryRow;
+
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.Table.ITEM;
 import static com.teradata.tpcds.Table.WAREHOUSE;

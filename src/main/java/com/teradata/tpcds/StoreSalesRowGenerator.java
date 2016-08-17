@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.StoreSalesRow;
+import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Pricing;
 
 import java.util.ArrayList;

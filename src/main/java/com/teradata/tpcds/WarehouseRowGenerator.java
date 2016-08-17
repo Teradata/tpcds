@@ -14,6 +14,7 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.WarehouseRow;
 import com.teradata.tpcds.type.Address;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;

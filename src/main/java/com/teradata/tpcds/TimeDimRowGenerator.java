@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.distribution.HoursDistribution.HourInfo;
+import com.teradata.tpcds.row.TimeDimRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;

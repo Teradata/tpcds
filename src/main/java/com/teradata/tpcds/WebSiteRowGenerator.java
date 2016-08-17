@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.SlowlyChangingDimensionUtils.SlowlyChangingDimensionKey;
+import com.teradata.tpcds.row.WebSiteRow;
 import com.teradata.tpcds.type.Address;
 import com.teradata.tpcds.type.Decimal;
 

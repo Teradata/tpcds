@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.IncomeBandRow;
+
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.column.IncomeBandColumn.IB_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.getIncomeBandLowerBoundAtIndex;

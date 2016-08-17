@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.ReasonRow;
+
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.column.ReasonColumn.R_NULLS;

@@ -18,6 +18,7 @@ import com.teradata.tpcds.SlowlyChangingDimensionUtils.SlowlyChangingDimensionKe
 import com.teradata.tpcds.distribution.CategoriesDistribution;
 import com.teradata.tpcds.distribution.CategoryClassDistributions.CategoryClass;
 import com.teradata.tpcds.distribution.ItemsDistributions;
+import com.teradata.tpcds.row.ItemRow;
 import com.teradata.tpcds.type.Decimal;
 
 import javax.annotation.concurrent.NotThreadSafe;

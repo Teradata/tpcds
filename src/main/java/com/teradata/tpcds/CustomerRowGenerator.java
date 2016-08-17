@@ -14,6 +14,7 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.CustomerRow;
 import com.teradata.tpcds.type.Date;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;

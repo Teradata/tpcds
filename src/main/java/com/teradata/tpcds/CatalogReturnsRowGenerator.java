@@ -15,6 +15,9 @@
 package com.teradata.tpcds;
 
 import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.row.CatalogReturnsRow;
+import com.teradata.tpcds.row.CatalogSalesRow;
+import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Pricing;
 
 import static com.teradata.tpcds.CatalogSalesRowGenerator.GIFT_PERCENTAGE;

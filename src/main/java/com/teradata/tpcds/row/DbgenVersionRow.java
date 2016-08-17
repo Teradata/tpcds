@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.tpcds;
+package com.teradata.tpcds.row;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class DbgenVersionRow
     private final String dvCreateTime;
     private final String dvCmdlineArgs;
 
-    protected DbgenVersionRow(long nullBitMap, String dvVersion, String dvCreateDate, String dvCreateTime, String dvCmdlineArgs)
+    public DbgenVersionRow(long nullBitMap, String dvVersion, String dvCreateDate, String dvCreateTime, String dvCmdlineArgs)
     {
         super(nullBitMap, DV_VERSION);
         this.dvVersion = dvVersion;

@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.SlowlyChangingDimensionUtils.SlowlyChangingDimensionKey;
+import com.teradata.tpcds.row.WebPageRow;
 
 import java.util.Optional;
 

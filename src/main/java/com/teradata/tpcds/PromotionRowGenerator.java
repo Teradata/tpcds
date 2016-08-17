@@ -14,6 +14,7 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.PromotionRow;
 import com.teradata.tpcds.type.Decimal;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;

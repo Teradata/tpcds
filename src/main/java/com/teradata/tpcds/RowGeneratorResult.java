@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.row.TableRow;
 
 import java.util.List;
 

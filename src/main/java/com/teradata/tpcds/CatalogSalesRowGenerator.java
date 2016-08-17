@@ -15,6 +15,8 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.Parallel.DateNextIndexPair;
+import com.teradata.tpcds.row.CatalogSalesRow;
+import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Decimal;
 import com.teradata.tpcds.type.Pricing;
 

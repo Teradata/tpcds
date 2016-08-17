@@ -15,6 +15,9 @@
 package com.teradata.tpcds;
 
 import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.row.StoreReturnsRow;
+import com.teradata.tpcds.row.StoreSalesRow;
+import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Pricing;
 
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;

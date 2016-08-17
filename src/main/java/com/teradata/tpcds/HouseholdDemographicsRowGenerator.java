@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.HouseholdDemographicsRow;
+
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.column.HouseholdDemographicsColumn.HD_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.BUY_POTENTIAL_DISTRIBUTION;

@@ -13,6 +13,8 @@
  */
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.row.DbgenVersionRow;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

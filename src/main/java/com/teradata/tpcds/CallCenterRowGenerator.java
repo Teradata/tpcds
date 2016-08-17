@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.teradata.tpcds.SlowlyChangingDimensionUtils.SlowlyChangingDimensionKey;
+import com.teradata.tpcds.row.CallCenterRow;
 import com.teradata.tpcds.type.Decimal;
 
 import javax.annotation.concurrent.NotThreadSafe;
