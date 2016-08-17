@@ -14,6 +14,8 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.column.Column;
+
 import static com.teradata.tpcds.type.Date.fromJulianDays;
 
 public abstract class TableRowWithNulls

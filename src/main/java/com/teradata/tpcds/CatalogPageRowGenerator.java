@@ -15,10 +15,10 @@
 package com.teradata.tpcds;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
-import static com.teradata.tpcds.CatalogPageColumn.CP_DESCRIPTION;
-import static com.teradata.tpcds.CatalogPageColumn.CP_NULLS;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_DESCRIPTION;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_NULLS;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateRandomText;
 import static com.teradata.tpcds.type.Date.DATE_MAXIMUM;
 import static com.teradata.tpcds.type.Date.DATE_MINIMUM;

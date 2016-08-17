@@ -12,47 +12,26 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.STORE_SALES;
+import static com.teradata.tpcds.Table.INCOME_BAND;
 
-public enum StoreSalesColumn
+public enum IncomeBandColumn
         implements Column
 {
-    SS_SOLD_DATE_SK(314, 2),
-    SS_SOLD_TIME_SK(315, 2),
-    SS_SOLD_ITEM_SK(316, 1),
-    SS_SOLD_CUSTOMER_SK(317, 1),
-    SS_SOLD_CDEMO_SK(318, 1),
-    SS_SOLD_HDEMO_SK(319, 1),
-    SS_SOLD_ADDR_SK(320, 1),
-    SS_SOLD_STORE_SK(321, 1),
-    SS_SOLD_PROMO_SK(322, 16),
-    SS_TICKET_NUMBER(323, 1),
-    SS_PRICING_QUANTITY(324, 1),
-    SS_PRICING_WHOLESALE_COST(325, 0),
-    SS_PRICING_LIST_PRICE(326, 0),
-    SS_PRICING_SALES_PRICE(327, 0),
-    SS_PRICING_COUPON_AMT(328, 0),
-    SS_PRICING_EXT_SALES_PRICE(329, 0),
-    SS_PRICING_EXT_WHOLESALE_COST(330, 0),
-    SS_PRICING_EXT_LIST_PRICE(331, 0),
-    SS_PRICING_EXT_TAX(332, 0),
-    SS_PRICING_NET_PAID(333, 0),
-    SS_PRICING_NET_PAID_INC_TAX(334, 0),
-    SS_PRICING_NET_PROFIT(335, 0),
-    SR_IS_RETURNED(336, 16),
-    SS_PRICING(337, 128),
-    SS_NULLS(338, 32),
-    SS_PERMUTATION(339, 0);
+    IB_INCOME_BAND_ID(194, 1),
+    IB_LOWER_BOUND(195, 1),
+    IB_UPPER_BOUND(196, 1),
+    IB_NULLS(197, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    StoreSalesColumn(int globalColumnNumber, int seedsPerRow)
+    IncomeBandColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -61,7 +40,7 @@ public enum StoreSalesColumn
     @Override
     public Table getTable()
     {
-        return STORE_SALES;
+        return INCOME_BAND;
     }
 
     @Override

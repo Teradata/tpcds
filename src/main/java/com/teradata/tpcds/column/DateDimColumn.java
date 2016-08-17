@@ -12,37 +12,51 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
+import static com.teradata.tpcds.Table.DATE_DIM;
 
-public enum CustomerAddressColumn
+public enum DateDimColumn
         implements Column
 {
-    CA_ADDRESS_SK(133, 1),
-    CA_ADDRESS_ID(134, 1),
-    CA_ADDRESS_STREET_NUM(135, 1),
-    CA_ADDRESS_STREET_NAME(136, 1),
-    CA_ADDRESS_STREET_TYPE(137, 1),
-    CA_ADDRESS_SUITE_NUM(138, 1),
-    CA_ADDRESS_CITY(139, 1),
-    CA_ADDRESS_COUNTY(140, 1),
-    CA_ADDRESS_STATE(141, 1),
-    CA_ADDRESS_ZIP(142, 1),
-    CA_ADDRESS_COUNTRY(143, 1),
-    CA_ADDRESS_GMT_OFFSET(144, 1),
-    CA_LOCATION_TYPE(145, 1),
-    CA_NULLS(146, 2),
-    CA_ADDRESS(147, 7),
-    CA_ADDRESS_STREET_NAME2(148, 1);
+    D_DATE_SK(159, 0),
+    D_DATE_ID(160, 0),
+    D_DATE(161, 0),
+    D_MONTH_SEQ(162, 0),
+    D_WEEK_SEQ(163, 0),
+    D_QUARTER_SEQ(164, 0),
+    D_YEAR(165, 0),
+    D_DOW(166, 0),
+    D_MOY(167, 0),
+    D_DOM(168, 0),
+    D_QOY(169, 0),
+    D_FY_YEAR(170, 0),
+    D_FY_QUARTER_SEQ(171, 0),
+    D_FY_WEEK_SEQ(172, 0),
+    D_DAY_NAME(173, 0),
+    D_QUARTER_NAME(174, 0),
+    D_HOLIDAY(175, 0),
+    D_WEEKEND(176, 0),
+    D_FOLLOWING_HOLIDAY(177, 0),
+    D_FIRST_DOM(178, 0),
+    D_LAST_DOM(179, 0),
+    D_SAME_DAY_LY(180, 0),
+    D_SAME_DAY_LQ(181, 0),
+    D_CURRENT_DAY(182, 0),
+    D_CURRENT_WEEK(183, 0),
+    D_CURRENT_MONTH(184, 0),
+    D_CURRENT_QUARTER(185, 0),
+    D_CURRENT_YEAR(186, 0),
+    D_NULLS(187, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CustomerAddressColumn(int globalColumnNumber, int seedsPerRow)
+    DateDimColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -51,7 +65,7 @@ public enum CustomerAddressColumn
     @Override
     public Table getTable()
     {
-        return CUSTOMER_ADDRESS;
+        return DATE_DIM;
     }
 
     @Override

@@ -12,41 +12,33 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.PROMOTION;
+import static com.teradata.tpcds.Table.CATALOG_PAGE;
 
-public enum PromotionColumn
+public enum CatalogPageColumn
         implements Column
 {
-    P_PROMO_SK(228, 1),
-    P_PROMO_ID(229, 1),
-    P_START_DATE_ID(230, 1),
-    P_END_DATE_ID(231, 1),
-    P_ITEM_SK(232, 1),
-    P_COST(233, 1),
-    P_RESPONSE_TARGET(234, 1),
-    P_PROMO_NAME(235, 1),
-    P_CHANNEL_DMAIL(236, 1),
-    P_CHANNEL_EMAIL(237, 1),
-    P_CHANNEL_CATALOG(238, 1),
-    P_CHANNEL_TV(239, 1),
-    P_CHANNEL_RADIO(240, 1),
-    P_CHANNEL_PRESS(241, 1),
-    P_CHANNEL_EVENT(242, 1),
-    P_CHANNEL_DEMO(243, 1),
-    P_CHANNEL_DETAILS(244, 100),
-    P_PURPOSE(245, 1),
-    P_DISCOUNT_ACTIVE(246, 1),
-    P_NULLS(247, 2);
+    CP_CATALOG_PAGE_SK(35, 1),
+    CP_CATALOG_PAGE_ID(36, 1),
+    CP_START_DATE_ID(37, 1),
+    CP_END_DATE_ID(38, 1),
+    CP_PROMO_ID(39, 1),
+    CP_DEPARTMENT(40, 1),
+    CP_CATALOG_NUMBER(41, 1),
+    CP_CATALOG_PAGE_NUMBER(42, 1),
+    CP_DESCRIPTION(43, 100), //S_CP_DESCRIPTION
+    CP_TYPE(44, 1),
+    CP_NULLS(45, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    PromotionColumn(int globalColumnNumber, int seedsPerRow)
+    CatalogPageColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -55,7 +47,7 @@ public enum PromotionColumn
     @Override
     public Table getTable()
     {
-        return PROMOTION;
+        return CATALOG_PAGE;
     }
 
     @Override

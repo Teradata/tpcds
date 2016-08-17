@@ -12,25 +12,28 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.REASON;
+import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 
-public enum ReasonColumn
+public enum HouseholdDemographicsColumn
         implements Column
 {
-    R_REASON_SK(248, 1),
-    R_REASON_ID(249, 1),
-    R_REASON_DESCRIPTION(250, 1),
-    R_NULLS(251, 2);
+    HD_DEMO_SK(188, 1),
+    HD_INCOME_BAND_ID(189, 1),
+    HD_BUY_POTENTIAL(190, 1),
+    HD_DEP_COUNT(191, 1),
+    HD_VEHICLE_COUNT(192, 1),
+    HD_NULLS(193, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ReasonColumn(int globalColumnNumber, int seedsPerRow)
+    HouseholdDemographicsColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -39,7 +42,7 @@ public enum ReasonColumn
     @Override
     public Table getTable()
     {
-        return REASON;
+        return HOUSEHOLD_DEMOGRAPHICS;
     }
 
     @Override

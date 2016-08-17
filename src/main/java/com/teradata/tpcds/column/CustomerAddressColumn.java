@@ -12,43 +12,38 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.STORE_RETURNS;
+import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
 
-public enum StoreReturnsColumn
+public enum CustomerAddressColumn
         implements Column
 {
-    SR_RETURNED_DATE_SK(292, 32),
-    SR_RETURNED_TIME_SK(293, 32),
-    SR_ITEM_SK(294, 16),
-    SR_CUSTOMER_SK(295, 16),
-    SR_CDEMO_SK(296, 16),
-    SR_HDEMO_SK(297, 16),
-    SR_ADDR_SK(298, 16),
-    SR_STORE_SK(299, 16),
-    SR_REASON_SK(300, 16),
-    SR_TICKET_NUMBER(301, 16),
-    SR_PRICING_QUANTITY(302, 0),
-    SR_PRICING_NET_PAID(303, 0),
-    SR_PRICING_EXT_TAX(304, 0),
-    SR_PRICING_NET_PAID_INC_TAX(305, 0),
-    SR_PRICING_FEE(306, 0),
-    SR_PRICING_EXT_SHIP_COST(307, 0),
-    SR_PRICING_REFUNDED_CASH(308, 0),
-    SR_PRICING_REVERSED_CHARGE(309, 0),
-    SR_PRICING_STORE_CREDIT(310, 0),
-    SR_PRICING_NET_LOSS(311, 0),
-    SR_PRICING(312, 80),
-    SR_NULLS(313, 32);
+    CA_ADDRESS_SK(133, 1),
+    CA_ADDRESS_ID(134, 1),
+    CA_ADDRESS_STREET_NUM(135, 1),
+    CA_ADDRESS_STREET_NAME(136, 1),
+    CA_ADDRESS_STREET_TYPE(137, 1),
+    CA_ADDRESS_SUITE_NUM(138, 1),
+    CA_ADDRESS_CITY(139, 1),
+    CA_ADDRESS_COUNTY(140, 1),
+    CA_ADDRESS_STATE(141, 1),
+    CA_ADDRESS_ZIP(142, 1),
+    CA_ADDRESS_COUNTRY(143, 1),
+    CA_ADDRESS_GMT_OFFSET(144, 1),
+    CA_LOCATION_TYPE(145, 1),
+    CA_NULLS(146, 2),
+    CA_ADDRESS(147, 7),
+    CA_ADDRESS_STREET_NAME2(148, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    StoreReturnsColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerAddressColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -57,7 +52,7 @@ public enum StoreReturnsColumn
     @Override
     public Table getTable()
     {
-        return STORE_RETURNS;
+        return CUSTOMER_ADDRESS;
     }
 
     @Override

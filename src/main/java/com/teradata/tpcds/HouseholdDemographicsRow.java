@@ -17,11 +17,11 @@ package com.teradata.tpcds;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.HouseholdDemographicsColumn.HD_BUY_POTENTIAL;
-import static com.teradata.tpcds.HouseholdDemographicsColumn.HD_DEMO_SK;
-import static com.teradata.tpcds.HouseholdDemographicsColumn.HD_DEP_COUNT;
-import static com.teradata.tpcds.HouseholdDemographicsColumn.HD_INCOME_BAND_ID;
-import static com.teradata.tpcds.HouseholdDemographicsColumn.HD_VEHICLE_COUNT;
+import static com.teradata.tpcds.column.HouseholdDemographicsColumn.HD_BUY_POTENTIAL;
+import static com.teradata.tpcds.column.HouseholdDemographicsColumn.HD_DEMO_SK;
+import static com.teradata.tpcds.column.HouseholdDemographicsColumn.HD_DEP_COUNT;
+import static com.teradata.tpcds.column.HouseholdDemographicsColumn.HD_INCOME_BAND_ID;
+import static com.teradata.tpcds.column.HouseholdDemographicsColumn.HD_VEHICLE_COUNT;
 
 public class HouseholdDemographicsRow
         extends TableRowWithNulls

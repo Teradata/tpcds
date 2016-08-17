@@ -12,50 +12,55 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CATALOG_RETURNS;
+import static com.teradata.tpcds.Table.CALL_CENTER;
 
-public enum CatalogReturnsColumn
-        implements Column
+public enum CallCenterColumn implements Column
 {
-    CR_RETURNED_DATE_SK(46, 28),
-    CR_RETURNED_TIME_SK(47, 28),
-    CR_ITEM_SK(48, 14),
-    CR_REFUNDED_CUSTOMER_SK(49, 14),
-    CR_REFUNDED_CDEMO_SK(50, 14),
-    CR_REFUNDED_HDEMO_SK(51, 14),
-    CR_REFUNDED_ADDR_SK(52, 14),
-    CR_RETURNING_CUSTOMER_SK(53, 28),
-    CR_RETURNING_CDEMO_SK(54, 14),
-    CR_RETURNING_HDEMO_SK(55, 14),
-    CR_RETURNING_ADDR_SK(56, 14),
-    CR_CALL_CENTER_SK(57, 0),
-    CR_CATALOG_PAGE_SK(58, 14),
-    CR_SHIP_MODE_SK(59, 14),
-    CR_WAREHOUSE_SK(60, 14),
-    CR_REASON_SK(61, 14),
-    CR_ORDER_NUMBER(62, 0),
-    CR_PRICING_QUANTITY(63, 0),
-    CR_PRICING_NET_PAID(64, 0),
-    CR_PRICING_EXT_TAX(65, 0),
-    CR_PRICING_NET_PAID_INC_TAX(66, 0),
-    CR_PRICING_FEE(67, 0),
-    CR_PRICING_EXT_SHIP_COST(68, 0),
-    CR_PRICING_REFUNDED_CASH(69, 0),
-    CR_PRICING_REVERSED_CHARGE(70, 0),
-    CR_PRICING_STORE_CREDIT(71, 0),
-    CR_PRICING_NET_LOSS(72, 0),
-    CR_NULLS(73, 28),
-    CR_PRICING(74, 70);
+    CC_CALL_CENTER_SK(1, 0),
+    CC_CALL_CENTER_ID(2, 15),
+    CC_REC_START_DATE_ID(3, 10),
+    CC_REC_END_DATE_ID(4, 1),
+    CC_CLOSED_DATE_ID(5, 4),
+    CC_OPEN_DATE_ID(6, 10),
+    CC_NAME(7, 0),
+    CC_CLASS(8, 2),
+    CC_EMPLOYEES(9, 1),
+    CC_SQ_FT(10, 1),
+    CC_HOURS(11, 1),
+    CC_MANAGER(12, 2),
+    CC_MARKET_ID(13, 1),
+    CC_MARKET_CLASS(14, 50),
+    CC_MARKET_DESC(15, 50),
+    CC_MARKET_MANAGER(16, 2),
+    CC_DIVISION(17, 2),
+    CC_DIVISION_NAME(18, 2),
+    CC_COMPANY(19, 2),
+    CC_COMPANY_NAME(20, 2),
+    CC_STREET_NUMBER(21, 0),
+    CC_STREET_NAME(22, 0),
+    CC_STREET_TYPE(23, 0),
+    CC_SUITE_NUMBER(24, 0),
+    CC_CITY(25, 0),
+    CC_COUNTY(26, 0),
+    CC_STATE(27, 0),
+    CC_ZIP(28, 0),
+    CC_COUNTRY(29, 0),
+    CC_GMT_OFFSET(30, 0),
+    CC_ADDRESS(31, 15),
+    CC_TAX_PERCENTAGE(32, 1),
+    CC_SCD(33, 1),
+    CC_NULLS(34, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CatalogReturnsColumn(int globalColumnNumber, int seedsPerRow)
+    CallCenterColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -64,7 +69,7 @@ public enum CatalogReturnsColumn
     @Override
     public Table getTable()
     {
-        return CATALOG_RETURNS;
+        return CALL_CENTER;
     }
 
     @Override

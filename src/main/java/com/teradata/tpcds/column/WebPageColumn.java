@@ -12,50 +12,38 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.DATE_DIM;
+import static com.teradata.tpcds.Table.WEB_PAGE;
 
-public enum DateDimColumn
+public enum WebPageColumn
         implements Column
 {
-    D_DATE_SK(159, 0),
-    D_DATE_ID(160, 0),
-    D_DATE(161, 0),
-    D_MONTH_SEQ(162, 0),
-    D_WEEK_SEQ(163, 0),
-    D_QUARTER_SEQ(164, 0),
-    D_YEAR(165, 0),
-    D_DOW(166, 0),
-    D_MOY(167, 0),
-    D_DOM(168, 0),
-    D_QOY(169, 0),
-    D_FY_YEAR(170, 0),
-    D_FY_QUARTER_SEQ(171, 0),
-    D_FY_WEEK_SEQ(172, 0),
-    D_DAY_NAME(173, 0),
-    D_QUARTER_NAME(174, 0),
-    D_HOLIDAY(175, 0),
-    D_WEEKEND(176, 0),
-    D_FOLLOWING_HOLIDAY(177, 0),
-    D_FIRST_DOM(178, 0),
-    D_LAST_DOM(179, 0),
-    D_SAME_DAY_LY(180, 0),
-    D_SAME_DAY_LQ(181, 0),
-    D_CURRENT_DAY(182, 0),
-    D_CURRENT_WEEK(183, 0),
-    D_CURRENT_MONTH(184, 0),
-    D_CURRENT_QUARTER(185, 0),
-    D_CURRENT_YEAR(186, 0),
-    D_NULLS(187, 2);
+    WP_PAGE_SK(367, 1),
+    WP_PAGE_ID(368, 1),
+    WP_REC_START_DATE_ID(369, 1),
+    WP_REC_END_DATE_ID(370, 1),
+    WP_CREATION_DATE_SK(371, 2),
+    WP_ACCESS_DATE_SK(372, 1),
+    WP_AUTOGEN_FLAG(373, 1),
+    WP_CUSTOMER_SK(374, 1),
+    WP_URL(375, 1),
+    WP_TYPE(376, 1),
+    WP_CHAR_COUNT(377, 1),
+    WP_LINK_COUNT(378, 1),
+    WP_IMAGE_COUNT(379, 1),
+    WP_MAX_AD_COUNT(380, 1),
+    WP_NULLS(381, 2),
+    WP_SCD(382, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    DateDimColumn(int globalColumnNumber, int seedsPerRow)
+    WebPageColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -64,7 +52,7 @@ public enum DateDimColumn
     @Override
     public Table getTable()
     {
-        return DATE_DIM;
+        return WEB_PAGE;
     }
 
     @Override

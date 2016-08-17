@@ -12,37 +12,51 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WAREHOUSE;
+import static com.teradata.tpcds.Table.CATALOG_RETURNS;
 
-public enum WarehouseColumn
+public enum CatalogReturnsColumn
         implements Column
 {
-    W_WAREHOUSE_SK(351, 1),
-    W_WAREHOUSE_ID(352, 1),
-    W_WAREHOUSE_NAME(353, 80),
-    W_WAREHOUSE_SQ_FT(354, 1),
-    W_ADDRESS_STREET_NUM(355, 1),
-    W_ADDRESS_STREET_NAME1(356, 1),
-    W_ADDRESS_STREET_TYPE(357, 1),
-    W_ADDRESS_SUITE_NUM(358, 1),
-    W_ADDRESS_CITY(359, 1),
-    W_ADDRESS_COUNTY(360, 1),
-    W_ADDRESS_STATE(361, 1),
-    W_ADDRESS_ZIP(362, 1),
-    W_ADDRESS_COUNTRY(363, 1),
-    W_ADDRESS_GMT_OFFSET(364, 1),
-    W_NULLS(365, 2),
-    W_WAREHOUSE_ADDRESS(366, 7);
+    CR_RETURNED_DATE_SK(46, 28),
+    CR_RETURNED_TIME_SK(47, 28),
+    CR_ITEM_SK(48, 14),
+    CR_REFUNDED_CUSTOMER_SK(49, 14),
+    CR_REFUNDED_CDEMO_SK(50, 14),
+    CR_REFUNDED_HDEMO_SK(51, 14),
+    CR_REFUNDED_ADDR_SK(52, 14),
+    CR_RETURNING_CUSTOMER_SK(53, 28),
+    CR_RETURNING_CDEMO_SK(54, 14),
+    CR_RETURNING_HDEMO_SK(55, 14),
+    CR_RETURNING_ADDR_SK(56, 14),
+    CR_CALL_CENTER_SK(57, 0),
+    CR_CATALOG_PAGE_SK(58, 14),
+    CR_SHIP_MODE_SK(59, 14),
+    CR_WAREHOUSE_SK(60, 14),
+    CR_REASON_SK(61, 14),
+    CR_ORDER_NUMBER(62, 0),
+    CR_PRICING_QUANTITY(63, 0),
+    CR_PRICING_NET_PAID(64, 0),
+    CR_PRICING_EXT_TAX(65, 0),
+    CR_PRICING_NET_PAID_INC_TAX(66, 0),
+    CR_PRICING_FEE(67, 0),
+    CR_PRICING_EXT_SHIP_COST(68, 0),
+    CR_PRICING_REFUNDED_CASH(69, 0),
+    CR_PRICING_REVERSED_CHARGE(70, 0),
+    CR_PRICING_STORE_CREDIT(71, 0),
+    CR_PRICING_NET_LOSS(72, 0),
+    CR_NULLS(73, 28),
+    CR_PRICING(74, 70);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WarehouseColumn(int globalColumnNumber, int seedsPerRow)
+    CatalogReturnsColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -51,7 +65,7 @@ public enum WarehouseColumn
     @Override
     public Table getTable()
     {
-        return WAREHOUSE;
+        return CATALOG_RETURNS;
     }
 
     @Override

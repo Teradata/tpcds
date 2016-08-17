@@ -19,26 +19,26 @@ import com.teradata.tpcds.type.Pricing;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_ADDR_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_CDEMO_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_CUSTOMER_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_HDEMO_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_ITEM_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_EXT_SHIP_COST;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_EXT_TAX;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_FEE;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_NET_LOSS;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_NET_PAID;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_NET_PAID_INC_TAX;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_QUANTITY;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_REFUNDED_CASH;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_REVERSED_CHARGE;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_PRICING_STORE_CREDIT;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_REASON_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_RETURNED_DATE_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_RETURNED_TIME_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_STORE_SK;
-import static com.teradata.tpcds.StoreReturnsColumn.SR_TICKET_NUMBER;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_ADDR_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_CDEMO_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_CUSTOMER_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_HDEMO_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_ITEM_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_EXT_SHIP_COST;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_EXT_TAX;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_FEE;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_NET_LOSS;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_NET_PAID;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_NET_PAID_INC_TAX;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_QUANTITY;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_REFUNDED_CASH;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_REVERSED_CHARGE;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_PRICING_STORE_CREDIT;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_REASON_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_RETURNED_DATE_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_RETURNED_TIME_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_STORE_SK;
+import static com.teradata.tpcds.column.StoreReturnsColumn.SR_TICKET_NUMBER;
 
 public class StoreReturnsRow
         extends TableRowWithNulls

@@ -12,32 +12,41 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.TIME_DIM;
+import static com.teradata.tpcds.Table.CUSTOMER;
 
-public enum TimeDimColumn
+public enum CustomerColumn
         implements Column
 {
-    T_TIME_SK(340, 1),
-    T_TIME_ID(341, 1),
-    T_TIME(342, 1),
-    T_HOUR(343, 1),
-    T_MINUTE(344, 1),
-    T_SECOND(345, 1),
-    T_AM_PM(346, 1),
-    T_SHIFT(347, 1),
-    T_SUB_SHIFT(348, 1),
-    T_MEAL_TIME(349, 1),
-    T_NULLS(350, 1);
+    C_CUSTOMER_SK(114, 1),
+    C_CUSTOMER_ID(115, 1),
+    C_CURRENT_CDEMO_SK(116, 1),
+    C_CURRENT_HDEMO_SK(117, 1),
+    C_CURRENT_ADDR_SK(118, 1),
+    C_FIRST_SHIPTO_DATE_ID(119, 0),
+    C_FIRST_SALES_DATE_ID(120, 1),
+    C_SALUTATION(121, 1),
+    C_FIRST_NAME(122, 1),
+    C_LAST_NAME(123, 1),
+    C_PREFERRED_CUST_FLAG(124, 2),
+    C_BIRTH_DAY(125, 1),
+    C_BIRTH_MONTH(126, 0),
+    C_BIRTH_YEAR(127, 0),
+    C_BIRTH_COUNTRY(128, 1),
+    C_LOGIN(129, 1),
+    C_EMAIL_ADDRESS(130, 23),
+    C_LAST_REVIEW_DATE(131, 1),
+    C_NULLS(132, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    TimeDimColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -46,7 +55,7 @@ public enum TimeDimColumn
     @Override
     public Table getTable()
     {
-        return TIME_DIM;
+        return CUSTOMER;
     }
 
     @Override

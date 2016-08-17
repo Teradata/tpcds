@@ -18,10 +18,10 @@ import com.teradata.tpcds.type.Address;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.WarehouseColumn.W_NULLS;
-import static com.teradata.tpcds.WarehouseColumn.W_WAREHOUSE_ADDRESS;
-import static com.teradata.tpcds.WarehouseColumn.W_WAREHOUSE_NAME;
-import static com.teradata.tpcds.WarehouseColumn.W_WAREHOUSE_SQ_FT;
+import static com.teradata.tpcds.column.WarehouseColumn.W_NULLS;
+import static com.teradata.tpcds.column.WarehouseColumn.W_WAREHOUSE_ADDRESS;
+import static com.teradata.tpcds.column.WarehouseColumn.W_WAREHOUSE_NAME;
+import static com.teradata.tpcds.column.WarehouseColumn.W_WAREHOUSE_SQ_FT;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateRandomText;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.type.Address.makeAddressForColumn;

@@ -14,6 +14,7 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.column.Column;
 import com.teradata.tpcds.distribution.CalendarDistribution;
 import com.teradata.tpcds.type.Date;
 
@@ -23,9 +24,9 @@ import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MIN_SHIP_DELAY;
 import static com.teradata.tpcds.PseudoTableScalingInfos.CONCURRENT_WEB_SITES;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
-import static com.teradata.tpcds.WebPageColumn.WP_CREATION_DATE_SK;
-import static com.teradata.tpcds.WebSiteColumn.WEB_CLOSE_DATE;
-import static com.teradata.tpcds.WebSiteColumn.WEB_OPEN_DATE;
+import static com.teradata.tpcds.column.WebPageColumn.WP_CREATION_DATE_SK;
+import static com.teradata.tpcds.column.WebSiteColumn.WEB_CLOSE_DATE;
+import static com.teradata.tpcds.column.WebSiteColumn.WEB_OPEN_DATE;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM_LEAP_YEAR;

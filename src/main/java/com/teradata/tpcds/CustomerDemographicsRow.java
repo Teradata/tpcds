@@ -17,15 +17,15 @@ package com.teradata.tpcds;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_CREDIT_RATING;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_DEMO_SK;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_DEP_COLLEGE_COUNT;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_DEP_COUNT;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_DEP_EMPLOYED_COUNT;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_EDUCATION_STATUS;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_GENDER;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_MARITAL_STATUS;
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_PURCHASE_ESTIMATE;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_CREDIT_RATING;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_DEMO_SK;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_DEP_COLLEGE_COUNT;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_DEP_COUNT;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_DEP_EMPLOYED_COUNT;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_EDUCATION_STATUS;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_GENDER;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_MARITAL_STATUS;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_PURCHASE_ESTIMATE;
 
 public class CustomerDemographicsRow
         extends TableRowWithNulls

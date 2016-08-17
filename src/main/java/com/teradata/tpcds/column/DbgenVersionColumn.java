@@ -11,28 +11,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.teradata.tpcds.column;
 
-package com.teradata.tpcds;
-
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
+import static com.teradata.tpcds.Table.DBGEN_VERSION;
 
-public enum HouseholdDemographicsColumn
+public enum DbgenVersionColumn
         implements Column
 {
-    HD_DEMO_SK(188, 1),
-    HD_INCOME_BAND_ID(189, 1),
-    HD_BUY_POTENTIAL(190, 1),
-    HD_DEP_COUNT(191, 1),
-    HD_VEHICLE_COUNT(192, 1),
-    HD_NULLS(193, 2);
+    DV_VERSION(476, 1),
+    DV_CREATE_DATE(477, 1),
+    DV_CREATE_TIME(478, 1),
+    DV_CMDLINE_ARGS(479, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    HouseholdDemographicsColumn(int globalColumnNumber, int seedsPerRow)
+    DbgenVersionColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -41,7 +39,7 @@ public enum HouseholdDemographicsColumn
     @Override
     public Table getTable()
     {
-        return HOUSEHOLD_DEMOGRAPHICS;
+        return DBGEN_VERSION;
     }
 
     @Override

@@ -17,15 +17,15 @@ package com.teradata.tpcds;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.CatalogPageColumn.CP_CATALOG_NUMBER;
-import static com.teradata.tpcds.CatalogPageColumn.CP_CATALOG_PAGE_ID;
-import static com.teradata.tpcds.CatalogPageColumn.CP_CATALOG_PAGE_NUMBER;
-import static com.teradata.tpcds.CatalogPageColumn.CP_CATALOG_PAGE_SK;
-import static com.teradata.tpcds.CatalogPageColumn.CP_DEPARTMENT;
-import static com.teradata.tpcds.CatalogPageColumn.CP_DESCRIPTION;
-import static com.teradata.tpcds.CatalogPageColumn.CP_END_DATE_ID;
-import static com.teradata.tpcds.CatalogPageColumn.CP_START_DATE_ID;
-import static com.teradata.tpcds.CatalogPageColumn.CP_TYPE;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_CATALOG_NUMBER;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_CATALOG_PAGE_ID;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_CATALOG_PAGE_NUMBER;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_CATALOG_PAGE_SK;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_DEPARTMENT;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_DESCRIPTION;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_END_DATE_ID;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_START_DATE_ID;
+import static com.teradata.tpcds.column.CatalogPageColumn.CP_TYPE;
 
 public class CatalogPageRow
         extends TableRowWithNulls

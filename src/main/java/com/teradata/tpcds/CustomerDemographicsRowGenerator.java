@@ -14,8 +14,8 @@
 
 package com.teradata.tpcds;
 
-import static com.teradata.tpcds.CustomerDemographicsColumn.CD_NULLS;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.column.CustomerDemographicsColumn.CD_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.CREDIT_RATING_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.EDUCATION_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.GENDER_DISTRIBUTION;

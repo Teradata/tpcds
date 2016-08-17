@@ -14,6 +14,7 @@
 
 package com.teradata.tpcds;
 
+import com.teradata.tpcds.column.Column;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;

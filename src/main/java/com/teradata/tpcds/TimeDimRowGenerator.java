@@ -18,7 +18,7 @@ import com.teradata.tpcds.distribution.HoursDistribution.HourInfo;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.TimeDimColumn.T_NULLS;
+import static com.teradata.tpcds.column.TimeDimColumn.T_NULLS;
 import static com.teradata.tpcds.distribution.HoursDistribution.getHourInfoForHour;
 
 public class TimeDimRowGenerator

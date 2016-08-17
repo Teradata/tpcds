@@ -12,37 +12,32 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WEB_PAGE;
+import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
 
-public enum WebPageColumn
+public enum CustomerDemographicsColumn
         implements Column
 {
-    WP_PAGE_SK(367, 1),
-    WP_PAGE_ID(368, 1),
-    WP_REC_START_DATE_ID(369, 1),
-    WP_REC_END_DATE_ID(370, 1),
-    WP_CREATION_DATE_SK(371, 2),
-    WP_ACCESS_DATE_SK(372, 1),
-    WP_AUTOGEN_FLAG(373, 1),
-    WP_CUSTOMER_SK(374, 1),
-    WP_URL(375, 1),
-    WP_TYPE(376, 1),
-    WP_CHAR_COUNT(377, 1),
-    WP_LINK_COUNT(378, 1),
-    WP_IMAGE_COUNT(379, 1),
-    WP_MAX_AD_COUNT(380, 1),
-    WP_NULLS(381, 2),
-    WP_SCD(382, 1);
+    CD_DEMO_SK(149, 1),
+    CD_GENDER(150, 1),
+    CD_MARITAL_STATUS(151, 1),
+    CD_EDUCATION_STATUS(152, 1),
+    CD_PURCHASE_ESTIMATE(153, 1),
+    CD_CREDIT_RATING(154, 1),
+    CD_DEP_COUNT(155, 1),
+    CD_DEP_EMPLOYED_COUNT(156, 1),
+    CD_DEP_COLLEGE_COUNT(157, 1),
+    CD_NULLS(158, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebPageColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerDemographicsColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -51,7 +46,7 @@ public enum WebPageColumn
     @Override
     public Table getTable()
     {
-        return WEB_PAGE;
+        return CUSTOMER_DEMOGRAPHICS;
     }
 
     @Override

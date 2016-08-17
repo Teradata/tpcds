@@ -12,46 +12,48 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.ITEM;
+import static com.teradata.tpcds.Table.WEB_RETURNS;
 
-public enum ItemColumn
+public enum WebReturnsColumn
         implements Column
 {
-    I_ITEM_SK(203, 1),
-    I_ITEM_ID(204, 1),
-    I_REC_START_DATE_ID(205, 1),
-    I_REC_END_DATE_ID(206, 2),
-    I_ITEM_DESC(207, 200),
-    I_CURRENT_PRICE(208, 2),
-    I_WHOLESALE_COST(209, 1),
-    I_BRAND_ID(210, 1),
-    I_BRAND(211, 1),
-    I_CLASS_ID(212, 1),
-    I_CLASS(213, 1),
-    I_CATEGORY_ID(214, 1),
-    I_CATEGORY(215, 1),
-    I_MANUFACT_ID(216, 2),
-    I_MANUFACT(217, 1),
-    I_SIZE(218, 1),
-    I_FORMULATION(219, 50),
-    I_COLOR(220, 1),
-    I_UNITS(221, 1),
-    I_CONTAINER(222, 1),
-    I_MANAGER_ID(223, 2),
-    I_PRODUCT_NAME(224, 1),
-    I_NULLS(225, 2),
-    I_SCD(226, 1),
-    I_PROMO_SK(227, 2);
+    WR_RETURNED_DATE_SK(383, 32),
+    WR_RETURNED_TIME_SK(384, 32),
+    WR_ITEM_SK(385, 16),
+    WR_REFUNDED_CUSTOMER_SK(386, 16),
+    WR_REFUNDED_CDEMO_SK(387, 16),
+    WR_REFUNDED_HDEMO_SK(388, 16),
+    WR_REFUNDED_ADDR_SK(389, 16),
+    WR_RETURNING_CUSTOMER_SK(390, 16),
+    WR_RETURNING_CDEMO_SK(391, 16),
+    WR_RETURNING_HDEMO_SK(392, 16),
+    WR_RETURNING_ADDR_SK(393, 16),
+    WR_WEB_PAGE_SK(394, 16),
+    WR_REASON_SK(395, 16),
+    WR_ORDER_NUMBER(396, 0),
+    WR_PRICING_QUANTITY(397, 0),
+    WR_PRICING_NET_PAID(398, 0),
+    WR_PRICING_EXT_TAX(399, 0),
+    WR_PRICING_NET_PAID_INC_TAX(400, 0),
+    WR_PRICING_FEE(401, 0),
+    WR_PRICING_EXT_SHIP_COST(402, 0),
+    WR_PRICING_REFUNDED_CASH(403, 0),
+    WR_PRICING_REVERSED_CHARGE(404, 0),
+    WR_PRICING_STORE_CREDIT(405, 0),
+    WR_PRICING_NET_LOSS(406, 0),
+    WR_PRICING(407, 80),
+    WR_NULLS(408, 32);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ItemColumn(int globalColumnNumber, int seedsPerRow)
+    WebReturnsColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -60,7 +62,7 @@ public enum ItemColumn
     @Override
     public Table getTable()
     {
-        return ITEM;
+        return WEB_RETURNS;
     }
 
     @Override

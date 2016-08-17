@@ -14,11 +14,11 @@
 
 package com.teradata.tpcds;
 
-import static com.teradata.tpcds.InventoryColumn.INV_NULLS;
-import static com.teradata.tpcds.InventoryColumn.INV_QUANTITY_ON_HAND;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.Table.ITEM;
 import static com.teradata.tpcds.Table.WAREHOUSE;
+import static com.teradata.tpcds.column.InventoryColumn.INV_NULLS;
+import static com.teradata.tpcds.column.InventoryColumn.INV_QUANTITY_ON_HAND;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
 

@@ -14,9 +14,9 @@
 
 package com.teradata.tpcds.type;
 
-import com.teradata.tpcds.Column;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
+import com.teradata.tpcds.column.Column;
 import com.teradata.tpcds.distribution.FipsCountyDistribution;
 import com.teradata.tpcds.random.RandomNumberStream;
 

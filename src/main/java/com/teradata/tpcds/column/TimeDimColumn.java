@@ -12,47 +12,33 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WEB_RETURNS;
+import static com.teradata.tpcds.Table.TIME_DIM;
 
-public enum WebReturnsColumn
+public enum TimeDimColumn
         implements Column
 {
-    WR_RETURNED_DATE_SK(383, 32),
-    WR_RETURNED_TIME_SK(384, 32),
-    WR_ITEM_SK(385, 16),
-    WR_REFUNDED_CUSTOMER_SK(386, 16),
-    WR_REFUNDED_CDEMO_SK(387, 16),
-    WR_REFUNDED_HDEMO_SK(388, 16),
-    WR_REFUNDED_ADDR_SK(389, 16),
-    WR_RETURNING_CUSTOMER_SK(390, 16),
-    WR_RETURNING_CDEMO_SK(391, 16),
-    WR_RETURNING_HDEMO_SK(392, 16),
-    WR_RETURNING_ADDR_SK(393, 16),
-    WR_WEB_PAGE_SK(394, 16),
-    WR_REASON_SK(395, 16),
-    WR_ORDER_NUMBER(396, 0),
-    WR_PRICING_QUANTITY(397, 0),
-    WR_PRICING_NET_PAID(398, 0),
-    WR_PRICING_EXT_TAX(399, 0),
-    WR_PRICING_NET_PAID_INC_TAX(400, 0),
-    WR_PRICING_FEE(401, 0),
-    WR_PRICING_EXT_SHIP_COST(402, 0),
-    WR_PRICING_REFUNDED_CASH(403, 0),
-    WR_PRICING_REVERSED_CHARGE(404, 0),
-    WR_PRICING_STORE_CREDIT(405, 0),
-    WR_PRICING_NET_LOSS(406, 0),
-    WR_PRICING(407, 80),
-    WR_NULLS(408, 32);
+    T_TIME_SK(340, 1),
+    T_TIME_ID(341, 1),
+    T_TIME(342, 1),
+    T_HOUR(343, 1),
+    T_MINUTE(344, 1),
+    T_SECOND(345, 1),
+    T_AM_PM(346, 1),
+    T_SHIFT(347, 1),
+    T_SUB_SHIFT(348, 1),
+    T_MEAL_TIME(349, 1),
+    T_NULLS(350, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebReturnsColumn(int globalColumnNumber, int seedsPerRow)
+    TimeDimColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -61,7 +47,7 @@ public enum WebReturnsColumn
     @Override
     public Table getTable()
     {
-        return WEB_RETURNS;
+        return TIME_DIM;
     }
 
     @Override

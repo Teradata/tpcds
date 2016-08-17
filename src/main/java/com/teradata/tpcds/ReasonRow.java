@@ -17,9 +17,9 @@ package com.teradata.tpcds;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.ReasonColumn.R_REASON_DESCRIPTION;
-import static com.teradata.tpcds.ReasonColumn.R_REASON_ID;
-import static com.teradata.tpcds.ReasonColumn.R_REASON_SK;
+import static com.teradata.tpcds.column.ReasonColumn.R_REASON_DESCRIPTION;
+import static com.teradata.tpcds.column.ReasonColumn.R_REASON_ID;
+import static com.teradata.tpcds.column.ReasonColumn.R_REASON_SK;
 
 public class ReasonRow
         extends TableRowWithNulls

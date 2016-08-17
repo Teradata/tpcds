@@ -11,25 +11,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.teradata.tpcds;
 
+package com.teradata.tpcds.column;
+
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.DBGEN_VERSION;
+import static com.teradata.tpcds.Table.PROMOTION;
 
-public enum DbgenVersionColumn
+public enum PromotionColumn
         implements Column
 {
-    DV_VERSION(476, 1),
-    DV_CREATE_DATE(477, 1),
-    DV_CREATE_TIME(478, 1),
-    DV_CMDLINE_ARGS(479, 1);
+    P_PROMO_SK(228, 1),
+    P_PROMO_ID(229, 1),
+    P_START_DATE_ID(230, 1),
+    P_END_DATE_ID(231, 1),
+    P_ITEM_SK(232, 1),
+    P_COST(233, 1),
+    P_RESPONSE_TARGET(234, 1),
+    P_PROMO_NAME(235, 1),
+    P_CHANNEL_DMAIL(236, 1),
+    P_CHANNEL_EMAIL(237, 1),
+    P_CHANNEL_CATALOG(238, 1),
+    P_CHANNEL_TV(239, 1),
+    P_CHANNEL_RADIO(240, 1),
+    P_CHANNEL_PRESS(241, 1),
+    P_CHANNEL_EVENT(242, 1),
+    P_CHANNEL_DEMO(243, 1),
+    P_CHANNEL_DETAILS(244, 100),
+    P_PURPOSE(245, 1),
+    P_DISCOUNT_ACTIVE(246, 1),
+    P_NULLS(247, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    DbgenVersionColumn(int globalColumnNumber, int seedsPerRow)
+    PromotionColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -38,7 +56,7 @@ public enum DbgenVersionColumn
     @Override
     public Table getTable()
     {
-        return DBGEN_VERSION;
+        return PROMOTION;
     }
 
     @Override

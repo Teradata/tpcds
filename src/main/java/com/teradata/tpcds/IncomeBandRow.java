@@ -17,9 +17,9 @@ package com.teradata.tpcds;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.IncomeBandColumn.IB_INCOME_BAND_ID;
-import static com.teradata.tpcds.IncomeBandColumn.IB_LOWER_BOUND;
-import static com.teradata.tpcds.IncomeBandColumn.IB_UPPER_BOUND;
+import static com.teradata.tpcds.column.IncomeBandColumn.IB_INCOME_BAND_ID;
+import static com.teradata.tpcds.column.IncomeBandColumn.IB_LOWER_BOUND;
+import static com.teradata.tpcds.column.IncomeBandColumn.IB_UPPER_BOUND;
 
 public class IncomeBandRow
         extends TableRowWithNulls

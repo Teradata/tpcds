@@ -17,10 +17,10 @@ package com.teradata.tpcds;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.InventoryColumn.INV_DATE_SK;
-import static com.teradata.tpcds.InventoryColumn.INV_ITEM_SK;
-import static com.teradata.tpcds.InventoryColumn.INV_QUANTITY_ON_HAND;
-import static com.teradata.tpcds.InventoryColumn.INV_WAREHOUSE_SK;
+import static com.teradata.tpcds.column.InventoryColumn.INV_DATE_SK;
+import static com.teradata.tpcds.column.InventoryColumn.INV_ITEM_SK;
+import static com.teradata.tpcds.column.InventoryColumn.INV_QUANTITY_ON_HAND;
+import static com.teradata.tpcds.column.InventoryColumn.INV_WAREHOUSE_SK;
 
 public class InventoryRow
         extends TableRowWithNulls

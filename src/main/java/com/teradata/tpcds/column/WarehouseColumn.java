@@ -12,28 +12,38 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.column;
 
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.SHIP_MODE;
+import static com.teradata.tpcds.Table.WAREHOUSE;
 
-public enum ShipModeColumn
+public enum WarehouseColumn
         implements Column
 {
-    SM_SHIP_MODE_SK(252, 1),
-    SM_SHIP_MODE_ID(253, 1),
-    SM_TYPE(254, 1),
-    SM_CODE(255, 1),
-    SM_CONTRACT(256, 21),
-    SM_CARRIER(257, 1),
-    SM_NULLS(258, 2);
+    W_WAREHOUSE_SK(351, 1),
+    W_WAREHOUSE_ID(352, 1),
+    W_WAREHOUSE_NAME(353, 80),
+    W_WAREHOUSE_SQ_FT(354, 1),
+    W_ADDRESS_STREET_NUM(355, 1),
+    W_ADDRESS_STREET_NAME1(356, 1),
+    W_ADDRESS_STREET_TYPE(357, 1),
+    W_ADDRESS_SUITE_NUM(358, 1),
+    W_ADDRESS_CITY(359, 1),
+    W_ADDRESS_COUNTY(360, 1),
+    W_ADDRESS_STATE(361, 1),
+    W_ADDRESS_ZIP(362, 1),
+    W_ADDRESS_COUNTRY(363, 1),
+    W_ADDRESS_GMT_OFFSET(364, 1),
+    W_NULLS(365, 2),
+    W_WAREHOUSE_ADDRESS(366, 7);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ShipModeColumn(int globalColumnNumber, int seedsPerRow)
+    WarehouseColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -42,7 +52,7 @@ public enum ShipModeColumn
     @Override
     public Table getTable()
     {
-        return SHIP_MODE;
+        return WAREHOUSE;
     }
 
     @Override
