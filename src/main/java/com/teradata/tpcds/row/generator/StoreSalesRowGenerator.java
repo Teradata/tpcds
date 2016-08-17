@@ -62,8 +62,6 @@ public class StoreSalesRowGenerator
         implements RowGenerator
 {
     private static final int SR_RETURN_PCT = 10;
-    public static final int SS_MIN_SHIP_DELAY = 2;  // minimum days from order to ship
-    public static final int SS_MAX_SHIP_DELAY = 90;  // maximum days from order to ship
 
     private int[] itemPermutation;
 
