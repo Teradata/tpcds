@@ -12,9 +12,12 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
+import com.teradata.tpcds.Nulls;
 import com.teradata.tpcds.Parallel.DateNextIndexPair;
+import com.teradata.tpcds.Scaling;
+import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.CatalogSalesRow;
 import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Decimal;
@@ -25,7 +28,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.teradata.tpcds.CatalogReturnsRowGenerator.RETURN_PERCENT;
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
 import static com.teradata.tpcds.Parallel.skipDaysUntilFirstRowOfChunk;
 import static com.teradata.tpcds.Permutations.getPermutationEntry;
@@ -158,7 +160,7 @@ public class CatalogSalesRowGenerator
 
         // if the sale gets returned, generate a return row
         int randomInt = generateUniformRandomInt(0, 99, CR_IS_RETURNED.getRandomNumberStream());
-        if (randomInt < RETURN_PERCENT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != CATALOG_SALES)) {
+        if (randomInt < CatalogReturnsRowGenerator.RETURN_PERCENT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != CATALOG_SALES)) {
             TableRow catalogReturnsRow = ((CatalogReturnsRowGenerator) CATALOG_RETURNS.getRowGenerator()).generateRow(session, catalogSalesRow);
             generatedRows.add(catalogReturnsRow);
         }

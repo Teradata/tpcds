@@ -12,8 +12,11 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
+import com.teradata.tpcds.Parallel;
+import com.teradata.tpcds.Scaling;
+import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.StoreSalesRow;
 import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Pricing;

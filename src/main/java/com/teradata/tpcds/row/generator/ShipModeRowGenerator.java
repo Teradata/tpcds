@@ -12,8 +12,9 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
+import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.ShipModeRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;

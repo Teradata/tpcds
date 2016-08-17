@@ -12,9 +12,11 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
 import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.Scaling;
+import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.WebReturnsRow;
 import com.teradata.tpcds.row.WebSalesRow;
 import com.teradata.tpcds.type.Pricing;
@@ -29,7 +31,6 @@ import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.Table.REASON;
 import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.Table.WEB_SALES;
-import static com.teradata.tpcds.WebSalesRowGenerator.GIFT_PERCENTAGE;
 import static com.teradata.tpcds.column.WebReturnsColumn.WR_NULLS;
 import static com.teradata.tpcds.column.WebReturnsColumn.WR_PRICING;
 import static com.teradata.tpcds.column.WebReturnsColumn.WR_REASON_SK;
@@ -78,7 +79,7 @@ public class WebReturnsRowGenerator
         long wrRefundedCdemoSk = generateJoinKey(WR_REFUNDED_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 1, scaling);
         long wrRefundedHdemoSk = generateJoinKey(WR_REFUNDED_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
         long wrRefundedAddrSk = generateJoinKey(WR_REFUNDED_ADDR_SK, CUSTOMER_ADDRESS, 1, scaling);
-        if (generateUniformRandomInt(0, 99, WR_RETURNING_CUSTOMER_SK.getRandomNumberStream()) < GIFT_PERCENTAGE) {
+        if (generateUniformRandomInt(0, 99, WR_RETURNING_CUSTOMER_SK.getRandomNumberStream()) < WebSalesRowGenerator.GIFT_PERCENTAGE) {
             wrRefundedCustomerSk = salesRow.getWsShipCustomerSk();
             wrRefundedCdemoSk = salesRow.getWsShipCdemoSk();
             wrRefundedHdemoSk = salesRow.getWsShipHdemoSk();

@@ -12,9 +12,11 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
 import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.Scaling;
+import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.StoreReturnsRow;
 import com.teradata.tpcds.row.StoreSalesRow;
 import com.teradata.tpcds.row.TableRow;

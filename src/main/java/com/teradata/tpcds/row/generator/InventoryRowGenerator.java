@@ -12,8 +12,11 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
+import com.teradata.tpcds.Scaling;
+import com.teradata.tpcds.Session;
+import com.teradata.tpcds.SlowlyChangingDimensionUtils;
 import com.teradata.tpcds.row.InventoryRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;

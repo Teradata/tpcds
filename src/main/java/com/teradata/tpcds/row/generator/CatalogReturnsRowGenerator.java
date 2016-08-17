@@ -12,15 +12,16 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds;
+package com.teradata.tpcds.row.generator;
 
 import com.google.common.collect.ImmutableList;
+import com.teradata.tpcds.Scaling;
+import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.CatalogReturnsRow;
 import com.teradata.tpcds.row.CatalogSalesRow;
 import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.type.Pricing;
 
-import static com.teradata.tpcds.CatalogSalesRowGenerator.GIFT_PERCENTAGE;
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.Table.CATALOG_SALES;
@@ -81,7 +82,7 @@ public class CatalogReturnsRowGenerator
         long crReturningCdemoSk = generateJoinKey(CR_RETURNING_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 2, scaling);
         long crReturningHdemoSk = generateJoinKey(CR_RETURNING_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
         long crReturningAddrSk = generateJoinKey(CR_RETURNING_ADDR_SK, CUSTOMER_ADDRESS, 2, scaling);
-        if (generateUniformRandomInt(0, 99, CR_RETURNING_CUSTOMER_SK.getRandomNumberStream()) < GIFT_PERCENTAGE) {
+        if (generateUniformRandomInt(0, 99, CR_RETURNING_CUSTOMER_SK.getRandomNumberStream()) < CatalogSalesRowGenerator.GIFT_PERCENTAGE) {
             crReturningCustomerSk = salesRow.getCsShipCustomerSk();
             crReturningCdemoSk = salesRow.getCsShipCdemoSk();
             // skip crReturningHdemoSk, since it doesn't exist on the sales record

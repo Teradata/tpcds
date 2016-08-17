@@ -105,12 +105,12 @@ public final class Parallel
             this.nextDateIndex = nextDateIndex;
         }
 
-        long getJulianDate()
+        public long getJulianDate()
         {
             return julianDate;
         }
 
-        long getNextDateIndex()
+        public long getNextDateIndex()
         {
             return nextDateIndex;
         }

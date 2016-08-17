@@ -21,15 +21,15 @@ import com.teradata.tpcds.random.RandomNumberStream;
 
 import java.util.Map;
 
-import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_DISCOUNT_MAX;
-import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_MARKUP_MAX;
-import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_QUANTITY_MAX;
-import static com.teradata.tpcds.CatalogSalesRowGenerator.CS_WHOLESALE_MAX;
 import static com.teradata.tpcds.column.CatalogSalesColumn.CS_PRICING;
 import static com.teradata.tpcds.column.StoreSalesColumn.SS_PRICING;
 import static com.teradata.tpcds.column.WebSalesColumn.WS_PRICING;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomDecimal;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
+import static com.teradata.tpcds.row.generator.CatalogSalesRowGenerator.CS_DISCOUNT_MAX;
+import static com.teradata.tpcds.row.generator.CatalogSalesRowGenerator.CS_MARKUP_MAX;
+import static com.teradata.tpcds.row.generator.CatalogSalesRowGenerator.CS_QUANTITY_MAX;
+import static com.teradata.tpcds.row.generator.CatalogSalesRowGenerator.CS_WHOLESALE_MAX;
 import static com.teradata.tpcds.type.Decimal.NINE_PERCENT;
 import static com.teradata.tpcds.type.Decimal.ONE;
 import static com.teradata.tpcds.type.Decimal.ONE_HALF;
