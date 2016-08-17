@@ -16,6 +16,16 @@ package com.teradata.tpcds;
 
 import java.util.Optional;
 
+import static com.teradata.tpcds.Options.DEFAULT_DIRECTORY;
+import static com.teradata.tpcds.Options.DEFAULT_NO_SEXISM;
+import static com.teradata.tpcds.Options.DEFAULT_NULL_STRING;
+import static com.teradata.tpcds.Options.DEFAULT_OVERWRITE;
+import static com.teradata.tpcds.Options.DEFAULT_PARALLELISM;
+import static com.teradata.tpcds.Options.DEFAULT_SCALE;
+import static com.teradata.tpcds.Options.DEFAULT_SEPARATOR;
+import static com.teradata.tpcds.Options.DEFAULT_SUFFIX;
+import static com.teradata.tpcds.Options.DEFAULT_TERMINATE;
+
 public class Session
 {
     private final Scaling scaling;
@@ -184,5 +194,47 @@ public class Session
     public boolean shouldOverwrite()
     {
         return overwrite;
+    }
+
+    public String getCommandLineArguments()
+    {
+        StringBuilder output = new StringBuilder();
+        if (scaling.getScale() != DEFAULT_SCALE) {
+            output.append("--scale ").append(scaling.getScale()).append(" ");
+        }
+        if (!targetDirectory.equals(DEFAULT_DIRECTORY)) {
+            output.append("--directory ").append(targetDirectory).append(" ");
+        }
+        if (!suffix.equals(DEFAULT_SUFFIX)) {
+            output.append("--suffix ").append(suffix).append(" ");
+        }
+        if (table.isPresent()) {
+            output.append("--table ").append(table.get()).append(" ");
+        }
+        if (!nullString.equals(DEFAULT_NULL_STRING)) {
+            output.append("--null ").append(nullString).append(" ");
+        }
+        if (separator != DEFAULT_SEPARATOR) {
+            output.append("--separator ").append(separator).append(" ");
+        }
+        if (terminate != DEFAULT_TERMINATE) {
+            output.append("--terminate ");
+        }
+        if (noSexism != DEFAULT_NO_SEXISM) {
+            output.append("--no-sexism ");
+        }
+        if (parallelism != DEFAULT_PARALLELISM) {
+            output.append("--parallelism ").append(parallelism).append(" ");
+        }
+        if (overwrite != DEFAULT_OVERWRITE) {
+            output.append("--overwrite ");
+        }
+
+        // remove trailing space
+        if (output.length() > 0) {
+            output.deleteCharAt(output.length() - 1);
+        }
+
+        return output.toString();
     }
 }

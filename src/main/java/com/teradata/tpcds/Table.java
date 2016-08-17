@@ -172,8 +172,12 @@ public enum Table
             WebSiteRowGenerator.class,
             WebSiteColumn.values(),
             new ScalingInfo(0, LOGARITHMIC, new int[] {15, 21, 12, 21, 27, 33, 39, 42, 48}, 0)),
-
-    DBGEN_VERSION,
+    DBGEN_VERSION(new TableFlagsBuilder().build(),
+            0,
+            0x0,
+            DbgenVersionRowGenerator.class,
+            DbgenVersionColumn.values(),
+            new ScalingInfo(0, STATIC, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1}, 0)),
 
     // source tables
     S_BRAND,
