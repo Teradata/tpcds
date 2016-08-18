@@ -209,7 +209,7 @@ public class Session
             output.append("--suffix ").append(suffix).append(" ");
         }
         if (table.isPresent()) {
-            output.append("--table ").append(table.get()).append(" ");
+            output.append("--table ").append(table.get().getName()).append(" ");
         }
         if (!nullString.equals(DEFAULT_NULL_STRING)) {
             output.append("--null ").append(nullString).append(" ");

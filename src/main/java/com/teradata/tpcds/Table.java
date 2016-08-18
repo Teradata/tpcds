@@ -324,8 +324,7 @@ public enum Table
         this.scalingInfo = scalingInfo;
     }
 
-    @Override
-    public String toString()
+    public String getName()
     {
         return name().toLowerCase();
     }
@@ -389,7 +388,7 @@ public enum Table
     {
         List<Table> allTables = ImmutableList.copyOf(Table.values());
         return allTables.stream()
-                .filter(table -> !table.toString().startsWith("s_"))
+                .filter(table -> !table.getName().startsWith("s_"))
                 .collect(Collectors.toList());
     }
 
@@ -397,7 +396,7 @@ public enum Table
     {
         List<Table> allTables = ImmutableList.copyOf(Table.values());
         return allTables.stream()
-                .filter(table -> table.toString().startsWith("s_"))
+                .filter(table -> table.getName().startsWith("s_"))
                 .collect(Collectors.toList());
     }
 }

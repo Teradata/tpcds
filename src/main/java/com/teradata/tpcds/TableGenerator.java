@@ -83,7 +83,7 @@ public class TableGenerator
             return format("%s%s%s_%d_%d%s",
                     session.getTargetDirectory(),
                     File.separator,
-                    table.toString(),
+                    table.getName(),
                     session.getChunkNumber(),
                     session.getParallelism(),
                     session.getSuffix());
@@ -93,7 +93,7 @@ public class TableGenerator
         return format("%s%s%s%s",
                 session.getTargetDirectory(),
                 File.separator,
-                table.toString(),
+                table.getName(),
                 session.getSuffix());
     }
 }
