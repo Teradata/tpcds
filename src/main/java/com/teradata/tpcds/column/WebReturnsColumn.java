@@ -76,4 +76,10 @@ public enum WebReturnsColumn
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }

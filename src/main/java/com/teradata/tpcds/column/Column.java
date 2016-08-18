@@ -19,7 +19,11 @@ import com.teradata.tpcds.random.RandomNumberStream;
 
 public interface Column
 {
-    public Table getTable();
-    public RandomNumberStream getRandomNumberStream();
-    public int getGlobalColumnNumber();
+    Table getTable();
+
+    RandomNumberStream getRandomNumberStream();
+
+    int getGlobalColumnNumber();
+
+    String getName();
 }

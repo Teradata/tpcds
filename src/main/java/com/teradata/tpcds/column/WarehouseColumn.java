@@ -66,4 +66,10 @@ public enum WarehouseColumn
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }

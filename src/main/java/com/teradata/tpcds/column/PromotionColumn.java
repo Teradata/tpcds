@@ -70,4 +70,10 @@ public enum PromotionColumn
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }

@@ -53,4 +53,10 @@ public enum DbgenVersionColumn
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }

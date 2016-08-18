@@ -83,4 +83,10 @@ public enum CallCenterColumn implements Column
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }

@@ -56,4 +56,10 @@ public enum HouseholdDemographicsColumn
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }

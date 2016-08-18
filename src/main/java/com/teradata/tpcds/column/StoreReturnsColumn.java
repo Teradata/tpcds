@@ -72,4 +72,10 @@ public enum StoreReturnsColumn
     {
         return globalColumnNumber;
     }
+
+    @Override
+    public String getName()
+    {
+        return name().toLowerCase();
+    }
 }
