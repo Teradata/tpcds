@@ -14,7 +14,7 @@
 
 package com.teradata.tpcds.row;
 
-import com.teradata.tpcds.column.GeneratorColumn;
+import com.teradata.tpcds.column.generator.GeneratorColumn;
 
 import static com.teradata.tpcds.type.Date.fromJulianDays;
 

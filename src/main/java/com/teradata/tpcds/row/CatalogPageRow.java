@@ -17,15 +17,15 @@ package com.teradata.tpcds.row;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_CATALOG_NUMBER;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_CATALOG_PAGE_ID;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_CATALOG_PAGE_NUMBER;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_CATALOG_PAGE_SK;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_DEPARTMENT;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_DESCRIPTION;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_END_DATE_ID;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_START_DATE_ID;
-import static com.teradata.tpcds.column.CatalogPageGeneratorColumn.CP_TYPE;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_CATALOG_NUMBER;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_CATALOG_PAGE_ID;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_CATALOG_PAGE_NUMBER;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_CATALOG_PAGE_SK;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_DEPARTMENT;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_DESCRIPTION;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_END_DATE_ID;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_START_DATE_ID;
+import static com.teradata.tpcds.column.generator.CatalogPageGeneratorColumn.CP_TYPE;
 
 public class CatalogPageRow
         extends TableRowWithNulls

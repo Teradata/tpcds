@@ -12,44 +12,56 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.STORE_RETURNS;
+import static com.teradata.tpcds.Table.CALL_CENTER;
 
-public enum StoreReturnsGeneratorColumn
+public enum CallCenterGeneratorColumn
         implements GeneratorColumn
 {
-    SR_RETURNED_DATE_SK(292, 32),
-    SR_RETURNED_TIME_SK(293, 32),
-    SR_ITEM_SK(294, 16),
-    SR_CUSTOMER_SK(295, 16),
-    SR_CDEMO_SK(296, 16),
-    SR_HDEMO_SK(297, 16),
-    SR_ADDR_SK(298, 16),
-    SR_STORE_SK(299, 16),
-    SR_REASON_SK(300, 16),
-    SR_TICKET_NUMBER(301, 16),
-    SR_PRICING_QUANTITY(302, 0),
-    SR_PRICING_NET_PAID(303, 0),
-    SR_PRICING_EXT_TAX(304, 0),
-    SR_PRICING_NET_PAID_INC_TAX(305, 0),
-    SR_PRICING_FEE(306, 0),
-    SR_PRICING_EXT_SHIP_COST(307, 0),
-    SR_PRICING_REFUNDED_CASH(308, 0),
-    SR_PRICING_REVERSED_CHARGE(309, 0),
-    SR_PRICING_STORE_CREDIT(310, 0),
-    SR_PRICING_NET_LOSS(311, 0),
-    SR_PRICING(312, 80),
-    SR_NULLS(313, 32);
+    CC_CALL_CENTER_SK(1, 0),
+    CC_CALL_CENTER_ID(2, 15),
+    CC_REC_START_DATE_ID(3, 10),
+    CC_REC_END_DATE_ID(4, 1),
+    CC_CLOSED_DATE_ID(5, 4),
+    CC_OPEN_DATE_ID(6, 10),
+    CC_NAME(7, 0),
+    CC_CLASS(8, 2),
+    CC_EMPLOYEES(9, 1),
+    CC_SQ_FT(10, 1),
+    CC_HOURS(11, 1),
+    CC_MANAGER(12, 2),
+    CC_MARKET_ID(13, 1),
+    CC_MARKET_CLASS(14, 50),
+    CC_MARKET_DESC(15, 50),
+    CC_MARKET_MANAGER(16, 2),
+    CC_DIVISION(17, 2),
+    CC_DIVISION_NAME(18, 2),
+    CC_COMPANY(19, 2),
+    CC_COMPANY_NAME(20, 2),
+    CC_STREET_NUMBER(21, 0),
+    CC_STREET_NAME(22, 0),
+    CC_STREET_TYPE(23, 0),
+    CC_SUITE_NUMBER(24, 0),
+    CC_CITY(25, 0),
+    CC_COUNTY(26, 0),
+    CC_STATE(27, 0),
+    CC_ZIP(28, 0),
+    CC_COUNTRY(29, 0),
+    CC_GMT_OFFSET(30, 0),
+    CC_ADDRESS(31, 15),
+    CC_TAX_PERCENTAGE(32, 1),
+    CC_SCD(33, 1),
+    CC_NULLS(34, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    StoreReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CallCenterGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -58,7 +70,7 @@ public enum StoreReturnsGeneratorColumn
     @Override
     public Table getTable()
     {
-        return STORE_RETURNS;
+        return CALL_CENTER;
     }
 
     @Override

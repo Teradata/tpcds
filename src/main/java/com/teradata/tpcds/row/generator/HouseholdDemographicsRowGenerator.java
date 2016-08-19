@@ -18,7 +18,7 @@ import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.HouseholdDemographicsRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.HouseholdDemographicsGeneratorColumn.HD_NULLS;
+import static com.teradata.tpcds.column.generator.HouseholdDemographicsGeneratorColumn.HD_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.BUY_POTENTIAL_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.DEP_COUNT_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.INCOME_BAND_DISTRIBUTION;

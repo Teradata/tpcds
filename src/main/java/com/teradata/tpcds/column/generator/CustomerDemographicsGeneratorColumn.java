@@ -12,38 +12,32 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WAREHOUSE;
+import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
 
-public enum WarehouseGeneratorColumn
+public enum CustomerDemographicsGeneratorColumn
         implements GeneratorColumn
 {
-    W_WAREHOUSE_SK(351, 1),
-    W_WAREHOUSE_ID(352, 1),
-    W_WAREHOUSE_NAME(353, 80),
-    W_WAREHOUSE_SQ_FT(354, 1),
-    W_ADDRESS_STREET_NUM(355, 1),
-    W_ADDRESS_STREET_NAME1(356, 1),
-    W_ADDRESS_STREET_TYPE(357, 1),
-    W_ADDRESS_SUITE_NUM(358, 1),
-    W_ADDRESS_CITY(359, 1),
-    W_ADDRESS_COUNTY(360, 1),
-    W_ADDRESS_STATE(361, 1),
-    W_ADDRESS_ZIP(362, 1),
-    W_ADDRESS_COUNTRY(363, 1),
-    W_ADDRESS_GMT_OFFSET(364, 1),
-    W_NULLS(365, 2),
-    W_WAREHOUSE_ADDRESS(366, 7);
+    CD_DEMO_SK(149, 1),
+    CD_GENDER(150, 1),
+    CD_MARITAL_STATUS(151, 1),
+    CD_EDUCATION_STATUS(152, 1),
+    CD_PURCHASE_ESTIMATE(153, 1),
+    CD_CREDIT_RATING(154, 1),
+    CD_DEP_COUNT(155, 1),
+    CD_DEP_EMPLOYED_COUNT(156, 1),
+    CD_DEP_COLLEGE_COUNT(157, 1),
+    CD_NULLS(158, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WarehouseGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerDemographicsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +46,7 @@ public enum WarehouseGeneratorColumn
     @Override
     public Table getTable()
     {
-        return WAREHOUSE;
+        return CUSTOMER_DEMOGRAPHICS;
     }
 
     @Override

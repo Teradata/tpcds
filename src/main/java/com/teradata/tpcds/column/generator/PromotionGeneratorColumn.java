@@ -12,33 +12,42 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.TIME_DIM;
+import static com.teradata.tpcds.Table.PROMOTION;
 
-public enum TimeDimGeneratorColumn
+public enum PromotionGeneratorColumn
         implements GeneratorColumn
 {
-    T_TIME_SK(340, 1),
-    T_TIME_ID(341, 1),
-    T_TIME(342, 1),
-    T_HOUR(343, 1),
-    T_MINUTE(344, 1),
-    T_SECOND(345, 1),
-    T_AM_PM(346, 1),
-    T_SHIFT(347, 1),
-    T_SUB_SHIFT(348, 1),
-    T_MEAL_TIME(349, 1),
-    T_NULLS(350, 1);
+    P_PROMO_SK(228, 1),
+    P_PROMO_ID(229, 1),
+    P_START_DATE_ID(230, 1),
+    P_END_DATE_ID(231, 1),
+    P_ITEM_SK(232, 1),
+    P_COST(233, 1),
+    P_RESPONSE_TARGET(234, 1),
+    P_PROMO_NAME(235, 1),
+    P_CHANNEL_DMAIL(236, 1),
+    P_CHANNEL_EMAIL(237, 1),
+    P_CHANNEL_CATALOG(238, 1),
+    P_CHANNEL_TV(239, 1),
+    P_CHANNEL_RADIO(240, 1),
+    P_CHANNEL_PRESS(241, 1),
+    P_CHANNEL_EVENT(242, 1),
+    P_CHANNEL_DEMO(243, 1),
+    P_CHANNEL_DETAILS(244, 100),
+    P_PURPOSE(245, 1),
+    P_DISCOUNT_ACTIVE(246, 1),
+    P_NULLS(247, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    TimeDimGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    PromotionGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -47,7 +56,7 @@ public enum TimeDimGeneratorColumn
     @Override
     public Table getTable()
     {
-        return TIME_DIM;
+        return PROMOTION;
     }
 
     @Override

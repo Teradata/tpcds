@@ -11,39 +11,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WEB_PAGE;
+import static com.teradata.tpcds.Table.DBGEN_VERSION;
 
-public enum WebPageGeneratorColumn
+public enum DbgenVersionGeneratorColumn
         implements GeneratorColumn
 {
-    WP_PAGE_SK(367, 1),
-    WP_PAGE_ID(368, 1),
-    WP_REC_START_DATE_ID(369, 1),
-    WP_REC_END_DATE_ID(370, 1),
-    WP_CREATION_DATE_SK(371, 2),
-    WP_ACCESS_DATE_SK(372, 1),
-    WP_AUTOGEN_FLAG(373, 1),
-    WP_CUSTOMER_SK(374, 1),
-    WP_URL(375, 1),
-    WP_TYPE(376, 1),
-    WP_CHAR_COUNT(377, 1),
-    WP_LINK_COUNT(378, 1),
-    WP_IMAGE_COUNT(379, 1),
-    WP_MAX_AD_COUNT(380, 1),
-    WP_NULLS(381, 2),
-    WP_SCD(382, 1);
+    DV_VERSION(476, 1),
+    DV_CREATE_DATE(477, 1),
+    DV_CREATE_TIME(478, 1),
+    DV_CMDLINE_ARGS(479, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebPageGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    DbgenVersionGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +39,7 @@ public enum WebPageGeneratorColumn
     @Override
     public Table getTable()
     {
-        return WEB_PAGE;
+        return DBGEN_VERSION;
     }
 
     @Override

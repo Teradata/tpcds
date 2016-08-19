@@ -12,27 +12,48 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.INVENTORY;
+import static com.teradata.tpcds.Table.WEB_RETURNS;
 
-public enum InventoryGeneratorColumn
+public enum WebReturnsGeneratorColumn
         implements GeneratorColumn
 {
-    INV_DATE_SK(198, 1),
-    INV_ITEM_SK(199, 1),
-    INV_WAREHOUSE_SK(200, 1),
-    INV_QUANTITY_ON_HAND(201, 1),
-    INV_NULLS(202, 2);
+    WR_RETURNED_DATE_SK(383, 32),
+    WR_RETURNED_TIME_SK(384, 32),
+    WR_ITEM_SK(385, 16),
+    WR_REFUNDED_CUSTOMER_SK(386, 16),
+    WR_REFUNDED_CDEMO_SK(387, 16),
+    WR_REFUNDED_HDEMO_SK(388, 16),
+    WR_REFUNDED_ADDR_SK(389, 16),
+    WR_RETURNING_CUSTOMER_SK(390, 16),
+    WR_RETURNING_CDEMO_SK(391, 16),
+    WR_RETURNING_HDEMO_SK(392, 16),
+    WR_RETURNING_ADDR_SK(393, 16),
+    WR_WEB_PAGE_SK(394, 16),
+    WR_REASON_SK(395, 16),
+    WR_ORDER_NUMBER(396, 0),
+    WR_PRICING_QUANTITY(397, 0),
+    WR_PRICING_NET_PAID(398, 0),
+    WR_PRICING_EXT_TAX(399, 0),
+    WR_PRICING_NET_PAID_INC_TAX(400, 0),
+    WR_PRICING_FEE(401, 0),
+    WR_PRICING_EXT_SHIP_COST(402, 0),
+    WR_PRICING_REFUNDED_CASH(403, 0),
+    WR_PRICING_REVERSED_CHARGE(404, 0),
+    WR_PRICING_STORE_CREDIT(405, 0),
+    WR_PRICING_NET_LOSS(406, 0),
+    WR_PRICING(407, 80),
+    WR_NULLS(408, 32);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    InventoryGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    WebReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -41,7 +62,7 @@ public enum InventoryGeneratorColumn
     @Override
     public Table getTable()
     {
-        return INVENTORY;
+        return WEB_RETURNS;
     }
 
     @Override

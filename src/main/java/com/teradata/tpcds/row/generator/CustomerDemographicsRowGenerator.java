@@ -18,7 +18,7 @@ import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.CustomerDemographicsRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.CustomerDemographicsGeneratorColumn.CD_NULLS;
+import static com.teradata.tpcds.column.generator.CustomerDemographicsGeneratorColumn.CD_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.CREDIT_RATING_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.EDUCATION_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.GENDER_DISTRIBUTION;

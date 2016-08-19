@@ -12,41 +12,38 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CUSTOMER;
+import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
 
-public enum CustomerGeneratorColumn
+public enum CustomerAddressGeneratorColumn
         implements GeneratorColumn
 {
-    C_CUSTOMER_SK(114, 1),
-    C_CUSTOMER_ID(115, 1),
-    C_CURRENT_CDEMO_SK(116, 1),
-    C_CURRENT_HDEMO_SK(117, 1),
-    C_CURRENT_ADDR_SK(118, 1),
-    C_FIRST_SHIPTO_DATE_ID(119, 0),
-    C_FIRST_SALES_DATE_ID(120, 1),
-    C_SALUTATION(121, 1),
-    C_FIRST_NAME(122, 1),
-    C_LAST_NAME(123, 1),
-    C_PREFERRED_CUST_FLAG(124, 2),
-    C_BIRTH_DAY(125, 1),
-    C_BIRTH_MONTH(126, 0),
-    C_BIRTH_YEAR(127, 0),
-    C_BIRTH_COUNTRY(128, 1),
-    C_LOGIN(129, 1),
-    C_EMAIL_ADDRESS(130, 23),
-    C_LAST_REVIEW_DATE(131, 1),
-    C_NULLS(132, 2);
+    CA_ADDRESS_SK(133, 1),
+    CA_ADDRESS_ID(134, 1),
+    CA_ADDRESS_STREET_NUM(135, 1),
+    CA_ADDRESS_STREET_NAME(136, 1),
+    CA_ADDRESS_STREET_TYPE(137, 1),
+    CA_ADDRESS_SUITE_NUM(138, 1),
+    CA_ADDRESS_CITY(139, 1),
+    CA_ADDRESS_COUNTY(140, 1),
+    CA_ADDRESS_STATE(141, 1),
+    CA_ADDRESS_ZIP(142, 1),
+    CA_ADDRESS_COUNTRY(143, 1),
+    CA_ADDRESS_GMT_OFFSET(144, 1),
+    CA_LOCATION_TYPE(145, 1),
+    CA_NULLS(146, 2),
+    CA_ADDRESS(147, 7),
+    CA_ADDRESS_STREET_NAME2(148, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CustomerGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerAddressGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -55,7 +52,7 @@ public enum CustomerGeneratorColumn
     @Override
     public Table getTable()
     {
-        return CUSTOMER;
+        return CUSTOMER_ADDRESS;
     }
 
     @Override

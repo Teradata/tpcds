@@ -19,20 +19,20 @@ import com.teradata.tpcds.type.Address;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_CITY;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_COUNTRY;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_COUNTY;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_GMT_OFFSET;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_STATE;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_STREET_NAME1;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_STREET_NUM;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_STREET_TYPE;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_SUITE_NUM;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_ADDRESS_ZIP;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_WAREHOUSE_ID;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_WAREHOUSE_NAME;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_WAREHOUSE_SK;
-import static com.teradata.tpcds.column.WarehouseGeneratorColumn.W_WAREHOUSE_SQ_FT;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_CITY;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_COUNTRY;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_COUNTY;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_GMT_OFFSET;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_STATE;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_STREET_NAME1;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_STREET_NUM;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_STREET_TYPE;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_SUITE_NUM;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_ADDRESS_ZIP;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_WAREHOUSE_ID;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_WAREHOUSE_NAME;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_WAREHOUSE_SK;
+import static com.teradata.tpcds.column.generator.WarehouseGeneratorColumn.W_WAREHOUSE_SQ_FT;
 import static java.lang.String.format;
 
 public class WarehouseRow

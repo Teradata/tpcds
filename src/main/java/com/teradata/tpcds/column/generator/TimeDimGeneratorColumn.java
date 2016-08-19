@@ -12,38 +12,33 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
+import static com.teradata.tpcds.Table.TIME_DIM;
 
-public enum CustomerAddressGeneratorColumn
+public enum TimeDimGeneratorColumn
         implements GeneratorColumn
 {
-    CA_ADDRESS_SK(133, 1),
-    CA_ADDRESS_ID(134, 1),
-    CA_ADDRESS_STREET_NUM(135, 1),
-    CA_ADDRESS_STREET_NAME(136, 1),
-    CA_ADDRESS_STREET_TYPE(137, 1),
-    CA_ADDRESS_SUITE_NUM(138, 1),
-    CA_ADDRESS_CITY(139, 1),
-    CA_ADDRESS_COUNTY(140, 1),
-    CA_ADDRESS_STATE(141, 1),
-    CA_ADDRESS_ZIP(142, 1),
-    CA_ADDRESS_COUNTRY(143, 1),
-    CA_ADDRESS_GMT_OFFSET(144, 1),
-    CA_LOCATION_TYPE(145, 1),
-    CA_NULLS(146, 2),
-    CA_ADDRESS(147, 7),
-    CA_ADDRESS_STREET_NAME2(148, 1);
+    T_TIME_SK(340, 1),
+    T_TIME_ID(341, 1),
+    T_TIME(342, 1),
+    T_HOUR(343, 1),
+    T_MINUTE(344, 1),
+    T_SECOND(345, 1),
+    T_AM_PM(346, 1),
+    T_SHIFT(347, 1),
+    T_SUB_SHIFT(348, 1),
+    T_MEAL_TIME(349, 1),
+    T_NULLS(350, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CustomerAddressGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    TimeDimGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +47,7 @@ public enum CustomerAddressGeneratorColumn
     @Override
     public Table getTable()
     {
-        return CUSTOMER_ADDRESS;
+        return TIME_DIM;
     }
 
     @Override

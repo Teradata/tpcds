@@ -12,33 +12,26 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CATALOG_PAGE;
+import static com.teradata.tpcds.Table.REASON;
 
-public enum CatalogPageGeneratorColumn
+public enum ReasonGeneratorColumn
         implements GeneratorColumn
 {
-    CP_CATALOG_PAGE_SK(35, 1),
-    CP_CATALOG_PAGE_ID(36, 1),
-    CP_START_DATE_ID(37, 1),
-    CP_END_DATE_ID(38, 1),
-    CP_PROMO_ID(39, 1),
-    CP_DEPARTMENT(40, 1),
-    CP_CATALOG_NUMBER(41, 1),
-    CP_CATALOG_PAGE_NUMBER(42, 1),
-    CP_DESCRIPTION(43, 100), //S_CP_DESCRIPTION
-    CP_TYPE(44, 1),
-    CP_NULLS(45, 2);
+    R_REASON_SK(248, 1),
+    R_REASON_ID(249, 1),
+    R_REASON_DESCRIPTION(250, 1),
+    R_NULLS(251, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CatalogPageGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    ReasonGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -47,7 +40,7 @@ public enum CatalogPageGeneratorColumn
     @Override
     public Table getTable()
     {
-        return CATALOG_PAGE;
+        return REASON;
     }
 
     @Override

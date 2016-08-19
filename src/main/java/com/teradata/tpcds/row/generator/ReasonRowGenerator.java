@@ -19,7 +19,7 @@ import com.teradata.tpcds.row.ReasonRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.ReasonGeneratorColumn.R_NULLS;
+import static com.teradata.tpcds.column.generator.ReasonGeneratorColumn.R_NULLS;
 import static com.teradata.tpcds.distribution.ReturnReasonsDistribution.getReturnReasonAtIndex;
 
 public class ReasonRowGenerator

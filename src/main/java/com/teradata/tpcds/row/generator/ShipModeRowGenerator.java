@@ -19,8 +19,8 @@ import com.teradata.tpcds.row.ShipModeRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_CONTRACT;
-import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_NULLS;
+import static com.teradata.tpcds.column.generator.ShipModeGeneratorColumn.SM_CONTRACT;
+import static com.teradata.tpcds.column.generator.ShipModeGeneratorColumn.SM_NULLS;
 import static com.teradata.tpcds.distribution.ShipModeDistributions.SHIP_MODE_TYPE_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.ShipModeDistributions.getShipModeCarrierAtIndex;
 import static com.teradata.tpcds.distribution.ShipModeDistributions.getShipModeCodeForIndexModSize;

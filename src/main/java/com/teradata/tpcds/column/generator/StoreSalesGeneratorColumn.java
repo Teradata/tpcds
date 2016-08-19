@@ -12,42 +12,48 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column;
+package com.teradata.tpcds.column.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.PROMOTION;
+import static com.teradata.tpcds.Table.STORE_SALES;
 
-public enum PromotionGeneratorColumn
+public enum StoreSalesGeneratorColumn
         implements GeneratorColumn
 {
-    P_PROMO_SK(228, 1),
-    P_PROMO_ID(229, 1),
-    P_START_DATE_ID(230, 1),
-    P_END_DATE_ID(231, 1),
-    P_ITEM_SK(232, 1),
-    P_COST(233, 1),
-    P_RESPONSE_TARGET(234, 1),
-    P_PROMO_NAME(235, 1),
-    P_CHANNEL_DMAIL(236, 1),
-    P_CHANNEL_EMAIL(237, 1),
-    P_CHANNEL_CATALOG(238, 1),
-    P_CHANNEL_TV(239, 1),
-    P_CHANNEL_RADIO(240, 1),
-    P_CHANNEL_PRESS(241, 1),
-    P_CHANNEL_EVENT(242, 1),
-    P_CHANNEL_DEMO(243, 1),
-    P_CHANNEL_DETAILS(244, 100),
-    P_PURPOSE(245, 1),
-    P_DISCOUNT_ACTIVE(246, 1),
-    P_NULLS(247, 2);
+    SS_SOLD_DATE_SK(314, 2),
+    SS_SOLD_TIME_SK(315, 2),
+    SS_SOLD_ITEM_SK(316, 1),
+    SS_SOLD_CUSTOMER_SK(317, 1),
+    SS_SOLD_CDEMO_SK(318, 1),
+    SS_SOLD_HDEMO_SK(319, 1),
+    SS_SOLD_ADDR_SK(320, 1),
+    SS_SOLD_STORE_SK(321, 1),
+    SS_SOLD_PROMO_SK(322, 16),
+    SS_TICKET_NUMBER(323, 1),
+    SS_PRICING_QUANTITY(324, 1),
+    SS_PRICING_WHOLESALE_COST(325, 0),
+    SS_PRICING_LIST_PRICE(326, 0),
+    SS_PRICING_SALES_PRICE(327, 0),
+    SS_PRICING_COUPON_AMT(328, 0),
+    SS_PRICING_EXT_SALES_PRICE(329, 0),
+    SS_PRICING_EXT_WHOLESALE_COST(330, 0),
+    SS_PRICING_EXT_LIST_PRICE(331, 0),
+    SS_PRICING_EXT_TAX(332, 0),
+    SS_PRICING_NET_PAID(333, 0),
+    SS_PRICING_NET_PAID_INC_TAX(334, 0),
+    SS_PRICING_NET_PROFIT(335, 0),
+    SR_IS_RETURNED(336, 16),
+    SS_PRICING(337, 128),
+    SS_NULLS(338, 32),
+    SS_PERMUTATION(339, 0);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    PromotionGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    StoreSalesGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -56,7 +62,7 @@ public enum PromotionGeneratorColumn
     @Override
     public Table getTable()
     {
-        return PROMOTION;
+        return STORE_SALES;
     }
 
     @Override
