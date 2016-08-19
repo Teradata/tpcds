@@ -17,20 +17,20 @@ package com.teradata.tpcds.row;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.WebPageColumn.WP_ACCESS_DATE_SK;
-import static com.teradata.tpcds.column.WebPageColumn.WP_AUTOGEN_FLAG;
-import static com.teradata.tpcds.column.WebPageColumn.WP_CHAR_COUNT;
-import static com.teradata.tpcds.column.WebPageColumn.WP_CREATION_DATE_SK;
-import static com.teradata.tpcds.column.WebPageColumn.WP_CUSTOMER_SK;
-import static com.teradata.tpcds.column.WebPageColumn.WP_IMAGE_COUNT;
-import static com.teradata.tpcds.column.WebPageColumn.WP_LINK_COUNT;
-import static com.teradata.tpcds.column.WebPageColumn.WP_MAX_AD_COUNT;
-import static com.teradata.tpcds.column.WebPageColumn.WP_PAGE_ID;
-import static com.teradata.tpcds.column.WebPageColumn.WP_PAGE_SK;
-import static com.teradata.tpcds.column.WebPageColumn.WP_REC_END_DATE_ID;
-import static com.teradata.tpcds.column.WebPageColumn.WP_REC_START_DATE_ID;
-import static com.teradata.tpcds.column.WebPageColumn.WP_TYPE;
-import static com.teradata.tpcds.column.WebPageColumn.WP_URL;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_ACCESS_DATE_SK;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_AUTOGEN_FLAG;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_CHAR_COUNT;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_CREATION_DATE_SK;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_CUSTOMER_SK;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_IMAGE_COUNT;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_LINK_COUNT;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_MAX_AD_COUNT;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_PAGE_ID;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_PAGE_SK;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_REC_END_DATE_ID;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_REC_START_DATE_ID;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_TYPE;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_URL;
 
 public class WebPageRow
         extends TableRowWithNulls

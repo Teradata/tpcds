@@ -18,45 +18,21 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CATALOG_RETURNS;
+import static com.teradata.tpcds.Table.INVENTORY;
 
-public enum CatalogReturnsColumn
-        implements Column
+public enum InventoryGeneratorColumn
+        implements GeneratorColumn
 {
-    CR_RETURNED_DATE_SK(46, 28),
-    CR_RETURNED_TIME_SK(47, 28),
-    CR_ITEM_SK(48, 14),
-    CR_REFUNDED_CUSTOMER_SK(49, 14),
-    CR_REFUNDED_CDEMO_SK(50, 14),
-    CR_REFUNDED_HDEMO_SK(51, 14),
-    CR_REFUNDED_ADDR_SK(52, 14),
-    CR_RETURNING_CUSTOMER_SK(53, 28),
-    CR_RETURNING_CDEMO_SK(54, 14),
-    CR_RETURNING_HDEMO_SK(55, 14),
-    CR_RETURNING_ADDR_SK(56, 14),
-    CR_CALL_CENTER_SK(57, 0),
-    CR_CATALOG_PAGE_SK(58, 14),
-    CR_SHIP_MODE_SK(59, 14),
-    CR_WAREHOUSE_SK(60, 14),
-    CR_REASON_SK(61, 14),
-    CR_ORDER_NUMBER(62, 0),
-    CR_PRICING_QUANTITY(63, 0),
-    CR_PRICING_NET_PAID(64, 0),
-    CR_PRICING_EXT_TAX(65, 0),
-    CR_PRICING_NET_PAID_INC_TAX(66, 0),
-    CR_PRICING_FEE(67, 0),
-    CR_PRICING_EXT_SHIP_COST(68, 0),
-    CR_PRICING_REFUNDED_CASH(69, 0),
-    CR_PRICING_REVERSED_CHARGE(70, 0),
-    CR_PRICING_STORE_CREDIT(71, 0),
-    CR_PRICING_NET_LOSS(72, 0),
-    CR_NULLS(73, 28),
-    CR_PRICING(74, 70);
+    INV_DATE_SK(198, 1),
+    INV_ITEM_SK(199, 1),
+    INV_WAREHOUSE_SK(200, 1),
+    INV_QUANTITY_ON_HAND(201, 1),
+    INV_NULLS(202, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CatalogReturnsColumn(int globalColumnNumber, int seedsPerRow)
+    InventoryGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -65,7 +41,7 @@ public enum CatalogReturnsColumn
     @Override
     public Table getTable()
     {
-        return CATALOG_RETURNS;
+        return INVENTORY;
     }
 
     @Override

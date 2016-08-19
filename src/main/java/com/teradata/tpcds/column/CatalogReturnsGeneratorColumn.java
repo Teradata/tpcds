@@ -18,23 +18,45 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.SHIP_MODE;
+import static com.teradata.tpcds.Table.CATALOG_RETURNS;
 
-public enum ShipModeColumn
-        implements Column
+public enum CatalogReturnsGeneratorColumn
+        implements GeneratorColumn
 {
-    SM_SHIP_MODE_SK(252, 1),
-    SM_SHIP_MODE_ID(253, 1),
-    SM_TYPE(254, 1),
-    SM_CODE(255, 1),
-    SM_CONTRACT(256, 21),
-    SM_CARRIER(257, 1),
-    SM_NULLS(258, 2);
+    CR_RETURNED_DATE_SK(46, 28),
+    CR_RETURNED_TIME_SK(47, 28),
+    CR_ITEM_SK(48, 14),
+    CR_REFUNDED_CUSTOMER_SK(49, 14),
+    CR_REFUNDED_CDEMO_SK(50, 14),
+    CR_REFUNDED_HDEMO_SK(51, 14),
+    CR_REFUNDED_ADDR_SK(52, 14),
+    CR_RETURNING_CUSTOMER_SK(53, 28),
+    CR_RETURNING_CDEMO_SK(54, 14),
+    CR_RETURNING_HDEMO_SK(55, 14),
+    CR_RETURNING_ADDR_SK(56, 14),
+    CR_CALL_CENTER_SK(57, 0),
+    CR_CATALOG_PAGE_SK(58, 14),
+    CR_SHIP_MODE_SK(59, 14),
+    CR_WAREHOUSE_SK(60, 14),
+    CR_REASON_SK(61, 14),
+    CR_ORDER_NUMBER(62, 0),
+    CR_PRICING_QUANTITY(63, 0),
+    CR_PRICING_NET_PAID(64, 0),
+    CR_PRICING_EXT_TAX(65, 0),
+    CR_PRICING_NET_PAID_INC_TAX(66, 0),
+    CR_PRICING_FEE(67, 0),
+    CR_PRICING_EXT_SHIP_COST(68, 0),
+    CR_PRICING_REFUNDED_CASH(69, 0),
+    CR_PRICING_REVERSED_CHARGE(70, 0),
+    CR_PRICING_STORE_CREDIT(71, 0),
+    CR_PRICING_NET_LOSS(72, 0),
+    CR_NULLS(73, 28),
+    CR_PRICING(74, 70);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ShipModeColumn(int globalColumnNumber, int seedsPerRow)
+    CatalogReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -43,7 +65,7 @@ public enum ShipModeColumn
     @Override
     public Table getTable()
     {
-        return SHIP_MODE;
+        return CATALOG_RETURNS;
     }
 
     @Override

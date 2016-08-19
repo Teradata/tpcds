@@ -11,26 +11,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.teradata.tpcds.column;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.DBGEN_VERSION;
+import static com.teradata.tpcds.Table.CUSTOMER;
 
-public enum DbgenVersionColumn
-        implements Column
+public enum CustomerGeneratorColumn
+        implements GeneratorColumn
 {
-    DV_VERSION(476, 1),
-    DV_CREATE_DATE(477, 1),
-    DV_CREATE_TIME(478, 1),
-    DV_CMDLINE_ARGS(479, 1);
+    C_CUSTOMER_SK(114, 1),
+    C_CUSTOMER_ID(115, 1),
+    C_CURRENT_CDEMO_SK(116, 1),
+    C_CURRENT_HDEMO_SK(117, 1),
+    C_CURRENT_ADDR_SK(118, 1),
+    C_FIRST_SHIPTO_DATE_ID(119, 0),
+    C_FIRST_SALES_DATE_ID(120, 1),
+    C_SALUTATION(121, 1),
+    C_FIRST_NAME(122, 1),
+    C_LAST_NAME(123, 1),
+    C_PREFERRED_CUST_FLAG(124, 2),
+    C_BIRTH_DAY(125, 1),
+    C_BIRTH_MONTH(126, 0),
+    C_BIRTH_YEAR(127, 0),
+    C_BIRTH_COUNTRY(128, 1),
+    C_LOGIN(129, 1),
+    C_EMAIL_ADDRESS(130, 23),
+    C_LAST_REVIEW_DATE(131, 1),
+    C_NULLS(132, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    DbgenVersionColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -39,7 +55,7 @@ public enum DbgenVersionColumn
     @Override
     public Table getTable()
     {
-        return DBGEN_VERSION;
+        return CUSTOMER;
     }
 
     @Override

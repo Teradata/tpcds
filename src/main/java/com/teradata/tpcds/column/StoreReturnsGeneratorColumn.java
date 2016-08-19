@@ -18,20 +18,38 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.REASON;
+import static com.teradata.tpcds.Table.STORE_RETURNS;
 
-public enum ReasonColumn
-        implements Column
+public enum StoreReturnsGeneratorColumn
+        implements GeneratorColumn
 {
-    R_REASON_SK(248, 1),
-    R_REASON_ID(249, 1),
-    R_REASON_DESCRIPTION(250, 1),
-    R_NULLS(251, 2);
+    SR_RETURNED_DATE_SK(292, 32),
+    SR_RETURNED_TIME_SK(293, 32),
+    SR_ITEM_SK(294, 16),
+    SR_CUSTOMER_SK(295, 16),
+    SR_CDEMO_SK(296, 16),
+    SR_HDEMO_SK(297, 16),
+    SR_ADDR_SK(298, 16),
+    SR_STORE_SK(299, 16),
+    SR_REASON_SK(300, 16),
+    SR_TICKET_NUMBER(301, 16),
+    SR_PRICING_QUANTITY(302, 0),
+    SR_PRICING_NET_PAID(303, 0),
+    SR_PRICING_EXT_TAX(304, 0),
+    SR_PRICING_NET_PAID_INC_TAX(305, 0),
+    SR_PRICING_FEE(306, 0),
+    SR_PRICING_EXT_SHIP_COST(307, 0),
+    SR_PRICING_REFUNDED_CASH(308, 0),
+    SR_PRICING_REVERSED_CHARGE(309, 0),
+    SR_PRICING_STORE_CREDIT(310, 0),
+    SR_PRICING_NET_LOSS(311, 0),
+    SR_PRICING(312, 80),
+    SR_NULLS(313, 32);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ReasonColumn(int globalColumnNumber, int seedsPerRow)
+    StoreReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -40,7 +58,7 @@ public enum ReasonColumn
     @Override
     public Table getTable()
     {
-        return REASON;
+        return STORE_RETURNS;
     }
 
     @Override

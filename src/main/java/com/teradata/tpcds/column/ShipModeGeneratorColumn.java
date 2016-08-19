@@ -18,27 +18,23 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.TIME_DIM;
+import static com.teradata.tpcds.Table.SHIP_MODE;
 
-public enum TimeDimColumn
-        implements Column
+public enum ShipModeGeneratorColumn
+        implements GeneratorColumn
 {
-    T_TIME_SK(340, 1),
-    T_TIME_ID(341, 1),
-    T_TIME(342, 1),
-    T_HOUR(343, 1),
-    T_MINUTE(344, 1),
-    T_SECOND(345, 1),
-    T_AM_PM(346, 1),
-    T_SHIFT(347, 1),
-    T_SUB_SHIFT(348, 1),
-    T_MEAL_TIME(349, 1),
-    T_NULLS(350, 1);
+    SM_SHIP_MODE_SK(252, 1),
+    SM_SHIP_MODE_ID(253, 1),
+    SM_TYPE(254, 1),
+    SM_CODE(255, 1),
+    SM_CONTRACT(256, 21),
+    SM_CARRIER(257, 1),
+    SM_NULLS(258, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    TimeDimColumn(int globalColumnNumber, int seedsPerRow)
+    ShipModeGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -47,7 +43,7 @@ public enum TimeDimColumn
     @Override
     public Table getTable()
     {
-        return TIME_DIM;
+        return SHIP_MODE;
     }
 
     @Override

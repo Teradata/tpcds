@@ -18,22 +18,27 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
+import static com.teradata.tpcds.Table.TIME_DIM;
 
-public enum HouseholdDemographicsColumn
-        implements Column
+public enum TimeDimGeneratorColumn
+        implements GeneratorColumn
 {
-    HD_DEMO_SK(188, 1),
-    HD_INCOME_BAND_ID(189, 1),
-    HD_BUY_POTENTIAL(190, 1),
-    HD_DEP_COUNT(191, 1),
-    HD_VEHICLE_COUNT(192, 1),
-    HD_NULLS(193, 2);
+    T_TIME_SK(340, 1),
+    T_TIME_ID(341, 1),
+    T_TIME(342, 1),
+    T_HOUR(343, 1),
+    T_MINUTE(344, 1),
+    T_SECOND(345, 1),
+    T_AM_PM(346, 1),
+    T_SHIFT(347, 1),
+    T_SUB_SHIFT(348, 1),
+    T_MEAL_TIME(349, 1),
+    T_NULLS(350, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    HouseholdDemographicsColumn(int globalColumnNumber, int seedsPerRow)
+    TimeDimGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -42,7 +47,7 @@ public enum HouseholdDemographicsColumn
     @Override
     public Table getTable()
     {
-        return HOUSEHOLD_DEMOGRAPHICS;
+        return TIME_DIM;
     }
 
     @Override

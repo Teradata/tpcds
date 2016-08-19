@@ -18,45 +18,27 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WEB_SITE;
+import static com.teradata.tpcds.Table.CATALOG_PAGE;
 
-public enum WebSiteColumn
-        implements Column
+public enum CatalogPageGeneratorColumn
+        implements GeneratorColumn
 {
-    WEB_SITE_SK(447, 1),
-    WEB_SITE_ID(448, 1),
-    WEB_REC_START_DATE_ID(449, 1),
-    WEB_REC_END_DATE_ID(450, 1),
-    WEB_NAME(451, 1),
-    WEB_OPEN_DATE(452, 1),
-    WEB_CLOSE_DATE(453, 1),
-    WEB_CLASS(454, 1),
-    WEB_MANAGER(455, 2),
-    WEB_MARKET_ID(456, 1),
-    WEB_MARKET_CLASS(457, 20),
-    WEB_MARKET_DESC(458, 100),
-    WEB_MARKET_MANAGER(459, 2),
-    WEB_COMPANY_ID(460, 1),
-    WEB_COMPANY_NAME(461, 1),
-    WEB_ADDRESS_STREET_NUM(462, 1),
-    WEB_ADDRESS_STREET_NAME1(463, 1),
-    WEB_ADDRESS_STREET_TYPE(464, 1),
-    WEB_ADDRESS_SUITE_NUM(465, 1),
-    WEB_ADDRESS_CITY(466, 1),
-    WEB_ADDRESS_COUNTY(467, 1),
-    WEB_ADDRESS_STATE(468, 1),
-    WEB_ADDRESS_ZIP(469, 1),
-    WEB_ADDRESS_COUNTRY(470, 1),
-    WEB_ADDRESS_GMT_OFFSET(471, 1),
-    WEB_TAX_PERCENTAGE(472, 1),
-    WEB_NULLS(473, 2),
-    WEB_ADDRESS(474, 7),
-    WEB_SCD(475, 70);
+    CP_CATALOG_PAGE_SK(35, 1),
+    CP_CATALOG_PAGE_ID(36, 1),
+    CP_START_DATE_ID(37, 1),
+    CP_END_DATE_ID(38, 1),
+    CP_PROMO_ID(39, 1),
+    CP_DEPARTMENT(40, 1),
+    CP_CATALOG_NUMBER(41, 1),
+    CP_CATALOG_PAGE_NUMBER(42, 1),
+    CP_DESCRIPTION(43, 100), //S_CP_DESCRIPTION
+    CP_TYPE(44, 1),
+    CP_NULLS(45, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebSiteColumn(int globalColumnNumber, int seedsPerRow)
+    CatalogPageGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -65,7 +47,7 @@ public enum WebSiteColumn
     @Override
     public Table getTable()
     {
-        return WEB_SITE;
+        return CATALOG_PAGE;
     }
 
     @Override

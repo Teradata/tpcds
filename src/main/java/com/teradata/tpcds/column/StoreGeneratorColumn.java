@@ -18,32 +18,49 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
+import static com.teradata.tpcds.Table.STORE;
 
-public enum CustomerAddressColumn
-        implements Column
+public enum StoreGeneratorColumn
+        implements GeneratorColumn
 {
-    CA_ADDRESS_SK(133, 1),
-    CA_ADDRESS_ID(134, 1),
-    CA_ADDRESS_STREET_NUM(135, 1),
-    CA_ADDRESS_STREET_NAME(136, 1),
-    CA_ADDRESS_STREET_TYPE(137, 1),
-    CA_ADDRESS_SUITE_NUM(138, 1),
-    CA_ADDRESS_CITY(139, 1),
-    CA_ADDRESS_COUNTY(140, 1),
-    CA_ADDRESS_STATE(141, 1),
-    CA_ADDRESS_ZIP(142, 1),
-    CA_ADDRESS_COUNTRY(143, 1),
-    CA_ADDRESS_GMT_OFFSET(144, 1),
-    CA_LOCATION_TYPE(145, 1),
-    CA_NULLS(146, 2),
-    CA_ADDRESS(147, 7),
-    CA_ADDRESS_STREET_NAME2(148, 1);
+    W_STORE_SK(259, 1),
+    W_STORE_ID(260, 1),
+    W_STORE_REC_START_DATE_ID(261, 1),
+    W_STORE_REC_END_DATE_ID(262, 2),
+    W_STORE_CLOSED_DATE_ID(263, 2),
+    W_STORE_NAME(264, 0),
+    W_STORE_EMPLOYEES(265, 1),
+    W_STORE_FLOOR_SPACE(266, 1),
+    W_STORE_HOURS(267, 1),
+    W_STORE_MANAGER(268, 2),
+    W_STORE_MARKET_ID(269, 1),
+    W_STORE_TAX_PERCENTAGE(270, 1),
+    W_STORE_GEOGRAPHY_CLASS(271, 1),
+    W_STORE_MARKET_DESC(272, 100),
+    W_STORE_MARKET_MANAGER(273, 2),
+    W_STORE_DIVISION_ID(274, 1),
+    W_STORE_DIVISION_NAME(275, 1),
+    W_STORE_COMPANY_ID(276, 1),
+    W_STORE_COMPANY_NAME(277, 1),
+    W_STORE_ADDRESS_STREET_NUM(278, 1),
+    W_STORE_ADDRESS_STREET_NAME1(279, 1),
+    W_STORE_ADDRESS_STREET_TYPE(280, 1),
+    W_STORE_ADDRESS_SUITE_NUM(281, 1),
+    W_STORE_ADDRESS_CITY(282, 1),
+    W_STORE_ADDRESS_COUNTY(283, 1),
+    W_STORE_ADDRESS_STATE(284, 1),
+    W_STORE_ADDRESS_ZIP(285, 1),
+    W_STORE_ADDRESS_COUNTRY(286, 1),
+    W_STORE_ADDRESS_GMT_OFFSET(287, 1),
+    W_STORE_NULLS(288, 2),
+    W_STORE_TYPE(289, 1),
+    W_STORE_SCD(290, 1),
+    W_STORE_ADDRESS(291, 7);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CustomerAddressColumn(int globalColumnNumber, int seedsPerRow)
+    StoreGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +69,7 @@ public enum CustomerAddressColumn
     @Override
     public Table getTable()
     {
-        return CUSTOMER_ADDRESS;
+        return STORE;
     }
 
     @Override

@@ -18,27 +18,20 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CATALOG_PAGE;
+import static com.teradata.tpcds.Table.INCOME_BAND;
 
-public enum CatalogPageColumn
-        implements Column
+public enum IncomeBandGeneratorColumn
+        implements GeneratorColumn
 {
-    CP_CATALOG_PAGE_SK(35, 1),
-    CP_CATALOG_PAGE_ID(36, 1),
-    CP_START_DATE_ID(37, 1),
-    CP_END_DATE_ID(38, 1),
-    CP_PROMO_ID(39, 1),
-    CP_DEPARTMENT(40, 1),
-    CP_CATALOG_NUMBER(41, 1),
-    CP_CATALOG_PAGE_NUMBER(42, 1),
-    CP_DESCRIPTION(43, 100), //S_CP_DESCRIPTION
-    CP_TYPE(44, 1),
-    CP_NULLS(45, 2);
+    IB_INCOME_BAND_ID(194, 1),
+    IB_LOWER_BOUND(195, 1),
+    IB_UPPER_BOUND(196, 1),
+    IB_NULLS(197, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CatalogPageColumn(int globalColumnNumber, int seedsPerRow)
+    IncomeBandGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -47,7 +40,7 @@ public enum CatalogPageColumn
     @Override
     public Table getTable()
     {
-        return CATALOG_PAGE;
+        return INCOME_BAND;
     }
 
     @Override

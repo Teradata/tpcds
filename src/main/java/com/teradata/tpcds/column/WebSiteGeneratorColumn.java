@@ -18,21 +18,45 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.INVENTORY;
+import static com.teradata.tpcds.Table.WEB_SITE;
 
-public enum InventoryColumn
-        implements Column
+public enum WebSiteGeneratorColumn
+        implements GeneratorColumn
 {
-    INV_DATE_SK(198, 1),
-    INV_ITEM_SK(199, 1),
-    INV_WAREHOUSE_SK(200, 1),
-    INV_QUANTITY_ON_HAND(201, 1),
-    INV_NULLS(202, 2);
+    WEB_SITE_SK(447, 1),
+    WEB_SITE_ID(448, 1),
+    WEB_REC_START_DATE_ID(449, 1),
+    WEB_REC_END_DATE_ID(450, 1),
+    WEB_NAME(451, 1),
+    WEB_OPEN_DATE(452, 1),
+    WEB_CLOSE_DATE(453, 1),
+    WEB_CLASS(454, 1),
+    WEB_MANAGER(455, 2),
+    WEB_MARKET_ID(456, 1),
+    WEB_MARKET_CLASS(457, 20),
+    WEB_MARKET_DESC(458, 100),
+    WEB_MARKET_MANAGER(459, 2),
+    WEB_COMPANY_ID(460, 1),
+    WEB_COMPANY_NAME(461, 1),
+    WEB_ADDRESS_STREET_NUM(462, 1),
+    WEB_ADDRESS_STREET_NAME1(463, 1),
+    WEB_ADDRESS_STREET_TYPE(464, 1),
+    WEB_ADDRESS_SUITE_NUM(465, 1),
+    WEB_ADDRESS_CITY(466, 1),
+    WEB_ADDRESS_COUNTY(467, 1),
+    WEB_ADDRESS_STATE(468, 1),
+    WEB_ADDRESS_ZIP(469, 1),
+    WEB_ADDRESS_COUNTRY(470, 1),
+    WEB_ADDRESS_GMT_OFFSET(471, 1),
+    WEB_TAX_PERCENTAGE(472, 1),
+    WEB_NULLS(473, 2),
+    WEB_ADDRESS(474, 7),
+    WEB_SCD(475, 70);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    InventoryColumn(int globalColumnNumber, int seedsPerRow)
+    WebSiteGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -41,7 +65,7 @@ public enum InventoryColumn
     @Override
     public Table getTable()
     {
-        return INVENTORY;
+        return WEB_SITE;
     }
 
     @Override

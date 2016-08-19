@@ -20,8 +20,8 @@ import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.WEB_PAGE;
 
-public enum WebPageColumn
-        implements Column
+public enum WebPageGeneratorColumn
+        implements GeneratorColumn
 {
     WP_PAGE_SK(367, 1),
     WP_PAGE_ID(368, 1),
@@ -43,7 +43,7 @@ public enum WebPageColumn
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebPageColumn(int globalColumnNumber, int seedsPerRow)
+    WebPageGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);

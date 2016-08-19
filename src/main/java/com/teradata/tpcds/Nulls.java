@@ -14,7 +14,7 @@
 
 package com.teradata.tpcds;
 
-import com.teradata.tpcds.column.Column;
+import com.teradata.tpcds.column.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
@@ -24,7 +24,7 @@ public class Nulls
 {
     private Nulls() {}
 
-    public static long createNullBitMap(Column column)
+    public static long createNullBitMap(GeneratorColumn column)
     {
         Table table = column.getTable();
         RandomNumberStream randomNumberStream = column.getRandomNumberStream();

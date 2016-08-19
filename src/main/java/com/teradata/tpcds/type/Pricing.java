@@ -16,14 +16,14 @@ package com.teradata.tpcds.type;
 
 import com.google.common.collect.ImmutableMap;
 import com.teradata.tpcds.TpcdsException;
-import com.teradata.tpcds.column.Column;
+import com.teradata.tpcds.column.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import java.util.Map;
 
-import static com.teradata.tpcds.column.CatalogSalesColumn.CS_PRICING;
-import static com.teradata.tpcds.column.StoreSalesColumn.SS_PRICING;
-import static com.teradata.tpcds.column.WebSalesColumn.WS_PRICING;
+import static com.teradata.tpcds.column.CatalogSalesGeneratorColumn.CS_PRICING;
+import static com.teradata.tpcds.column.StoreSalesGeneratorColumn.SS_PRICING;
+import static com.teradata.tpcds.column.WebSalesGeneratorColumn.WS_PRICING;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomDecimal;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.row.generator.CatalogSalesRowGenerator.CS_DISCOUNT_MAX;
@@ -48,7 +48,7 @@ public class Pricing
     public static final Decimal DISCOUNT_MIN = new Decimal(0, 2);
 
     // TODO: add Limits for other columns as they are relevant
-    private static final Map<Column, Limits> LIMITS_PER_COLUMN = ImmutableMap.of(
+    private static final Map<GeneratorColumn, Limits> LIMITS_PER_COLUMN = ImmutableMap.of(
             CS_PRICING, new Limits(CS_QUANTITY_MAX, CS_MARKUP_MAX, CS_DISCOUNT_MAX, CS_WHOLESALE_MAX),
             SS_PRICING, new Limits(100, ONE, ONE, ONE_HUNDRED),
             WS_PRICING, new Limits(100, new Decimal(200, 2), ONE, ONE_HUNDRED));
@@ -126,7 +126,7 @@ public class Pricing
         this.netLoss = netLoss;
     }
 
-    public static Pricing generatePricingForSalesTable(Column column)
+    public static Pricing generatePricingForSalesTable(GeneratorColumn column)
     {
         if (!LIMITS_PER_COLUMN.containsKey(column)) {
             throw new TpcdsException("No price limits for column: " + column);
@@ -205,7 +205,7 @@ public class Pricing
                 netLoss);
     }
 
-    public static Pricing generatePricingForReturnsTable(Column column, int quantity, Pricing basePricing)
+    public static Pricing generatePricingForReturnsTable(GeneratorColumn column, int quantity, Pricing basePricing)
     {
         Decimal wholesaleCost = basePricing.wholesaleCost;
         Decimal listPrice = basePricing.listPrice;

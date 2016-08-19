@@ -20,8 +20,8 @@ import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.WEB_SALES;
 
-public enum WebSalesColumn
-        implements Column
+public enum WebSalesGeneratorColumn
+        implements GeneratorColumn
 {
     WS_SOLD_DATE_SK(409, 2),
     WS_SOLD_TIME_SK(410, 2),
@@ -65,7 +65,7 @@ public enum WebSalesColumn
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebSalesColumn(int globalColumnNumber, int seedsPerRow)
+    WebSalesGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);

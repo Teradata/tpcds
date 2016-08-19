@@ -19,25 +19,25 @@ import com.teradata.tpcds.type.Decimal;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_CATALOG;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_DEMO;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_DETAILS;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_DMAIL;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_EMAIL;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_EVENT;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_PRESS;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_RADIO;
-import static com.teradata.tpcds.column.PromotionColumn.P_CHANNEL_TV;
-import static com.teradata.tpcds.column.PromotionColumn.P_COST;
-import static com.teradata.tpcds.column.PromotionColumn.P_DISCOUNT_ACTIVE;
-import static com.teradata.tpcds.column.PromotionColumn.P_END_DATE_ID;
-import static com.teradata.tpcds.column.PromotionColumn.P_ITEM_SK;
-import static com.teradata.tpcds.column.PromotionColumn.P_PROMO_ID;
-import static com.teradata.tpcds.column.PromotionColumn.P_PROMO_NAME;
-import static com.teradata.tpcds.column.PromotionColumn.P_PROMO_SK;
-import static com.teradata.tpcds.column.PromotionColumn.P_PURPOSE;
-import static com.teradata.tpcds.column.PromotionColumn.P_RESPONSE_TARGET;
-import static com.teradata.tpcds.column.PromotionColumn.P_START_DATE_ID;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_CATALOG;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_DEMO;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_DETAILS;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_DMAIL;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_EMAIL;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_EVENT;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_PRESS;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_RADIO;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_CHANNEL_TV;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_COST;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_DISCOUNT_ACTIVE;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_END_DATE_ID;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_ITEM_SK;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_PROMO_ID;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_PROMO_NAME;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_PROMO_SK;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_PURPOSE;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_RESPONSE_TARGET;
+import static com.teradata.tpcds.column.PromotionGeneratorColumn.P_START_DATE_ID;
 
 public class PromotionRow
         extends TableRowWithNulls

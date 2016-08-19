@@ -20,7 +20,8 @@ import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.CALL_CENTER;
 
-public enum CallCenterColumn implements Column
+public enum CallCenterGeneratorColumn
+        implements GeneratorColumn
 {
     CC_CALL_CENTER_SK(1, 0),
     CC_CALL_CENTER_ID(2, 15),
@@ -60,7 +61,7 @@ public enum CallCenterColumn implements Column
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CallCenterColumn(int globalColumnNumber, int seedsPerRow)
+    CallCenterGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);

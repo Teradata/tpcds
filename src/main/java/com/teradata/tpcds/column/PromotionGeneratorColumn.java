@@ -18,32 +18,36 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WAREHOUSE;
+import static com.teradata.tpcds.Table.PROMOTION;
 
-public enum WarehouseColumn
-        implements Column
+public enum PromotionGeneratorColumn
+        implements GeneratorColumn
 {
-    W_WAREHOUSE_SK(351, 1),
-    W_WAREHOUSE_ID(352, 1),
-    W_WAREHOUSE_NAME(353, 80),
-    W_WAREHOUSE_SQ_FT(354, 1),
-    W_ADDRESS_STREET_NUM(355, 1),
-    W_ADDRESS_STREET_NAME1(356, 1),
-    W_ADDRESS_STREET_TYPE(357, 1),
-    W_ADDRESS_SUITE_NUM(358, 1),
-    W_ADDRESS_CITY(359, 1),
-    W_ADDRESS_COUNTY(360, 1),
-    W_ADDRESS_STATE(361, 1),
-    W_ADDRESS_ZIP(362, 1),
-    W_ADDRESS_COUNTRY(363, 1),
-    W_ADDRESS_GMT_OFFSET(364, 1),
-    W_NULLS(365, 2),
-    W_WAREHOUSE_ADDRESS(366, 7);
+    P_PROMO_SK(228, 1),
+    P_PROMO_ID(229, 1),
+    P_START_DATE_ID(230, 1),
+    P_END_DATE_ID(231, 1),
+    P_ITEM_SK(232, 1),
+    P_COST(233, 1),
+    P_RESPONSE_TARGET(234, 1),
+    P_PROMO_NAME(235, 1),
+    P_CHANNEL_DMAIL(236, 1),
+    P_CHANNEL_EMAIL(237, 1),
+    P_CHANNEL_CATALOG(238, 1),
+    P_CHANNEL_TV(239, 1),
+    P_CHANNEL_RADIO(240, 1),
+    P_CHANNEL_PRESS(241, 1),
+    P_CHANNEL_EVENT(242, 1),
+    P_CHANNEL_DEMO(243, 1),
+    P_CHANNEL_DETAILS(244, 100),
+    P_PURPOSE(245, 1),
+    P_DISCOUNT_ACTIVE(246, 1),
+    P_NULLS(247, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WarehouseColumn(int globalColumnNumber, int seedsPerRow)
+    PromotionGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +56,7 @@ public enum WarehouseColumn
     @Override
     public Table getTable()
     {
-        return WAREHOUSE;
+        return PROMOTION;
     }
 
     @Override

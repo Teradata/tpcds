@@ -18,42 +18,45 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.STORE_SALES;
+import static com.teradata.tpcds.Table.DATE_DIM;
 
-public enum StoreSalesColumn
-        implements Column
+public enum DateDimGeneratorColumn
+        implements GeneratorColumn
 {
-    SS_SOLD_DATE_SK(314, 2),
-    SS_SOLD_TIME_SK(315, 2),
-    SS_SOLD_ITEM_SK(316, 1),
-    SS_SOLD_CUSTOMER_SK(317, 1),
-    SS_SOLD_CDEMO_SK(318, 1),
-    SS_SOLD_HDEMO_SK(319, 1),
-    SS_SOLD_ADDR_SK(320, 1),
-    SS_SOLD_STORE_SK(321, 1),
-    SS_SOLD_PROMO_SK(322, 16),
-    SS_TICKET_NUMBER(323, 1),
-    SS_PRICING_QUANTITY(324, 1),
-    SS_PRICING_WHOLESALE_COST(325, 0),
-    SS_PRICING_LIST_PRICE(326, 0),
-    SS_PRICING_SALES_PRICE(327, 0),
-    SS_PRICING_COUPON_AMT(328, 0),
-    SS_PRICING_EXT_SALES_PRICE(329, 0),
-    SS_PRICING_EXT_WHOLESALE_COST(330, 0),
-    SS_PRICING_EXT_LIST_PRICE(331, 0),
-    SS_PRICING_EXT_TAX(332, 0),
-    SS_PRICING_NET_PAID(333, 0),
-    SS_PRICING_NET_PAID_INC_TAX(334, 0),
-    SS_PRICING_NET_PROFIT(335, 0),
-    SR_IS_RETURNED(336, 16),
-    SS_PRICING(337, 128),
-    SS_NULLS(338, 32),
-    SS_PERMUTATION(339, 0);
+    D_DATE_SK(159, 0),
+    D_DATE_ID(160, 0),
+    D_DATE(161, 0),
+    D_MONTH_SEQ(162, 0),
+    D_WEEK_SEQ(163, 0),
+    D_QUARTER_SEQ(164, 0),
+    D_YEAR(165, 0),
+    D_DOW(166, 0),
+    D_MOY(167, 0),
+    D_DOM(168, 0),
+    D_QOY(169, 0),
+    D_FY_YEAR(170, 0),
+    D_FY_QUARTER_SEQ(171, 0),
+    D_FY_WEEK_SEQ(172, 0),
+    D_DAY_NAME(173, 0),
+    D_QUARTER_NAME(174, 0),
+    D_HOLIDAY(175, 0),
+    D_WEEKEND(176, 0),
+    D_FOLLOWING_HOLIDAY(177, 0),
+    D_FIRST_DOM(178, 0),
+    D_LAST_DOM(179, 0),
+    D_SAME_DAY_LY(180, 0),
+    D_SAME_DAY_LQ(181, 0),
+    D_CURRENT_DAY(182, 0),
+    D_CURRENT_WEEK(183, 0),
+    D_CURRENT_MONTH(184, 0),
+    D_CURRENT_QUARTER(185, 0),
+    D_CURRENT_YEAR(186, 0),
+    D_NULLS(187, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    StoreSalesColumn(int globalColumnNumber, int seedsPerRow)
+    DateDimGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -62,7 +65,7 @@ public enum StoreSalesColumn
     @Override
     public Table getTable()
     {
-        return STORE_SALES;
+        return DATE_DIM;
     }
 
     @Override

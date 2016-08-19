@@ -17,7 +17,13 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 
-public interface Column
+/**
+ * GeneratorColumns are columns that are used only within the context of the
+ * generator logic. The Enums that implement this interface may include columns
+ * that are not user visible and will sometimes omit columns that are user visible
+ * (because those get derived from other columns).
+ */
+public interface GeneratorColumn
 {
     Table getTable();
 

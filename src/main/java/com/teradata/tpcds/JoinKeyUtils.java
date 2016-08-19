@@ -14,16 +14,16 @@
 
 package com.teradata.tpcds;
 
-import com.teradata.tpcds.column.Column;
+import com.teradata.tpcds.column.GeneratorColumn;
 import com.teradata.tpcds.distribution.CalendarDistribution;
 import com.teradata.tpcds.type.Date;
 
 import static com.teradata.tpcds.PseudoTableScalingInfos.CONCURRENT_WEB_SITES;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
-import static com.teradata.tpcds.column.WebPageColumn.WP_CREATION_DATE_SK;
-import static com.teradata.tpcds.column.WebSiteColumn.WEB_CLOSE_DATE;
-import static com.teradata.tpcds.column.WebSiteColumn.WEB_OPEN_DATE;
+import static com.teradata.tpcds.column.WebPageGeneratorColumn.WP_CREATION_DATE_SK;
+import static com.teradata.tpcds.column.WebSiteGeneratorColumn.WEB_CLOSE_DATE;
+import static com.teradata.tpcds.column.WebSiteGeneratorColumn.WEB_OPEN_DATE;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM_LEAP_YEAR;
@@ -55,7 +55,7 @@ public final class JoinKeyUtils
 
     private JoinKeyUtils() {}
 
-    public static long generateJoinKey(Column fromColumn, Table toTable, long joinCount, Scaling scaling)
+    public static long generateJoinKey(GeneratorColumn fromColumn, Table toTable, long joinCount, Scaling scaling)
     {
         Table fromTable = fromColumn.getTable();
 
@@ -76,7 +76,7 @@ public final class JoinKeyUtils
         }
     }
 
-    private static long generateCatalogPageJoinKey(Column fromColumn, long julianDate, Scaling scaling)
+    private static long generateCatalogPageJoinKey(GeneratorColumn fromColumn, long julianDate, Scaling scaling)
     {
         int pagesPerCatalog = ((int) scaling.getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
 
@@ -105,7 +105,7 @@ public final class JoinKeyUtils
         return count * pagesPerCatalog + page;
     }
 
-    private static long generateDateJoinKey(Table fromTable, Column fromColumn, long joinCount, int year, Scaling scaling)
+    private static long generateDateJoinKey(Table fromTable, GeneratorColumn fromColumn, long joinCount, int year, Scaling scaling)
     {
         int dayNumber;
         switch (fromTable) {
@@ -140,7 +140,7 @@ public final class JoinKeyUtils
         }
     }
 
-    private static long generateWebJoinKey(Column fromColumn, long joinKey, Scaling scaling)
+    private static long generateWebJoinKey(GeneratorColumn fromColumn, long joinKey, Scaling scaling)
     {
         if (fromColumn == WP_CREATION_DATE_SK) {
             // Page creation has to happen outside of the page window, to assure a constant number of pages,
@@ -188,7 +188,7 @@ public final class JoinKeyUtils
         return (joinKey / 2 % 2) != 0;
     }
 
-    private static long generateDateReturnsJoinKey(Table fromTable, Column fromColumn, long joinCount)
+    private static long generateDateReturnsJoinKey(Table fromTable, GeneratorColumn fromColumn, long joinCount)
     {
         int min;
         int max;
@@ -209,7 +209,7 @@ public final class JoinKeyUtils
         return joinCount + lag;
     }
 
-    private static long generateTimeJoinKey(Table fromTable, Column fromColumn)
+    private static long generateTimeJoinKey(Table fromTable, GeneratorColumn fromColumn)
     {
         int hour;
         switch (fromTable) {
@@ -233,7 +233,7 @@ public final class JoinKeyUtils
         return (long) (hour * 3600 + seconds);
     }
 
-    private static long generateScdJoinKey(Table toTable, Column fromColumn, long julianDate, Scaling scaling)
+    private static long generateScdJoinKey(Table toTable, GeneratorColumn fromColumn, long julianDate, Scaling scaling)
     {
         // can't have a revision in the future
         if (julianDate > Date.JULIAN_DATA_END_DATE) {

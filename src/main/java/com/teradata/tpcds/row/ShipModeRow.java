@@ -17,12 +17,12 @@ package com.teradata.tpcds.row;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.ShipModeColumn.SM_CARRIER;
-import static com.teradata.tpcds.column.ShipModeColumn.SM_CODE;
-import static com.teradata.tpcds.column.ShipModeColumn.SM_CONTRACT;
-import static com.teradata.tpcds.column.ShipModeColumn.SM_SHIP_MODE_ID;
-import static com.teradata.tpcds.column.ShipModeColumn.SM_SHIP_MODE_SK;
-import static com.teradata.tpcds.column.ShipModeColumn.SM_TYPE;
+import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_CARRIER;
+import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_CODE;
+import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_CONTRACT;
+import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_SHIP_MODE_ID;
+import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_SHIP_MODE_SK;
+import static com.teradata.tpcds.column.ShipModeGeneratorColumn.SM_TYPE;
 
 public class ShipModeRow
         extends TableRowWithNulls

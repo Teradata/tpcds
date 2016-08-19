@@ -11,27 +11,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.teradata.tpcds.column;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.INCOME_BAND;
+import static com.teradata.tpcds.Table.DBGEN_VERSION;
 
-public enum IncomeBandColumn
-        implements Column
+public enum DbgenVersionGeneratorColumn
+        implements GeneratorColumn
 {
-    IB_INCOME_BAND_ID(194, 1),
-    IB_LOWER_BOUND(195, 1),
-    IB_UPPER_BOUND(196, 1),
-    IB_NULLS(197, 2);
+    DV_VERSION(476, 1),
+    DV_CREATE_DATE(477, 1),
+    DV_CREATE_TIME(478, 1),
+    DV_CMDLINE_ARGS(479, 1);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    IncomeBandColumn(int globalColumnNumber, int seedsPerRow)
+    DbgenVersionGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -40,7 +39,7 @@ public enum IncomeBandColumn
     @Override
     public Table getTable()
     {
-        return INCOME_BAND;
+        return DBGEN_VERSION;
     }
 
     @Override

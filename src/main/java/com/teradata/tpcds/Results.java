@@ -15,7 +15,7 @@
 package com.teradata.tpcds;
 
 import com.google.common.collect.AbstractIterator;
-import com.teradata.tpcds.column.Column;
+import com.teradata.tpcds.column.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.row.generator.RowGeneratorResult;
 
@@ -79,7 +79,7 @@ public class Results
 
         private void skipRowsUntilStartingRowNumber(Table table, long startingRowNumber)
         {
-            for (Column column : table.getColumns()) {
+            for (GeneratorColumn column : table.getColumns()) {
                 column.getRandomNumberStream().skipRows((int) startingRowNumber - 1);  // casting long to int copies C code
             }
 
@@ -113,7 +113,7 @@ public class Results
 
         private void resetColumnsAndRowGenerator(Table table)
         {
-            for (Column column : table.getColumns()) {
+            for (GeneratorColumn column : table.getColumns()) {
                 column.getRandomNumberStream().resetSeed();
             }
             table.getRowGenerator().reset();
@@ -155,7 +155,7 @@ public class Results
 
         private void consumeRemainingSeedsForRow(Table table)
         {
-            for (Column column : table.getColumns()) {
+            for (GeneratorColumn column : table.getColumns()) {
                 RandomNumberStream randomNumberStream = column.getRandomNumberStream();
                 while (randomNumberStream.getSeedsUsed() < randomNumberStream.getSeedsPerRow()) {
                     generateUniformRandomInt(1, 100, randomNumberStream);

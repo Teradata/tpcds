@@ -18,41 +18,22 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.ITEM;
+import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 
-public enum ItemColumn
-        implements Column
+public enum HouseholdDemographicsGeneratorColumn
+        implements GeneratorColumn
 {
-    I_ITEM_SK(203, 1),
-    I_ITEM_ID(204, 1),
-    I_REC_START_DATE_ID(205, 1),
-    I_REC_END_DATE_ID(206, 2),
-    I_ITEM_DESC(207, 200),
-    I_CURRENT_PRICE(208, 2),
-    I_WHOLESALE_COST(209, 1),
-    I_BRAND_ID(210, 1),
-    I_BRAND(211, 1),
-    I_CLASS_ID(212, 1),
-    I_CLASS(213, 1),
-    I_CATEGORY_ID(214, 1),
-    I_CATEGORY(215, 1),
-    I_MANUFACT_ID(216, 2),
-    I_MANUFACT(217, 1),
-    I_SIZE(218, 1),
-    I_FORMULATION(219, 50),
-    I_COLOR(220, 1),
-    I_UNITS(221, 1),
-    I_CONTAINER(222, 1),
-    I_MANAGER_ID(223, 2),
-    I_PRODUCT_NAME(224, 1),
-    I_NULLS(225, 2),
-    I_SCD(226, 1),
-    I_PROMO_SK(227, 2);
+    HD_DEMO_SK(188, 1),
+    HD_INCOME_BAND_ID(189, 1),
+    HD_BUY_POTENTIAL(190, 1),
+    HD_DEP_COUNT(191, 1),
+    HD_VEHICLE_COUNT(192, 1),
+    HD_NULLS(193, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ItemColumn(int globalColumnNumber, int seedsPerRow)
+    HouseholdDemographicsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -61,7 +42,7 @@ public enum ItemColumn
     @Override
     public Table getTable()
     {
-        return ITEM;
+        return HOUSEHOLD_DEMOGRAPHICS;
     }
 
     @Override

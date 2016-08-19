@@ -16,7 +16,7 @@ package com.teradata.tpcds.type;
 
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.column.Column;
+import com.teradata.tpcds.column.GeneratorColumn;
 import com.teradata.tpcds.distribution.FipsCountyDistribution;
 import com.teradata.tpcds.random.RandomNumberStream;
 
@@ -86,7 +86,7 @@ public class Address
         this.gmtOffset = gmtOffset;
     }
 
-    public static Address makeAddressForColumn(Column column, Scaling scaling)
+    public static Address makeAddressForColumn(GeneratorColumn column, Scaling scaling)
     {
         AddressBuilder builder = new AddressBuilder();
         RandomNumberStream randomNumberStream = column.getRandomNumberStream();
