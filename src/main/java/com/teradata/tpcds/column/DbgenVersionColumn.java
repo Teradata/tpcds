@@ -16,14 +16,24 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.DBGEN_VERSION;
+import static com.teradata.tpcds.column.ColumnTypes.DATE;
+import static com.teradata.tpcds.column.ColumnTypes.TIME;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum DbgenVersionColumn
         implements Column
 {
-    DV_VERSION(),
-    DV_CREATE_DATE(),
-    DV_CREATE_TIME(),
-    DV_CMDLINE_ARGS();
+    DV_VERSION(varchar(16)),
+    DV_CREATE_DATE(DATE),
+    DV_CREATE_TIME(TIME),
+    DV_CMDLINE_ARGS(varchar(200));
+
+    private final ColumnType type;
+
+    DbgenVersionColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -35,5 +45,11 @@ public enum DbgenVersionColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

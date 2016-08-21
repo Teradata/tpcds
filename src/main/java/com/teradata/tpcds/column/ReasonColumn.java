@@ -16,13 +16,22 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.REASON;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
 
 public enum ReasonColumn
         implements Column
 {
-    R_REASON_SK(),
-    R_REASON_ID(),
-    R_REASON_DESC();
+    R_REASON_SK(IDENTIFIER),
+    R_REASON_ID(charr(16)),
+    R_REASON_DESC(charr(100));
+
+    private final ColumnType type;
+
+    ReasonColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -34,5 +43,11 @@ public enum ReasonColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

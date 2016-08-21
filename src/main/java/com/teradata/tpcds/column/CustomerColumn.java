@@ -16,28 +16,39 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.CUSTOMER;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum CustomerColumn
         implements Column
 {
-    C_CUSTOMER_SK(),
-    C_CUSTOMER_ID(),
-    C_CURRENT_CDEMO_SK(),
-    C_CURRENT_HDEMO_SK(),
-    C_CURRENT_ADDR_SK(),
-    C_FIRST_SHIPTO_DATE_SK(),
-    C_FIRST_SALES_DATE_SK(),
-    C_SALUTATION(),
-    C_FIRST_NAME(),
-    C_LAST_NAME(),
-    C_PREFERRED_CUST_FLAG(),
-    C_BIRTH_DAY(),
-    C_BIRTH_MONTH(),
-    C_BIRTH_YEAR(),
-    C_BIRTH_COUNTRY(),
-    C_LOGIN(),
-    C_EMAIL_ADDRESS(),
-    C_LAST_REVIEW_DATE();
+    C_CUSTOMER_SK(IDENTIFIER),
+    C_CUSTOMER_ID(charr(16)),
+    C_CURRENT_CDEMO_SK(IDENTIFIER),
+    C_CURRENT_HDEMO_SK(IDENTIFIER),
+    C_CURRENT_ADDR_SK(IDENTIFIER),
+    C_FIRST_SHIPTO_DATE_SK(IDENTIFIER),
+    C_FIRST_SALES_DATE_SK(IDENTIFIER),
+    C_SALUTATION(charr(10)),
+    C_FIRST_NAME(charr(20)),
+    C_LAST_NAME(charr(30)),
+    C_PREFERRED_CUST_FLAG(charr(1)),
+    C_BIRTH_DAY(INTEGER),
+    C_BIRTH_MONTH(INTEGER),
+    C_BIRTH_YEAR(INTEGER),
+    C_BIRTH_COUNTRY(varchar(20)),
+    C_LOGIN(charr(13)),
+    C_EMAIL_ADDRESS(charr(50)),
+    C_LAST_REVIEW_DATE(IDENTIFIER);
+
+    private final ColumnType type;
+
+    CustomerColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -49,5 +60,11 @@ public enum CustomerColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

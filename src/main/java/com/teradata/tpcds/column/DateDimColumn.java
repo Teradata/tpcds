@@ -16,38 +16,49 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.DATE_DIM;
+import static com.teradata.tpcds.column.ColumnTypes.DATE;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
 
 public enum DateDimColumn
         implements Column
 {
-    D_DATE_SK(),
-    D_DATE_ID(),
-    D_DATE(),
-    D_MONTH_SEQ(),
-    D_WEEK_SEQ(),
-    D_QUARTER_SEQ(),
-    D_YEAR(),
-    D_DOW(),
-    D_MOY(),
-    D_DOM(),
-    D_QOY(),
-    D_FY_YEAR(),
-    D_FY_QUARTER_SEQ(),
-    D_FY_WEEK_SEQ(),
-    D_DAY_NAME(),
-    D_QUARTER_NAME(),
-    D_HOLIDAY(),
-    D_WEEKEND(),
-    D_FOLLOWING_HOLIDAY(),
-    D_FIRST_DOM(),
-    D_LAST_DOM(),
-    D_SAME_DAY_LY(),
-    D_SAME_DAY_LQ(),
-    D_CURRENT_DAY(),
-    D_CURRENT_WEEK(),
-    D_CURRENT_MONTH(),
-    D_CURRENT_QUARTER(),
-    D_CURRENT_YEAR();
+    D_DATE_SK(IDENTIFIER),
+    D_DATE_ID(charr(16)),
+    D_DATE(DATE),
+    D_MONTH_SEQ(INTEGER),
+    D_WEEK_SEQ(INTEGER),
+    D_QUARTER_SEQ(INTEGER),
+    D_YEAR(INTEGER),
+    D_DOW(INTEGER),
+    D_MOY(INTEGER),
+    D_DOM(INTEGER),
+    D_QOY(INTEGER),
+    D_FY_YEAR(INTEGER),
+    D_FY_QUARTER_SEQ(INTEGER),
+    D_FY_WEEK_SEQ(INTEGER),
+    D_DAY_NAME(charr(9)),
+    D_QUARTER_NAME(charr(6)),
+    D_HOLIDAY(charr(1)),
+    D_WEEKEND(charr(1)),
+    D_FOLLOWING_HOLIDAY(charr(1)),
+    D_FIRST_DOM(INTEGER),
+    D_LAST_DOM(INTEGER),
+    D_SAME_DAY_LY(INTEGER),
+    D_SAME_DAY_LQ(INTEGER),
+    D_CURRENT_DAY(charr(1)),
+    D_CURRENT_WEEK(charr(1)),
+    D_CURRENT_MONTH(charr(1)),
+    D_CURRENT_QUARTER(charr(1)),
+    D_CURRENT_YEAR(charr(1));
+
+    private final ColumnType type;
+
+    DateDimColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -59,5 +70,11 @@ public enum DateDimColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

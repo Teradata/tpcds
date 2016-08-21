@@ -16,19 +16,29 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
 
 public enum CustomerDemographicsColumn
         implements Column
 {
-    CD_DEMO_SK(),
-    CD_GENDER(),
-    CD_MARITAL_STATUS(),
-    CD_EDUCATION_STATUS(),
-    CD_PURCHASE_ESTIMATE(),
-    CD_CREDIT_RATING(),
-    CD_DEP_COUNT(),
-    CD_DEP_EMPLOYED_COUNT(),
-    CD_DEP_COLLEGE_COUNT();
+    CD_DEMO_SK(IDENTIFIER),
+    CD_GENDER(charr(1)),
+    CD_MARITAL_STATUS(charr(1)),
+    CD_EDUCATION_STATUS(charr(20)),
+    CD_PURCHASE_ESTIMATE(INTEGER),
+    CD_CREDIT_RATING(charr(10)),
+    CD_DEP_COUNT(INTEGER),
+    CD_DEP_EMPLOYED_COUNT(INTEGER),
+    CD_DEP_COLLEGE_COUNT(INTEGER);
+
+    private final ColumnType type;
+
+    CustomerDemographicsColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -40,5 +50,11 @@ public enum CustomerDemographicsColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

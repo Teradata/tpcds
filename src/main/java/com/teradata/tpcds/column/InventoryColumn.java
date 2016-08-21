@@ -16,14 +16,23 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.INVENTORY;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
 
 public enum InventoryColumn
         implements Column
 {
-    INV_DATE_SK(),
-    INV_ITEM_SK(),
-    INV_WAREHOUSE_SK(),
-    INV_QUANTITY_ON_HAND();
+    INV_DATE_SK(IDENTIFIER),
+    INV_ITEM_SK(IDENTIFIER),
+    INV_WAREHOUSE_SK(IDENTIFIER),
+    INV_QUANTITY_ON_HAND(INTEGER);
+
+    private final ColumnType type;
+
+    InventoryColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -35,5 +44,11 @@ public enum InventoryColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

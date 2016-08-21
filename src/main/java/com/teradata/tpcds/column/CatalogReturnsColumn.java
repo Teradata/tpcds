@@ -16,37 +16,47 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.CATALOG_RETURNS;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
 
 public enum CatalogReturnsColumn
         implements Column
 {
-    CR_RETURNED_DATE_SK(),
-    CR_RETURNED_TIME_SK(),
-    CR_ITEM_SK(),
-    CR_REFUNDED_CUSTOMER_SK(),
-    CR_REFUNDED_CDEMO_SK(),
-    CR_REFUNDED_HDEMO_SK(),
-    CR_REFUNDED_ADDR_SK(),
-    CR_RETURNING_CUSTOMER_SK(),
-    CR_RETURNING_CDEMO_SK(),
-    CR_RETURNING_HDEMO_SK(),
-    CR_RETURNING_ADDR_SK(),
-    CR_CALL_CENTER_SK(),
-    CR_CATALOG_PAGE_SK(),
-    CR_SHIP_MODE_SK(),
-    CR_WAREHOUSE_SK(),
-    CR_REASON_SK(),
-    CR_ORDER_NUMBER(),
-    CR_RETURN_QUANTITY(),
-    CR_RETURN_AMOUNT(),
-    CR_RETURN_TAX(),
-    CR_RETURN_AMT_INC_TAX(),
-    CR_FEE(),
-    CR_RETURN_SHIP_COST(),
-    CR_REFUNDED_CASH(),
-    CR_REVERSED_CHARGE(),
-    CR_STORE_CREDIT(),
-    CR_NET_LOSS();
+    CR_RETURNED_DATE_SK(IDENTIFIER),
+    CR_RETURNED_TIME_SK(IDENTIFIER),
+    CR_ITEM_SK(IDENTIFIER),
+    CR_REFUNDED_CUSTOMER_SK(IDENTIFIER),
+    CR_REFUNDED_CDEMO_SK(IDENTIFIER),
+    CR_REFUNDED_HDEMO_SK(IDENTIFIER),
+    CR_REFUNDED_ADDR_SK(IDENTIFIER),
+    CR_RETURNING_CUSTOMER_SK(IDENTIFIER),
+    CR_RETURNING_CDEMO_SK(IDENTIFIER),
+    CR_RETURNING_HDEMO_SK(IDENTIFIER),
+    CR_RETURNING_ADDR_SK(IDENTIFIER),
+    CR_CALL_CENTER_SK(IDENTIFIER),
+    CR_CATALOG_PAGE_SK(IDENTIFIER),
+    CR_SHIP_MODE_SK(IDENTIFIER),
+    CR_WAREHOUSE_SK(IDENTIFIER),
+    CR_REASON_SK(IDENTIFIER),
+    CR_ORDER_NUMBER(IDENTIFIER),
+    CR_RETURN_QUANTITY(INTEGER),
+    CR_RETURN_AMOUNT(decimal(7, 2)),
+    CR_RETURN_TAX(decimal(7, 2)),
+    CR_RETURN_AMT_INC_TAX(decimal(7, 2)),
+    CR_FEE(decimal(7, 2)),
+    CR_RETURN_SHIP_COST(decimal(7, 2)),
+    CR_REFUNDED_CASH(decimal(7, 2)),
+    CR_REVERSED_CHARGE(decimal(7, 2)),
+    CR_STORE_CREDIT(decimal(7, 2)),
+    CR_NET_LOSS(decimal(7, 2));
+
+    private final ColumnType type;
+
+    CatalogReturnsColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -58,5 +68,11 @@ public enum CatalogReturnsColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

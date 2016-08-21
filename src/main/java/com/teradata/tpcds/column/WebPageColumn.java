@@ -16,24 +16,36 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.WEB_PAGE;
+import static com.teradata.tpcds.column.ColumnTypes.DATE;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum WebPageColumn
         implements Column
 {
-    WP_WEB_PAGE_SK(),
-    WP_WEB_PAGE_ID(),
-    WP_REC_START_DATE(),
-    WP_REC_END_DATE(),
-    WP_CREATION_DATE_SK(),
-    WP_ACCESS_DATE_SK(),
-    WP_AUTOGEN_FLAG(),
-    WP_CUSTOMER_SK(),
-    WP_URL(),
-    WP_TYPE(),
-    WP_CHAR_COUNT(),
-    WP_LINK_COUNT(),
-    WP_IMAGE_COUNT(),
-    WP_MAX_AD_COUNT();
+    WP_WEB_PAGE_SK(IDENTIFIER),
+    WP_WEB_PAGE_ID(charr(16)),
+    WP_REC_START_DATE(DATE),
+    WP_REC_END_DATE(DATE),
+    WP_CREATION_DATE_SK(IDENTIFIER),
+    WP_ACCESS_DATE_SK(IDENTIFIER),
+    WP_AUTOGEN_FLAG(charr(1)),
+    WP_CUSTOMER_SK(IDENTIFIER),
+    WP_URL(varchar(100)),
+    WP_TYPE(charr(50)),
+    WP_CHAR_COUNT(INTEGER),
+    WP_LINK_COUNT(INTEGER),
+    WP_IMAGE_COUNT(INTEGER),
+    WP_MAX_AD_COUNT(INTEGER);
+
+    private final ColumnType type;
+
+    WebPageColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -45,5 +57,11 @@ public enum WebPageColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

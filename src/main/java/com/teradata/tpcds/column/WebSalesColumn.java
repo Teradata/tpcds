@@ -17,44 +17,54 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.WEB_SALES;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
 
 public enum WebSalesColumn
         implements Column
 {
-    WS_SOLD_DATE_SK(),
-    WS_SOLD_TIME_SK(),
-    WS_SHIP_DATE_SK(),
-    WS_ITEM_SK(),
-    WS_BILL_CUSTOMER_SK(),
-    WS_BILL_CDEMO_SK(),
-    WS_BILL_HDEMO_SK(),
-    WS_BILL_ADDR_SK(),
-    WS_SHIP_CUSTOMER_SK(),
-    WS_SHIP_CDEMO_SK(),
-    WS_SHIP_HDEMO_SK(),
-    WS_SHIP_ADDR_SK(),
-    WS_WEB_PAGE_SK(),
-    WS_WEB_SITE_SK(),
-    WS_SHIP_MODE_SK(),
-    WS_WAREHOUSE_SK(),
-    WS_PROMO_SK(),
-    WS_ORDER_NUMBER(),
-    WS_QUANTITY(),
-    WS_WHOLESALE_COST(),
-    WS_LIST_PRICE(),
-    WS_SALES_PRICE(),
-    WS_EXT_DISCOUNT_AMT(),
-    WS_EXT_SALES_PRICE(),
-    WS_EXT_WHOLESALE_COST(),
-    WS_EXT_LIST_PRICE(),
-    WS_EXT_TAX(),
-    WS_COUPON_AMT(),
-    WS_EXT_SHIP_COST(),
-    WS_NET_PAID(),
-    WS_NET_PAID_INC_TAX(),
-    WS_NET_PAID_INC_SHIP(),
-    WS_NET_PAID_INC_SHIP_TAX(),
-    WS_NET_PROFIT();
+    WS_SOLD_DATE_SK(IDENTIFIER),
+    WS_SOLD_TIME_SK(IDENTIFIER),
+    WS_SHIP_DATE_SK(IDENTIFIER),
+    WS_ITEM_SK(IDENTIFIER),
+    WS_BILL_CUSTOMER_SK(IDENTIFIER),
+    WS_BILL_CDEMO_SK(IDENTIFIER),
+    WS_BILL_HDEMO_SK(IDENTIFIER),
+    WS_BILL_ADDR_SK(IDENTIFIER),
+    WS_SHIP_CUSTOMER_SK(IDENTIFIER),
+    WS_SHIP_CDEMO_SK(IDENTIFIER),
+    WS_SHIP_HDEMO_SK(IDENTIFIER),
+    WS_SHIP_ADDR_SK(IDENTIFIER),
+    WS_WEB_PAGE_SK(IDENTIFIER),
+    WS_WEB_SITE_SK(IDENTIFIER),
+    WS_SHIP_MODE_SK(IDENTIFIER),
+    WS_WAREHOUSE_SK(IDENTIFIER),
+    WS_PROMO_SK(IDENTIFIER),
+    WS_ORDER_NUMBER(IDENTIFIER),
+    WS_QUANTITY(INTEGER),
+    WS_WHOLESALE_COST(decimal(7, 2)),
+    WS_LIST_PRICE(decimal(7, 2)),
+    WS_SALES_PRICE(decimal(7, 2)),
+    WS_EXT_DISCOUNT_AMT(decimal(7, 2)),
+    WS_EXT_SALES_PRICE(decimal(7, 2)),
+    WS_EXT_WHOLESALE_COST(decimal(7, 2)),
+    WS_EXT_LIST_PRICE(decimal(7, 2)),
+    WS_EXT_TAX(decimal(7, 2)),
+    WS_COUPON_AMT(decimal(7, 2)),
+    WS_EXT_SHIP_COST(decimal(7, 2)),
+    WS_NET_PAID(decimal(7, 2)),
+    WS_NET_PAID_INC_TAX(decimal(7, 2)),
+    WS_NET_PAID_INC_SHIP(decimal(7, 2)),
+    WS_NET_PAID_INC_SHIP_TAX(decimal(7, 2)),
+    WS_NET_PROFIT(decimal(7, 2));
+
+    private final ColumnType type;
+
+    WebSalesColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -66,5 +76,11 @@ public enum WebSalesColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

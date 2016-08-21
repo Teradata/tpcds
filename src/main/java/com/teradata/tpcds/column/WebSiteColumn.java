@@ -16,36 +16,49 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.WEB_SITE;
+import static com.teradata.tpcds.column.ColumnTypes.DATE;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum WebSiteColumn
         implements Column
 {
-    WEB_SITE_SK(),
-    WEB_SITE_ID(),
-    WEB_REC_START_DATE(),
-    WEB_REC_END_DATE(),
-    WEB_NAME(),
-    WEB_OPEN_DATE_SK(),
-    WEB_CLOSE_DATE_SK(),
-    WEB_CLASS(),
-    WEB_MANAGER(),
-    WEB_MKT_ID(),
-    WEB_MKT_CLASS(),
-    WEB_MKT_DESC(),
-    WEB_MARKET_MANAGER(),
-    WEB_COMPANY_ID(),
-    WEB_COMPANY_NAME(),
-    WEB_STREET_NUMBER(),
-    WEB_STREET_NAME(),
-    WEB_STREET_TYPE(),
-    WEB_SUITE_NUMBER(),
-    WEB_CITY(),
-    WEB_COUNTY(),
-    WEB_STAT(),
-    WEB_ZIP(),
-    WEB_COUNTRY(),
-    WEB_GMT_OFFSET(),
-    WEB_TAX_PERCENTAGE();
+    WEB_SITE_SK(IDENTIFIER),
+    WEB_SITE_ID(charr(16)),
+    WEB_REC_START_DATE(DATE),
+    WEB_REC_END_DATE(DATE),
+    WEB_NAME(varchar(50)),
+    WEB_OPEN_DATE_SK(IDENTIFIER),
+    WEB_CLOSE_DATE_SK(IDENTIFIER),
+    WEB_CLASS(varchar(50)),
+    WEB_MANAGER(varchar(40)),
+    WEB_MKT_ID(INTEGER),
+    WEB_MKT_CLASS(varchar(50)),
+    WEB_MKT_DESC(varchar(100)),
+    WEB_MARKET_MANAGER(varchar(40)),
+    WEB_COMPANY_ID(INTEGER),
+    WEB_COMPANY_NAME(charr(50)),
+    WEB_STREET_NUMBER(charr(10)),
+    WEB_STREET_NAME(varchar(60)),
+    WEB_STREET_TYPE(charr(15)),
+    WEB_SUITE_NUMBER(charr(10)),
+    WEB_CITY(varchar(60)),
+    WEB_COUNTY(varchar(30)),
+    WEB_STATE(charr(2)),
+    WEB_ZIP(charr(10)),
+    WEB_COUNTRY(varchar(20)),
+    WEB_GMT_OFFSET(decimal(5, 2)),
+    WEB_TAX_PERCENTAGE(decimal(5, 2));
+
+    private final ColumnType type;
+
+    WebSiteColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -57,5 +70,11 @@ public enum WebSiteColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

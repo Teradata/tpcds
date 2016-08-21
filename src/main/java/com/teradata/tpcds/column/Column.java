@@ -21,4 +21,6 @@ public interface Column
     Table getTable();
 
     String getName();
+
+    ColumnType getType();
 }

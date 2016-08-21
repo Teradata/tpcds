@@ -16,29 +16,41 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.PROMOTION;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum PromotionColumn
         implements Column
 {
-    P_PROMO_SK(),
-    P_PROMO_ID(),
-    P_START_DATE_SK(),
-    P_END_DATE_SK(),
-    P_ITEM_SK(),
-    P_COST(),
-    P_RESPONSE_TARGE(),
-    P_PROMO_NAME(),
-    P_CHANNEL_DMAIL(),
-    P_CHANNEL_EMAIL(),
-    P_CHANNEL_CATALOG(),
-    P_CHANNEL_TV(),
-    P_CHANNEL_RADIO(),
-    P_CHANNEL_PRESS(),
-    P_CHANNEL_EVENT(),
-    P_CHANNEL_DEMO(),
-    P_CHANNEL_DETAILS(),
-    P_PURPOSE(),
-    P_DISCOUNT_ACTIVE();
+    P_PROMO_SK(IDENTIFIER),
+    P_PROMO_ID(charr(16)),
+    P_START_DATE_SK(IDENTIFIER),
+    P_END_DATE_SK(IDENTIFIER),
+    P_ITEM_SK(IDENTIFIER),
+    P_COST(decimal(15, 2)),
+    P_RESPONSE_TARGE(INTEGER),
+    P_PROMO_NAME(charr(50)),
+    P_CHANNEL_DMAIL(charr(1)),
+    P_CHANNEL_EMAIL(charr(1)),
+    P_CHANNEL_CATALOG(charr(1)),
+    P_CHANNEL_TV(charr(1)),
+    P_CHANNEL_RADIO(charr(1)),
+    P_CHANNEL_PRESS(charr(1)),
+    P_CHANNEL_EVENT(charr(1)),
+    P_CHANNEL_DEMO(charr(1)),
+    P_CHANNEL_DETAILS(varchar(100)),
+    P_PURPOSE(charr(15)),
+    P_DISCOUNT_ACTIVE(charr(1));
+
+    private final ColumnType type;
+
+    PromotionColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -50,5 +62,11 @@ public enum PromotionColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

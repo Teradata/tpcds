@@ -16,33 +16,43 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.STORE_SALES;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
 
 public enum StoreSalesColumn
         implements Column
 {
-    SS_SOLD_DATE_SK(),
-    SS_SOLD_TIME_SK(),
-    SS_ITEM_SK(),
-    SS_CUSTOMER_SK(),
-    SS_CDEMO_SK(),
-    SS_HDEMO_SK(),
-    SS_ADDR_SK(),
-    SS_STORE_SK(),
-    SS_PROMO_SK(),
-    SS_TICKET_NUMBER(),
-    SS_QUANTITY(),
-    SS_WHOLESALE_COST(),
-    SS_LIST_PRICE(),
-    SS_SALES_PRICE(),
-    SS_EXT_DISCOUNT_AMT(),
-    SS_EXT_SALES_PRICE(),
-    SS_EXT_WHOLESALE_COST(),
-    SS_EXT_LIST_PRICE(),
-    SS_EXT_TAX(),
-    SS_COUPON_AMT(),
-    SS_NET_PAID(),
-    SS_NET_PAID_INC_TAX(),
-    SS_NET_PROFIT();
+    SS_SOLD_DATE_SK(IDENTIFIER),
+    SS_SOLD_TIME_SK(IDENTIFIER),
+    SS_ITEM_SK(IDENTIFIER),
+    SS_CUSTOMER_SK(IDENTIFIER),
+    SS_CDEMO_SK(IDENTIFIER),
+    SS_HDEMO_SK(IDENTIFIER),
+    SS_ADDR_SK(IDENTIFIER),
+    SS_STORE_SK(IDENTIFIER),
+    SS_PROMO_SK(IDENTIFIER),
+    SS_TICKET_NUMBER(IDENTIFIER),
+    SS_QUANTITY(INTEGER),
+    SS_WHOLESALE_COST(decimal(7, 2)),
+    SS_LIST_PRICE(decimal(7, 2)),
+    SS_SALES_PRICE(decimal(7, 2)),
+    SS_EXT_DISCOUNT_AMT(decimal(7, 2)),
+    SS_EXT_SALES_PRICE(decimal(7, 2)),
+    SS_EXT_WHOLESALE_COST(decimal(7, 2)),
+    SS_EXT_LIST_PRICE(decimal(7, 2)),
+    SS_EXT_TAX(decimal(7, 2)),
+    SS_COUPON_AMT(decimal(7, 2)),
+    SS_NET_PAID(decimal(7, 2)),
+    SS_NET_PAID_INC_TAX(decimal(7, 2)),
+    SS_NET_PROFIT(decimal(7, 2));
+
+    private final ColumnType type;
+
+    StoreSalesColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -54,5 +64,11 @@ public enum StoreSalesColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

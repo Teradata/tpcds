@@ -16,15 +16,25 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
 
 public enum HouseholdDemographicsColumn
         implements Column
 {
-    HD_DEMO_SK(),
-    HD_INCOME_BAND_SK(),
-    HD_BUY_POTENTIAL(),
-    HD_DEP_COUNT(),
-    HD_VEHICLE_COUNT();
+    HD_DEMO_SK(IDENTIFIER),
+    HD_INCOME_BAND_SK(IDENTIFIER),
+    HD_BUY_POTENTIAL(charr(15)),
+    HD_DEP_COUNT(INTEGER),
+    HD_VEHICLE_COUNT(INTEGER);
+
+    private final ColumnType type;
+
+    HouseholdDemographicsColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -36,5 +46,11 @@ public enum HouseholdDemographicsColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

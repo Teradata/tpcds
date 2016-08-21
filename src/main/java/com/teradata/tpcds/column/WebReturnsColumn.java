@@ -15,33 +15,44 @@ package com.teradata.tpcds.column;
 
 import com.teradata.tpcds.Table;
 
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
+
 public enum WebReturnsColumn
         implements Column
 {
-    WR_RETURNED_DATE_SK(),
-    WR_RETURNED_TIME_SK(),
-    WR_ITEM_SK(),
-    WR_REFUNDED_CUSTOMER_SK(),
-    WR_REFUNDED_CDEMO_SK(),
-    WR_REFUNDED_HDEMO_SK(),
-    WR_REFUNDED_ADDR_SK(),
-    WR_RETURNING_CUSTOMER_SK(),
-    WR_RETURNING_CDEMO_SK(),
-    WR_RETURNING_HDEMO_SK(),
-    WR_RETURNING_ADDR_SK(),
-    WR_WEB_PAGE_SK(),
-    WR_REASON_SK(),
-    WR_ORDER_NUMBER(),
-    WR_RETURN_QUANTITY(),
-    WR_RETURN_AMT(),
-    WR_RETURN_TAX(),
-    WR_RETURN_AMT_INC_TAX(),
-    WR_FEE(),
-    WR_RETURN_SHIP_COST(),
-    WR_REFUNDED_CASH(),
-    WR_REVERSED_CHARGE(),
-    WR_ACCOUNT_CREDIT(),
-    WR_NET_LOSS();
+    WR_RETURNED_DATE_SK(IDENTIFIER),
+    WR_RETURNED_TIME_SK(IDENTIFIER),
+    WR_ITEM_SK(IDENTIFIER),
+    WR_REFUNDED_CUSTOMER_SK(IDENTIFIER),
+    WR_REFUNDED_CDEMO_SK(IDENTIFIER),
+    WR_REFUNDED_HDEMO_SK(IDENTIFIER),
+    WR_REFUNDED_ADDR_SK(IDENTIFIER),
+    WR_RETURNING_CUSTOMER_SK(IDENTIFIER),
+    WR_RETURNING_CDEMO_SK(IDENTIFIER),
+    WR_RETURNING_HDEMO_SK(IDENTIFIER),
+    WR_RETURNING_ADDR_SK(IDENTIFIER),
+    WR_WEB_PAGE_SK(IDENTIFIER),
+    WR_REASON_SK(IDENTIFIER),
+    WR_ORDER_NUMBER(IDENTIFIER),
+    WR_RETURN_QUANTITY(INTEGER),
+    WR_RETURN_AMT(decimal(7, 2)),
+    WR_RETURN_TAX(decimal(7, 2)),
+    WR_RETURN_AMT_INC_TAX(decimal(7, 2)),
+    WR_FEE(decimal(7, 2)),
+    WR_RETURN_SHIP_COST(decimal(7, 2)),
+    WR_REFUNDED_CASH(decimal(7, 2)),
+    WR_REVERSED_CHARGE(decimal(7, 2)),
+    WR_ACCOUNT_CREDIT(decimal(7, 2)),
+    WR_NET_LOSS(decimal(7, 2));
+
+    private final ColumnType type;
+
+    WebReturnsColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -53,5 +64,11 @@ public enum WebReturnsColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

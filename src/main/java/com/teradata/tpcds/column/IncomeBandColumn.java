@@ -16,13 +16,22 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.INCOME_BAND;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
 
 public enum IncomeBandColumn
         implements Column
 {
-    IB_INCOME_BAND_SK(),
-    IB_LOWER_BOUND(),
-    IB_UPPER_BOUND();
+    IB_INCOME_BAND_SK(IDENTIFIER),
+    IB_LOWER_BOUND(INTEGER),
+    IB_UPPER_BOUND(INTEGER);
+
+    private final ColumnType type;
+
+    IncomeBandColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -34,5 +43,11 @@ public enum IncomeBandColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

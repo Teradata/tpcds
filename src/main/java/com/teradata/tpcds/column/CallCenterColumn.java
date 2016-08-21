@@ -16,41 +16,54 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.CALL_CENTER;
+import static com.teradata.tpcds.column.ColumnTypes.DATE;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum CallCenterColumn
         implements Column
 {
-    CC_CALL_CENTER_SK(),
-    CC_CALL_CENTER_ID(),
-    CC_REC_START_DATE(),
-    CC_REC_END_DATE(),
-    CC_CLOSED_DATE_SK(),
-    CC_OPEN_DATE_SK(),
-    CC_NAME(),
-    CC_CLASS(),
-    CC_EMPLOYEES(),
-    CC_SQ_FT(),
-    CC_HOURS(),
-    CC_MANAGER(),
-    CC_MKT_ID(),
-    CC_MKT_CLASS(),
-    CC_MKT_DESC(),
-    CC_MARKET_MANAGER(),
-    CC_DIVISION(),
-    CC_DIVISION_NAME(),
-    CC_COMPANY(),
-    CC_COMPANY_NAME(),
-    CC_STREET_NUMBER(),
-    CC_STREET_NAME(),
-    CC_STREET_TYPE(),
-    CC_SUITE_NUMBER(),
-    CC_CITY(),
-    CC_COUNTY(),
-    CC_STATE(),
-    CC_ZIP(),
-    CC_COUNTRY(),
-    CC_GMT_OFFSET(),
-    CC_TAX_PERCENTAGE();
+    CC_CALL_CENTER_SK(IDENTIFIER),
+    CC_CALL_CENTER_ID(charr(16)),
+    CC_REC_START_DATE(DATE),
+    CC_REC_END_DATE(DATE),
+    CC_CLOSED_DATE_SK(INTEGER),
+    CC_OPEN_DATE_SK(INTEGER),
+    CC_NAME(varchar(50)),
+    CC_CLASS(varchar(50)),
+    CC_EMPLOYEES(INTEGER),
+    CC_SQ_FT(INTEGER),
+    CC_HOURS(charr(20)),
+    CC_MANAGER(varchar(40)),
+    CC_MKT_ID(INTEGER),
+    CC_MKT_CLASS(charr(50)),
+    CC_MKT_DESC(varchar(100)),
+    CC_MARKET_MANAGER(varchar(40)),
+    CC_DIVISION(INTEGER),
+    CC_DIVISION_NAME(varchar(50)),
+    CC_COMPANY(INTEGER),
+    CC_COMPANY_NAME(charr(50)),
+    CC_STREET_NUMBER(charr(10)),
+    CC_STREET_NAME(varchar(60)),
+    CC_STREET_TYPE(charr(15)),
+    CC_SUITE_NUMBER(charr(10)),
+    CC_CITY(varchar(60)),
+    CC_COUNTY(varchar(30)),
+    CC_STATE(charr(2)),
+    CC_ZIP(charr(10)),
+    CC_COUNTRY(varchar(20)),
+    CC_GMT_OFFSET(decimal(5, 2)),
+    CC_TAX_PERCENTAGE(decimal(5, 2));
+
+    private final ColumnType type;
+
+    CallCenterColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -62,5 +75,11 @@ public enum CallCenterColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

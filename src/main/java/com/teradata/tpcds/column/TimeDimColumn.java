@@ -16,20 +16,30 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.TIME_DIM;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
 
 public enum TimeDimColumn
         implements Column
 {
-    T_TIME_SK(),
-    T_TIME_ID(),
-    T_TIME(),
-    T_HOUR(),
-    T_MINUTE(),
-    T_SECOND(),
-    T_AM_PM(),
-    T_SHIFT(),
-    T_SUB_SHIFT(),
-    T_MEAL_TIME();
+    T_TIME_SK(IDENTIFIER),
+    T_TIME_ID(charr(16)),
+    T_TIME(INTEGER),
+    T_HOUR(INTEGER),
+    T_MINUTE(INTEGER),
+    T_SECOND(INTEGER),
+    T_AM_PM(charr(2)),
+    T_SHIFT(charr(20)),
+    T_SUB_SHIFT(charr(20)),
+    T_MEAL_TIME(charr(20));
+
+    private final ColumnType type;
+
+    TimeDimColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -41,5 +51,11 @@ public enum TimeDimColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }

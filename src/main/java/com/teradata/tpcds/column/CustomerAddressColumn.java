@@ -16,23 +16,34 @@ package com.teradata.tpcds.column;
 import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
+import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
+import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.decimal;
+import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum CustomerAddressColumn
         implements Column
 {
-    CA_ADDRESS_SK(),
-    CA_ADDRESS_ID(),
-    CA_STREET_NUMBER(),
-    CA_STREET_NAME(),
-    CA_STREET_TYPE(),
-    CA_SUITE_NUMBER(),
-    CA_CITY(),
-    CA_COUNTY(),
-    CA_STATE(),
-    CA_ZIP(),
-    CA_COUNTRY(),
-    CA_GMT_OFFSET(),
-    CA_LOCATION_TYPE();
+    CA_ADDRESS_SK(IDENTIFIER),
+    CA_ADDRESS_ID(charr(16)),
+    CA_STREET_NUMBER(charr(10)),
+    CA_STREET_NAME(varchar(60)),
+    CA_STREET_TYPE(charr(15)),
+    CA_SUITE_NUMBER(charr(10)),
+    CA_CITY(varchar(60)),
+    CA_COUNTY(varchar(30)),
+    CA_STATE(charr(2)),
+    CA_ZIP(charr(10)),
+    CA_COUNTRY(varchar(20)),
+    CA_GMT_OFFSET(decimal(5, 2)),
+    CA_LOCATION_TYPE(charr(20));
+
+    private final ColumnType type;
+
+    CustomerAddressColumn(ColumnType type)
+    {
+        this.type = type;
+    }
 
     @Override
     public Table getTable()
@@ -44,5 +55,11 @@ public enum CustomerAddressColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public ColumnType getType()
+    {
+        return type;
     }
 }
