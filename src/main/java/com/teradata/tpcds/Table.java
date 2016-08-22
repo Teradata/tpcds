@@ -100,6 +100,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LINEAR;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LOGARITHMIC;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.STATIC;
@@ -441,6 +442,16 @@ public enum Table
     public Column[] getColumns()
     {
         return columns;
+    }
+
+    public static Table getTable(String tableName)
+    {
+        List<Table> allTableMatches = getBaseTables().stream()
+                .filter(table -> tableName.equals(table.getName()))
+                .collect(Collectors.toList());
+
+        checkState(allTableMatches.size() == 1);
+        return allTableMatches.get(0);
     }
 
     public static List<Table> getBaseTables()
