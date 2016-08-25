@@ -22,7 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 public class ScalingInfo
 {
-    public static final int[] DEFINED_SCALES = {1, 10, 100, 300, 1000, 3000, 10000, 30000, 100000};
+    private static final int[] DEFINED_SCALES = {1, 10, 100, 300, 1000, 3000, 10000, 30000, 100000};
     private int multiplier;
     private ScalingModel scalingModel;
     private Map<Integer, Integer> scalesToRowCountsMap;

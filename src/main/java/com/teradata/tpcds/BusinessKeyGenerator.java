@@ -27,7 +27,7 @@ public final class BusinessKeyGenerator
         return keyPart1 + keyPart2;
     }
 
-    public static String longTo8CharString(long value)
+    private static String longTo8CharString(long value)
     {
         StringBuilder builder = new StringBuilder(8);
         for (int i = 0; i < 8; i++) {

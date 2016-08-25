@@ -23,7 +23,7 @@ import java.util.Calendar;
 public class DbgenVersionRowGenerator
         implements RowGenerator
 {
-    public static final String DBGEN_VERSION = "2.0.0";
+    private static final String DBGEN_VERSION = "2.0.0";
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)

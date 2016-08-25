@@ -14,7 +14,6 @@
 
 package com.teradata.tpcds.row.generator;
 
-import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.CatalogPageRow;
 
@@ -41,7 +40,6 @@ public class CatalogPageRowGenerator
         String cpDepartment = "DEPARTMENT";
         long nullBitMap = createNullBitMap(CP_NULLS);
         String cpCatalogPageId = makeBusinessKey(rowNumber);
-        Scaling scaling = session.getScaling();
 
         int catalogPageMax = ((int) (session.getScaling().getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR)) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
         int cpCatalogNumber = (int) ((rowNumber - 1) / catalogPageMax + 1);

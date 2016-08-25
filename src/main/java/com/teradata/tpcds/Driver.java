@@ -39,7 +39,7 @@ public class Driver
         driver.run();
     }
 
-    protected void run()
+    private void run()
     {
         if (helpOption.showHelpIfRequested()) {
             return;

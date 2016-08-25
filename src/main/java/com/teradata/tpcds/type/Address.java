@@ -312,25 +312,5 @@ public class Address
         {
             return new Address(suiteNumber, streetNumber, streetName1, streetName2, streetType, city, county, state, country, zip, gmtOffset);
         }
-
-        public int getStreetNumber()
-        {
-            return streetNumber;
-        }
-
-        public String getStreetName1()
-        {
-            return streetName1;
-        }
-
-        public String getStreetName2()
-        {
-            return streetName2;
-        }
-
-        public String getStreetType()
-        {
-            return streetType;
-        }
     }
 }

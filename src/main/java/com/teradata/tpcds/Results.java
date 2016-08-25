@@ -54,7 +54,7 @@ public class Results
         return new ResultsIterator(table, startingRowNumber, rowCount, session);
     }
 
-    public static class ResultsIterator
+    private static class ResultsIterator
             extends AbstractIterator<List<String>>
     {
         private final long endingRowNumber;

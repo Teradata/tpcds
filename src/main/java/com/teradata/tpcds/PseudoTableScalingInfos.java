@@ -20,8 +20,6 @@ public final class PseudoTableScalingInfos
 {
     private PseudoTableScalingInfos() {}
 
-    public static final ScalingInfo DIVISIONS = new ScalingInfo(0, LOGARITHMIC, new int[]{2, 3, 4, 5, 5, 5, 5, 5, 5}, 0);
-    public static final ScalingInfo COMPANIES = new ScalingInfo(0, LOGARITHMIC, new int[]{2, 3, 4, 5, 5, 5, 5, 5, 5}, 0);
     public static final ScalingInfo CONCURRENT_WEB_SITES = new ScalingInfo(0, LOGARITHMIC, new int[]{2, 3, 4, 5, 5, 5, 5, 5, 5}, 0);
     public static final ScalingInfo ACTIVE_CITIES = new ScalingInfo(0, LOGARITHMIC, new int[]{2, 6, 18, 30, 54, 90, 165, 270, 495}, 0);
     public static final ScalingInfo ACTIVE_COUNTIES = new ScalingInfo(0, LOGARITHMIC, new int[]{1, 3, 9, 15, 27, 45, 81, 135, 245}, 0);
