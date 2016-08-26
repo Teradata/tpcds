@@ -16,10 +16,10 @@ package com.teradata.tpcds.row;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.generator.DbgenVersionGeneratorColumn.DV_CMDLINE_ARGS;
-import static com.teradata.tpcds.column.generator.DbgenVersionGeneratorColumn.DV_CREATE_DATE;
-import static com.teradata.tpcds.column.generator.DbgenVersionGeneratorColumn.DV_CREATE_TIME;
-import static com.teradata.tpcds.column.generator.DbgenVersionGeneratorColumn.DV_VERSION;
+import static com.teradata.tpcds.generator.DbgenVersionGeneratorColumn.DV_CMDLINE_ARGS;
+import static com.teradata.tpcds.generator.DbgenVersionGeneratorColumn.DV_CREATE_DATE;
+import static com.teradata.tpcds.generator.DbgenVersionGeneratorColumn.DV_CREATE_TIME;
+import static com.teradata.tpcds.generator.DbgenVersionGeneratorColumn.DV_VERSION;
 
 public class DbgenVersionRow
         extends TableRowWithNulls

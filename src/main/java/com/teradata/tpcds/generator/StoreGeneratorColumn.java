@@ -12,48 +12,55 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WEB_RETURNS;
+import static com.teradata.tpcds.Table.STORE;
 
-public enum WebReturnsGeneratorColumn
+public enum StoreGeneratorColumn
         implements GeneratorColumn
 {
-    WR_RETURNED_DATE_SK(383, 32),
-    WR_RETURNED_TIME_SK(384, 32),
-    WR_ITEM_SK(385, 16),
-    WR_REFUNDED_CUSTOMER_SK(386, 16),
-    WR_REFUNDED_CDEMO_SK(387, 16),
-    WR_REFUNDED_HDEMO_SK(388, 16),
-    WR_REFUNDED_ADDR_SK(389, 16),
-    WR_RETURNING_CUSTOMER_SK(390, 16),
-    WR_RETURNING_CDEMO_SK(391, 16),
-    WR_RETURNING_HDEMO_SK(392, 16),
-    WR_RETURNING_ADDR_SK(393, 16),
-    WR_WEB_PAGE_SK(394, 16),
-    WR_REASON_SK(395, 16),
-    WR_ORDER_NUMBER(396, 0),
-    WR_PRICING_QUANTITY(397, 0),
-    WR_PRICING_NET_PAID(398, 0),
-    WR_PRICING_EXT_TAX(399, 0),
-    WR_PRICING_NET_PAID_INC_TAX(400, 0),
-    WR_PRICING_FEE(401, 0),
-    WR_PRICING_EXT_SHIP_COST(402, 0),
-    WR_PRICING_REFUNDED_CASH(403, 0),
-    WR_PRICING_REVERSED_CHARGE(404, 0),
-    WR_PRICING_STORE_CREDIT(405, 0),
-    WR_PRICING_NET_LOSS(406, 0),
-    WR_PRICING(407, 80),
-    WR_NULLS(408, 32);
+    W_STORE_SK(259, 1),
+    W_STORE_ID(260, 1),
+    W_STORE_REC_START_DATE_ID(261, 1),
+    W_STORE_REC_END_DATE_ID(262, 2),
+    W_STORE_CLOSED_DATE_ID(263, 2),
+    W_STORE_NAME(264, 0),
+    W_STORE_EMPLOYEES(265, 1),
+    W_STORE_FLOOR_SPACE(266, 1),
+    W_STORE_HOURS(267, 1),
+    W_STORE_MANAGER(268, 2),
+    W_STORE_MARKET_ID(269, 1),
+    W_STORE_TAX_PERCENTAGE(270, 1),
+    W_STORE_GEOGRAPHY_CLASS(271, 1),
+    W_STORE_MARKET_DESC(272, 100),
+    W_STORE_MARKET_MANAGER(273, 2),
+    W_STORE_DIVISION_ID(274, 1),
+    W_STORE_DIVISION_NAME(275, 1),
+    W_STORE_COMPANY_ID(276, 1),
+    W_STORE_COMPANY_NAME(277, 1),
+    W_STORE_ADDRESS_STREET_NUM(278, 1),
+    W_STORE_ADDRESS_STREET_NAME1(279, 1),
+    W_STORE_ADDRESS_STREET_TYPE(280, 1),
+    W_STORE_ADDRESS_SUITE_NUM(281, 1),
+    W_STORE_ADDRESS_CITY(282, 1),
+    W_STORE_ADDRESS_COUNTY(283, 1),
+    W_STORE_ADDRESS_STATE(284, 1),
+    W_STORE_ADDRESS_ZIP(285, 1),
+    W_STORE_ADDRESS_COUNTRY(286, 1),
+    W_STORE_ADDRESS_GMT_OFFSET(287, 1),
+    W_STORE_NULLS(288, 2),
+    W_STORE_TYPE(289, 1),
+    W_STORE_SCD(290, 1),
+    W_STORE_ADDRESS(291, 7);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    StoreGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -62,7 +69,7 @@ public enum WebReturnsGeneratorColumn
     @Override
     public Table getTable()
     {
-        return WEB_RETURNS;
+        return STORE;
     }
 
     @Override

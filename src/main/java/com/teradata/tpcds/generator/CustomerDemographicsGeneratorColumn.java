@@ -12,27 +12,32 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.INVENTORY;
+import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
 
-public enum InventoryGeneratorColumn
+public enum CustomerDemographicsGeneratorColumn
         implements GeneratorColumn
 {
-    INV_DATE_SK(198, 1),
-    INV_ITEM_SK(199, 1),
-    INV_WAREHOUSE_SK(200, 1),
-    INV_QUANTITY_ON_HAND(201, 1),
-    INV_NULLS(202, 2);
+    CD_DEMO_SK(149, 1),
+    CD_GENDER(150, 1),
+    CD_MARITAL_STATUS(151, 1),
+    CD_EDUCATION_STATUS(152, 1),
+    CD_PURCHASE_ESTIMATE(153, 1),
+    CD_CREDIT_RATING(154, 1),
+    CD_DEP_COUNT(155, 1),
+    CD_DEP_EMPLOYED_COUNT(156, 1),
+    CD_DEP_COLLEGE_COUNT(157, 1),
+    CD_NULLS(158, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    InventoryGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerDemographicsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -41,7 +46,7 @@ public enum InventoryGeneratorColumn
     @Override
     public Table getTable()
     {
-        return INVENTORY;
+        return CUSTOMER_DEMOGRAPHICS;
     }
 
     @Override

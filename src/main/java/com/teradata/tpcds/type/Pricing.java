@@ -16,14 +16,14 @@ package com.teradata.tpcds.type;
 
 import com.google.common.collect.ImmutableMap;
 import com.teradata.tpcds.TpcdsException;
-import com.teradata.tpcds.column.generator.GeneratorColumn;
+import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import java.util.Map;
 
-import static com.teradata.tpcds.column.generator.CatalogSalesGeneratorColumn.CS_PRICING;
-import static com.teradata.tpcds.column.generator.StoreSalesGeneratorColumn.SS_PRICING;
-import static com.teradata.tpcds.column.generator.WebSalesGeneratorColumn.WS_PRICING;
+import static com.teradata.tpcds.generator.CatalogSalesGeneratorColumn.CS_PRICING;
+import static com.teradata.tpcds.generator.StoreSalesGeneratorColumn.SS_PRICING;
+import static com.teradata.tpcds.generator.WebSalesGeneratorColumn.WS_PRICING;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomDecimal;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.row.generator.CatalogSalesRowGenerator.CS_DISCOUNT_MAX;

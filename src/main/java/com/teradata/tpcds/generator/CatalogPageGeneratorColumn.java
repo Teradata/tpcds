@@ -12,28 +12,33 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
+import static com.teradata.tpcds.Table.CATALOG_PAGE;
 
-public enum HouseholdDemographicsGeneratorColumn
+public enum CatalogPageGeneratorColumn
         implements GeneratorColumn
 {
-    HD_DEMO_SK(188, 1),
-    HD_INCOME_BAND_ID(189, 1),
-    HD_BUY_POTENTIAL(190, 1),
-    HD_DEP_COUNT(191, 1),
-    HD_VEHICLE_COUNT(192, 1),
-    HD_NULLS(193, 2);
+    CP_CATALOG_PAGE_SK(35, 1),
+    CP_CATALOG_PAGE_ID(36, 1),
+    CP_START_DATE_ID(37, 1),
+    CP_END_DATE_ID(38, 1),
+    CP_PROMO_ID(39, 1),
+    CP_DEPARTMENT(40, 1),
+    CP_CATALOG_NUMBER(41, 1),
+    CP_CATALOG_PAGE_NUMBER(42, 1),
+    CP_DESCRIPTION(43, 100), //S_CP_DESCRIPTION
+    CP_TYPE(44, 1),
+    CP_NULLS(45, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    HouseholdDemographicsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CatalogPageGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -42,7 +47,7 @@ public enum HouseholdDemographicsGeneratorColumn
     @Override
     public Table getTable()
     {
-        return HOUSEHOLD_DEMOGRAPHICS;
+        return CATALOG_PAGE;
     }
 
     @Override

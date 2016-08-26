@@ -20,11 +20,11 @@ import com.teradata.tpcds.type.Address;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.generator.CustomerAddressGeneratorColumn.CA_ADDRESS;
-import static com.teradata.tpcds.column.generator.CustomerAddressGeneratorColumn.CA_LOCATION_TYPE;
-import static com.teradata.tpcds.column.generator.CustomerAddressGeneratorColumn.CA_NULLS;
 import static com.teradata.tpcds.distribution.LocationTypesDistribution.LocationTypeWeights.UNIFORM;
 import static com.teradata.tpcds.distribution.LocationTypesDistribution.pickRandomLocationType;
+import static com.teradata.tpcds.generator.CustomerAddressGeneratorColumn.CA_ADDRESS;
+import static com.teradata.tpcds.generator.CustomerAddressGeneratorColumn.CA_LOCATION_TYPE;
+import static com.teradata.tpcds.generator.CustomerAddressGeneratorColumn.CA_NULLS;
 import static com.teradata.tpcds.type.Address.makeAddressForColumn;
 
 public class CustomerAddressRowGenerator

@@ -17,23 +17,23 @@ package com.teradata.tpcds.row;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_BIRTH_COUNTRY;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_BIRTH_DAY;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_BIRTH_MONTH;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_BIRTH_YEAR;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_CURRENT_ADDR_SK;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_CURRENT_CDEMO_SK;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_CURRENT_HDEMO_SK;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_CUSTOMER_ID;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_CUSTOMER_SK;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_EMAIL_ADDRESS;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_FIRST_NAME;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_FIRST_SALES_DATE_ID;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_FIRST_SHIPTO_DATE_ID;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_LAST_NAME;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_LAST_REVIEW_DATE;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_PREFERRED_CUST_FLAG;
-import static com.teradata.tpcds.column.generator.CustomerGeneratorColumn.C_SALUTATION;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_BIRTH_COUNTRY;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_BIRTH_DAY;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_BIRTH_MONTH;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_BIRTH_YEAR;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_CURRENT_ADDR_SK;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_CURRENT_CDEMO_SK;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_CURRENT_HDEMO_SK;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_CUSTOMER_ID;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_CUSTOMER_SK;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_EMAIL_ADDRESS;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_FIRST_NAME;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_FIRST_SALES_DATE_ID;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_FIRST_SHIPTO_DATE_ID;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_LAST_NAME;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_LAST_REVIEW_DATE;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_PREFERRED_CUST_FLAG;
+import static com.teradata.tpcds.generator.CustomerGeneratorColumn.C_SALUTATION;
 
 public class CustomerRow
         extends TableRowWithNulls

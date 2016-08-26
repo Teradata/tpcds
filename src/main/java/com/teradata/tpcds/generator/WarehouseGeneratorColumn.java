@@ -12,51 +12,38 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.DATE_DIM;
+import static com.teradata.tpcds.Table.WAREHOUSE;
 
-public enum DateDimGeneratorColumn
+public enum WarehouseGeneratorColumn
         implements GeneratorColumn
 {
-    D_DATE_SK(159, 0),
-    D_DATE_ID(160, 0),
-    D_DATE(161, 0),
-    D_MONTH_SEQ(162, 0),
-    D_WEEK_SEQ(163, 0),
-    D_QUARTER_SEQ(164, 0),
-    D_YEAR(165, 0),
-    D_DOW(166, 0),
-    D_MOY(167, 0),
-    D_DOM(168, 0),
-    D_QOY(169, 0),
-    D_FY_YEAR(170, 0),
-    D_FY_QUARTER_SEQ(171, 0),
-    D_FY_WEEK_SEQ(172, 0),
-    D_DAY_NAME(173, 0),
-    D_QUARTER_NAME(174, 0),
-    D_HOLIDAY(175, 0),
-    D_WEEKEND(176, 0),
-    D_FOLLOWING_HOLIDAY(177, 0),
-    D_FIRST_DOM(178, 0),
-    D_LAST_DOM(179, 0),
-    D_SAME_DAY_LY(180, 0),
-    D_SAME_DAY_LQ(181, 0),
-    D_CURRENT_DAY(182, 0),
-    D_CURRENT_WEEK(183, 0),
-    D_CURRENT_MONTH(184, 0),
-    D_CURRENT_QUARTER(185, 0),
-    D_CURRENT_YEAR(186, 0),
-    D_NULLS(187, 2);
+    W_WAREHOUSE_SK(351, 1),
+    W_WAREHOUSE_ID(352, 1),
+    W_WAREHOUSE_NAME(353, 80),
+    W_WAREHOUSE_SQ_FT(354, 1),
+    W_ADDRESS_STREET_NUM(355, 1),
+    W_ADDRESS_STREET_NAME1(356, 1),
+    W_ADDRESS_STREET_TYPE(357, 1),
+    W_ADDRESS_SUITE_NUM(358, 1),
+    W_ADDRESS_CITY(359, 1),
+    W_ADDRESS_COUNTY(360, 1),
+    W_ADDRESS_STATE(361, 1),
+    W_ADDRESS_ZIP(362, 1),
+    W_ADDRESS_COUNTRY(363, 1),
+    W_ADDRESS_GMT_OFFSET(364, 1),
+    W_NULLS(365, 2),
+    W_WAREHOUSE_ADDRESS(366, 7);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    DateDimGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    WarehouseGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -65,7 +52,7 @@ public enum DateDimGeneratorColumn
     @Override
     public Table getTable()
     {
-        return DATE_DIM;
+        return WAREHOUSE;
     }
 
     @Override

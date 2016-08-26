@@ -18,9 +18,9 @@ import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.IncomeBandRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.generator.IncomeBandGeneratorColumn.IB_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.getIncomeBandLowerBoundAtIndex;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.getIncomeBandUpperBoundAtIndex;
+import static com.teradata.tpcds.generator.IncomeBandGeneratorColumn.IB_NULLS;
 
 public class IncomeBandRowGenerator
         implements RowGenerator

@@ -17,16 +17,16 @@ package com.teradata.tpcds.row;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_AM_PM;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_HOUR;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_MEAL_TIME;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_MINUTE;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_SECOND;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_SHIFT;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_SUB_SHIFT;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_TIME;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_TIME_ID;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_TIME_SK;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_AM_PM;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_HOUR;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_MEAL_TIME;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_MINUTE;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_SECOND;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_SHIFT;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_SUB_SHIFT;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_TIME;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_TIME_ID;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_TIME_SK;
 
 public class TimeDimRow
         extends TableRowWithNulls

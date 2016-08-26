@@ -20,8 +20,8 @@ import com.teradata.tpcds.row.TimeDimRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.generator.TimeDimGeneratorColumn.T_NULLS;
 import static com.teradata.tpcds.distribution.HoursDistribution.getHourInfoForHour;
+import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_NULLS;
 
 public class TimeDimRowGenerator
         implements RowGenerator

@@ -20,9 +20,9 @@ import com.teradata.tpcds.type.Date;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.generator.DateDimGeneratorColumn.D_NULLS;
 import static com.teradata.tpcds.distribution.CalendarDistribution.getIsHolidayFlagAtIndex;
 import static com.teradata.tpcds.distribution.CalendarDistribution.getQuarterAtIndex;
+import static com.teradata.tpcds.generator.DateDimGeneratorColumn.D_NULLS;
 import static com.teradata.tpcds.type.Date.CURRENT_QUARTER;
 import static com.teradata.tpcds.type.Date.CURRENT_WEEK;
 import static com.teradata.tpcds.type.Date.TODAYS_DATE;

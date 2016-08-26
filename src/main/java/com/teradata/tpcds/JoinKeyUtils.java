@@ -14,16 +14,13 @@
 
 package com.teradata.tpcds;
 
-import com.teradata.tpcds.column.generator.GeneratorColumn;
 import com.teradata.tpcds.distribution.CalendarDistribution;
+import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.type.Date;
 
 import static com.teradata.tpcds.PseudoTableScalingInfos.CONCURRENT_WEB_SITES;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
-import static com.teradata.tpcds.column.generator.WebPageGeneratorColumn.WP_CREATION_DATE_SK;
-import static com.teradata.tpcds.column.generator.WebSiteGeneratorColumn.WEB_CLOSE_DATE;
-import static com.teradata.tpcds.column.generator.WebSiteGeneratorColumn.WEB_OPEN_DATE;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.SALES_LEAP_YEAR;
 import static com.teradata.tpcds.distribution.CalendarDistribution.Weights.UNIFORM_LEAP_YEAR;
@@ -33,6 +30,9 @@ import static com.teradata.tpcds.distribution.HoursDistribution.Weights.CATALOG_
 import static com.teradata.tpcds.distribution.HoursDistribution.Weights.STORE;
 import static com.teradata.tpcds.distribution.HoursDistribution.Weights.UNIFORM;
 import static com.teradata.tpcds.distribution.HoursDistribution.pickRandomHour;
+import static com.teradata.tpcds.generator.WebPageGeneratorColumn.WP_CREATION_DATE_SK;
+import static com.teradata.tpcds.generator.WebSiteGeneratorColumn.WEB_CLOSE_DATE;
+import static com.teradata.tpcds.generator.WebSiteGeneratorColumn.WEB_OPEN_DATE;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomKey;
 import static com.teradata.tpcds.row.generator.CatalogPageRowGenerator.CATALOGS_PER_YEAR;

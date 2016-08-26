@@ -12,38 +12,41 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WAREHOUSE;
+import static com.teradata.tpcds.Table.CUSTOMER;
 
-public enum WarehouseGeneratorColumn
+public enum CustomerGeneratorColumn
         implements GeneratorColumn
 {
-    W_WAREHOUSE_SK(351, 1),
-    W_WAREHOUSE_ID(352, 1),
-    W_WAREHOUSE_NAME(353, 80),
-    W_WAREHOUSE_SQ_FT(354, 1),
-    W_ADDRESS_STREET_NUM(355, 1),
-    W_ADDRESS_STREET_NAME1(356, 1),
-    W_ADDRESS_STREET_TYPE(357, 1),
-    W_ADDRESS_SUITE_NUM(358, 1),
-    W_ADDRESS_CITY(359, 1),
-    W_ADDRESS_COUNTY(360, 1),
-    W_ADDRESS_STATE(361, 1),
-    W_ADDRESS_ZIP(362, 1),
-    W_ADDRESS_COUNTRY(363, 1),
-    W_ADDRESS_GMT_OFFSET(364, 1),
-    W_NULLS(365, 2),
-    W_WAREHOUSE_ADDRESS(366, 7);
+    C_CUSTOMER_SK(114, 1),
+    C_CUSTOMER_ID(115, 1),
+    C_CURRENT_CDEMO_SK(116, 1),
+    C_CURRENT_HDEMO_SK(117, 1),
+    C_CURRENT_ADDR_SK(118, 1),
+    C_FIRST_SHIPTO_DATE_ID(119, 0),
+    C_FIRST_SALES_DATE_ID(120, 1),
+    C_SALUTATION(121, 1),
+    C_FIRST_NAME(122, 1),
+    C_LAST_NAME(123, 1),
+    C_PREFERRED_CUST_FLAG(124, 2),
+    C_BIRTH_DAY(125, 1),
+    C_BIRTH_MONTH(126, 0),
+    C_BIRTH_YEAR(127, 0),
+    C_BIRTH_COUNTRY(128, 1),
+    C_LOGIN(129, 1),
+    C_EMAIL_ADDRESS(130, 23),
+    C_LAST_REVIEW_DATE(131, 1),
+    C_NULLS(132, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WarehouseGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CustomerGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +55,7 @@ public enum WarehouseGeneratorColumn
     @Override
     public Table getTable()
     {
-        return WAREHOUSE;
+        return CUSTOMER;
     }
 
     @Override

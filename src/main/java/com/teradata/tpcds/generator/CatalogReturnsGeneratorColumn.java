@@ -12,44 +12,51 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.STORE_RETURNS;
+import static com.teradata.tpcds.Table.CATALOG_RETURNS;
 
-public enum StoreReturnsGeneratorColumn
+public enum CatalogReturnsGeneratorColumn
         implements GeneratorColumn
 {
-    SR_RETURNED_DATE_SK(292, 32),
-    SR_RETURNED_TIME_SK(293, 32),
-    SR_ITEM_SK(294, 16),
-    SR_CUSTOMER_SK(295, 16),
-    SR_CDEMO_SK(296, 16),
-    SR_HDEMO_SK(297, 16),
-    SR_ADDR_SK(298, 16),
-    SR_STORE_SK(299, 16),
-    SR_REASON_SK(300, 16),
-    SR_TICKET_NUMBER(301, 16),
-    SR_PRICING_QUANTITY(302, 0),
-    SR_PRICING_NET_PAID(303, 0),
-    SR_PRICING_EXT_TAX(304, 0),
-    SR_PRICING_NET_PAID_INC_TAX(305, 0),
-    SR_PRICING_FEE(306, 0),
-    SR_PRICING_EXT_SHIP_COST(307, 0),
-    SR_PRICING_REFUNDED_CASH(308, 0),
-    SR_PRICING_REVERSED_CHARGE(309, 0),
-    SR_PRICING_STORE_CREDIT(310, 0),
-    SR_PRICING_NET_LOSS(311, 0),
-    SR_PRICING(312, 80),
-    SR_NULLS(313, 32);
+    CR_RETURNED_DATE_SK(46, 28),
+    CR_RETURNED_TIME_SK(47, 28),
+    CR_ITEM_SK(48, 14),
+    CR_REFUNDED_CUSTOMER_SK(49, 14),
+    CR_REFUNDED_CDEMO_SK(50, 14),
+    CR_REFUNDED_HDEMO_SK(51, 14),
+    CR_REFUNDED_ADDR_SK(52, 14),
+    CR_RETURNING_CUSTOMER_SK(53, 28),
+    CR_RETURNING_CDEMO_SK(54, 14),
+    CR_RETURNING_HDEMO_SK(55, 14),
+    CR_RETURNING_ADDR_SK(56, 14),
+    CR_CALL_CENTER_SK(57, 0),
+    CR_CATALOG_PAGE_SK(58, 14),
+    CR_SHIP_MODE_SK(59, 14),
+    CR_WAREHOUSE_SK(60, 14),
+    CR_REASON_SK(61, 14),
+    CR_ORDER_NUMBER(62, 0),
+    CR_PRICING_QUANTITY(63, 0),
+    CR_PRICING_NET_PAID(64, 0),
+    CR_PRICING_EXT_TAX(65, 0),
+    CR_PRICING_NET_PAID_INC_TAX(66, 0),
+    CR_PRICING_FEE(67, 0),
+    CR_PRICING_EXT_SHIP_COST(68, 0),
+    CR_PRICING_REFUNDED_CASH(69, 0),
+    CR_PRICING_REVERSED_CHARGE(70, 0),
+    CR_PRICING_STORE_CREDIT(71, 0),
+    CR_PRICING_NET_LOSS(72, 0),
+    CR_NULLS(73, 28),
+    CR_PRICING(74, 70);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    StoreReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    CatalogReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -58,7 +65,7 @@ public enum StoreReturnsGeneratorColumn
     @Override
     public Table getTable()
     {
-        return STORE_RETURNS;
+        return CATALOG_RETURNS;
     }
 
     @Override

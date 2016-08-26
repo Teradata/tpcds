@@ -15,7 +15,7 @@
 package com.teradata.tpcds;
 
 import com.google.common.collect.AbstractIterator;
-import com.teradata.tpcds.column.generator.GeneratorColumn;
+import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.row.generator.RowGeneratorResult;
 

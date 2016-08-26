@@ -12,29 +12,26 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.SHIP_MODE;
+import static com.teradata.tpcds.Table.REASON;
 
-public enum ShipModeGeneratorColumn
+public enum ReasonGeneratorColumn
         implements GeneratorColumn
 {
-    SM_SHIP_MODE_SK(252, 1),
-    SM_SHIP_MODE_ID(253, 1),
-    SM_TYPE(254, 1),
-    SM_CODE(255, 1),
-    SM_CONTRACT(256, 21),
-    SM_CARRIER(257, 1),
-    SM_NULLS(258, 2);
+    R_REASON_SK(248, 1),
+    R_REASON_ID(249, 1),
+    R_REASON_DESCRIPTION(250, 1),
+    R_NULLS(251, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    ShipModeGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    ReasonGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -43,7 +40,7 @@ public enum ShipModeGeneratorColumn
     @Override
     public Table getTable()
     {
-        return SHIP_MODE;
+        return REASON;
     }
 
     @Override

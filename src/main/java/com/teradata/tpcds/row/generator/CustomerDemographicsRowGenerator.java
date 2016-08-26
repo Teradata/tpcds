@@ -18,7 +18,6 @@ import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.CustomerDemographicsRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.column.generator.CustomerDemographicsGeneratorColumn.CD_NULLS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.CREDIT_RATING_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.EDUCATION_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.GENDER_DISTRIBUTION;
@@ -29,6 +28,7 @@ import static com.teradata.tpcds.distribution.DemographicsDistributions.getEduca
 import static com.teradata.tpcds.distribution.DemographicsDistributions.getGenderForIndexModSize;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.getMaritalStatusForIndexModSize;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.getPurchaseBandForIndexModSize;
+import static com.teradata.tpcds.generator.CustomerDemographicsGeneratorColumn.CD_NULLS;
 
 public class CustomerDemographicsRowGenerator
         implements RowGenerator

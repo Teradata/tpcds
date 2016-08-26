@@ -12,38 +12,51 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
+import static com.teradata.tpcds.Table.WEB_SITE;
 
-public enum CustomerAddressGeneratorColumn
+public enum WebSiteGeneratorColumn
         implements GeneratorColumn
 {
-    CA_ADDRESS_SK(133, 1),
-    CA_ADDRESS_ID(134, 1),
-    CA_ADDRESS_STREET_NUM(135, 1),
-    CA_ADDRESS_STREET_NAME(136, 1),
-    CA_ADDRESS_STREET_TYPE(137, 1),
-    CA_ADDRESS_SUITE_NUM(138, 1),
-    CA_ADDRESS_CITY(139, 1),
-    CA_ADDRESS_COUNTY(140, 1),
-    CA_ADDRESS_STATE(141, 1),
-    CA_ADDRESS_ZIP(142, 1),
-    CA_ADDRESS_COUNTRY(143, 1),
-    CA_ADDRESS_GMT_OFFSET(144, 1),
-    CA_LOCATION_TYPE(145, 1),
-    CA_NULLS(146, 2),
-    CA_ADDRESS(147, 7),
-    CA_ADDRESS_STREET_NAME2(148, 1);
+    WEB_SITE_SK(447, 1),
+    WEB_SITE_ID(448, 1),
+    WEB_REC_START_DATE_ID(449, 1),
+    WEB_REC_END_DATE_ID(450, 1),
+    WEB_NAME(451, 1),
+    WEB_OPEN_DATE(452, 1),
+    WEB_CLOSE_DATE(453, 1),
+    WEB_CLASS(454, 1),
+    WEB_MANAGER(455, 2),
+    WEB_MARKET_ID(456, 1),
+    WEB_MARKET_CLASS(457, 20),
+    WEB_MARKET_DESC(458, 100),
+    WEB_MARKET_MANAGER(459, 2),
+    WEB_COMPANY_ID(460, 1),
+    WEB_COMPANY_NAME(461, 1),
+    WEB_ADDRESS_STREET_NUM(462, 1),
+    WEB_ADDRESS_STREET_NAME1(463, 1),
+    WEB_ADDRESS_STREET_TYPE(464, 1),
+    WEB_ADDRESS_SUITE_NUM(465, 1),
+    WEB_ADDRESS_CITY(466, 1),
+    WEB_ADDRESS_COUNTY(467, 1),
+    WEB_ADDRESS_STATE(468, 1),
+    WEB_ADDRESS_ZIP(469, 1),
+    WEB_ADDRESS_COUNTRY(470, 1),
+    WEB_ADDRESS_GMT_OFFSET(471, 1),
+    WEB_TAX_PERCENTAGE(472, 1),
+    WEB_NULLS(473, 2),
+    WEB_ADDRESS(474, 7),
+    WEB_SCD(475, 70);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    CustomerAddressGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    WebSiteGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +65,7 @@ public enum CustomerAddressGeneratorColumn
     @Override
     public Table getTable()
     {
-        return CUSTOMER_ADDRESS;
+        return WEB_SITE;
     }
 
     @Override

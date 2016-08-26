@@ -12,38 +12,27 @@
  * limitations under the License.
  */
 
-package com.teradata.tpcds.column.generator;
+package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
-import static com.teradata.tpcds.Table.WEB_PAGE;
+import static com.teradata.tpcds.Table.INVENTORY;
 
-public enum WebPageGeneratorColumn
+public enum InventoryGeneratorColumn
         implements GeneratorColumn
 {
-    WP_PAGE_SK(367, 1),
-    WP_PAGE_ID(368, 1),
-    WP_REC_START_DATE_ID(369, 1),
-    WP_REC_END_DATE_ID(370, 1),
-    WP_CREATION_DATE_SK(371, 2),
-    WP_ACCESS_DATE_SK(372, 1),
-    WP_AUTOGEN_FLAG(373, 1),
-    WP_CUSTOMER_SK(374, 1),
-    WP_URL(375, 1),
-    WP_TYPE(376, 1),
-    WP_CHAR_COUNT(377, 1),
-    WP_LINK_COUNT(378, 1),
-    WP_IMAGE_COUNT(379, 1),
-    WP_MAX_AD_COUNT(380, 1),
-    WP_NULLS(381, 2),
-    WP_SCD(382, 1);
+    INV_DATE_SK(198, 1),
+    INV_ITEM_SK(199, 1),
+    INV_WAREHOUSE_SK(200, 1),
+    INV_QUANTITY_ON_HAND(201, 1),
+    INV_NULLS(202, 2);
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
 
-    WebPageGeneratorColumn(int globalColumnNumber, int seedsPerRow)
+    InventoryGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
@@ -52,7 +41,7 @@ public enum WebPageGeneratorColumn
     @Override
     public Table getTable()
     {
-        return WEB_PAGE;
+        return INVENTORY;
     }
 
     @Override

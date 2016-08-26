@@ -16,8 +16,8 @@ package com.teradata.tpcds.type;
 
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.column.generator.GeneratorColumn;
 import com.teradata.tpcds.distribution.FipsCountyDistribution;
+import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
