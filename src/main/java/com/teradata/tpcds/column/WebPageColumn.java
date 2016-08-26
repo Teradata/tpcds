@@ -19,22 +19,22 @@ import static com.teradata.tpcds.Table.WEB_PAGE;
 import static com.teradata.tpcds.column.ColumnTypes.DATE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum WebPageColumn
         implements Column
 {
     WP_WEB_PAGE_SK(IDENTIFIER),
-    WP_WEB_PAGE_ID(charr(16)),
+    WP_WEB_PAGE_ID(character(16)),
     WP_REC_START_DATE(DATE),
     WP_REC_END_DATE(DATE),
     WP_CREATION_DATE_SK(IDENTIFIER),
     WP_ACCESS_DATE_SK(IDENTIFIER),
-    WP_AUTOGEN_FLAG(charr(1)),
+    WP_AUTOGEN_FLAG(character(1)),
     WP_CUSTOMER_SK(IDENTIFIER),
     WP_URL(varchar(100)),
-    WP_TYPE(charr(50)),
+    WP_TYPE(character(50)),
     WP_CHAR_COUNT(INTEGER),
     WP_LINK_COUNT(INTEGER),
     WP_IMAGE_COUNT(INTEGER),

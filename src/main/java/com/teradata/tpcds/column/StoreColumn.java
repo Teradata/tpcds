@@ -19,7 +19,7 @@ import static com.teradata.tpcds.Table.STORE;
 import static com.teradata.tpcds.column.ColumnTypes.DATE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 import static com.teradata.tpcds.column.ColumnTypes.decimal;
 import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
@@ -27,14 +27,14 @@ public enum StoreColumn
         implements Column
 {
     S_STORE_SK(IDENTIFIER),
-    S_STORE_ID(charr(16)),
+    S_STORE_ID(character(16)),
     S_REC_START_DATE(DATE),
     S_REC_END_DATE(DATE),
     S_CLOSED_DATE_SK(IDENTIFIER),
     S_STORE_NAME(varchar(50)),
     S_NUMBER_EMPLOYEES(INTEGER),
     S_FLOOR_SPACE(INTEGER),
-    S_HOURS(charr(20)),
+    S_HOURS(character(20)),
     S_MANAGER(varchar(40)),
     S_MARKET_ID(INTEGER),
     S_GEOGRAPHY_CLASS(varchar(100)),
@@ -46,12 +46,12 @@ public enum StoreColumn
     S_COMPANY_NAME(varchar(50)),
     S_STREET_NUMBER(varchar(10)),
     S_STREET_NAME(varchar(60)),
-    S_STREET_TYPE(charr(15)),
-    S_SUITE_NUMBER(charr(10)),
+    S_STREET_TYPE(character(15)),
+    S_SUITE_NUMBER(character(10)),
     S_CITY(varchar(60)),
     S_COUNTY(varchar(30)),
-    S_STATE(charr(2)),
-    S_ZIP(charr(10)),
+    S_STATE(character(2)),
+    S_ZIP(character(10)),
     S_COUNTRY(varchar(20)),
     S_GMT_OFFSET(decimal(5, 2)),
     S_TAX_PRECENTAGE(decimal(5, 2));

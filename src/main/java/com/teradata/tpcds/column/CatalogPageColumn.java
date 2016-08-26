@@ -18,14 +18,14 @@ import com.teradata.tpcds.Table;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
 public enum CatalogPageColumn
         implements Column
 {
     CP_CATALOG_PAGE_SK(IDENTIFIER),
-    CP_CATALOG_PAGE_ID(charr(16)),
+    CP_CATALOG_PAGE_ID(character(16)),
     CP_START_DATE_SK(INTEGER),
     CP_END_DATE_SK(INTEGER),
     CP_DEPARTMENT(varchar(50)),

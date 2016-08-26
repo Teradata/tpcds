@@ -17,14 +17,14 @@ import com.teradata.tpcds.Table;
 
 import static com.teradata.tpcds.Table.REASON;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 
 public enum ReasonColumn
         implements Column
 {
     R_REASON_SK(IDENTIFIER),
-    R_REASON_ID(charr(16)),
-    R_REASON_DESC(charr(100));
+    R_REASON_ID(character(16)),
+    R_REASON_DESC(character(100));
 
     private final ColumnType type;
 

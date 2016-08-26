@@ -447,7 +447,7 @@ public enum Table
     public static Table getTable(String tableName)
     {
         List<Table> allTableMatches = getBaseTables().stream()
-                .filter(table -> tableName.equals(table.getName()))
+                .filter(table -> tableName.toLowerCase().equals(table.getName().toLowerCase()))
                 .collect(Collectors.toList());
 
         checkState(allTableMatches.size() == 1);

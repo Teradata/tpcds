@@ -19,13 +19,13 @@ import static com.teradata.tpcds.Table.DATE_DIM;
 import static com.teradata.tpcds.column.ColumnTypes.DATE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 
 public enum DateDimColumn
         implements Column
 {
     D_DATE_SK(IDENTIFIER),
-    D_DATE_ID(charr(16)),
+    D_DATE_ID(character(16)),
     D_DATE(DATE),
     D_MONTH_SEQ(INTEGER),
     D_WEEK_SEQ(INTEGER),
@@ -38,20 +38,20 @@ public enum DateDimColumn
     D_FY_YEAR(INTEGER),
     D_FY_QUARTER_SEQ(INTEGER),
     D_FY_WEEK_SEQ(INTEGER),
-    D_DAY_NAME(charr(9)),
-    D_QUARTER_NAME(charr(6)),
-    D_HOLIDAY(charr(1)),
-    D_WEEKEND(charr(1)),
-    D_FOLLOWING_HOLIDAY(charr(1)),
+    D_DAY_NAME(character(9)),
+    D_QUARTER_NAME(character(6)),
+    D_HOLIDAY(character(1)),
+    D_WEEKEND(character(1)),
+    D_FOLLOWING_HOLIDAY(character(1)),
     D_FIRST_DOM(INTEGER),
     D_LAST_DOM(INTEGER),
     D_SAME_DAY_LY(INTEGER),
     D_SAME_DAY_LQ(INTEGER),
-    D_CURRENT_DAY(charr(1)),
-    D_CURRENT_WEEK(charr(1)),
-    D_CURRENT_MONTH(charr(1)),
-    D_CURRENT_QUARTER(charr(1)),
-    D_CURRENT_YEAR(charr(1));
+    D_CURRENT_DAY(character(1)),
+    D_CURRENT_WEEK(character(1)),
+    D_CURRENT_MONTH(character(1)),
+    D_CURRENT_QUARTER(character(1)),
+    D_CURRENT_YEAR(character(1));
 
     private final ColumnType type;
 

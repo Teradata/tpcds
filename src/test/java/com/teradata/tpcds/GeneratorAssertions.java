@@ -29,6 +29,9 @@ import static com.teradata.tpcds.Results.constructResults;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.testng.Assert.assertEquals;
 
+// This class was derived from the GeneratorAssertions class in the following repo
+// https://github.com/airlift/tpch. The license for that class can be found here
+// https://www.apache.org/licenses/LICENSE-2.0.
 public final class GeneratorAssertions
 {
     private GeneratorAssertions() {}

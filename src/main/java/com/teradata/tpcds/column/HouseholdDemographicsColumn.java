@@ -18,14 +18,14 @@ import com.teradata.tpcds.Table;
 import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 
 public enum HouseholdDemographicsColumn
         implements Column
 {
     HD_DEMO_SK(IDENTIFIER),
     HD_INCOME_BAND_SK(IDENTIFIER),
-    HD_BUY_POTENTIAL(charr(15)),
+    HD_BUY_POTENTIAL(character(15)),
     HD_DEP_COUNT(INTEGER),
     HD_VEHICLE_COUNT(INTEGER);
 

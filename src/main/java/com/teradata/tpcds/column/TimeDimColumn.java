@@ -18,21 +18,21 @@ import com.teradata.tpcds.Table;
 import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 
 public enum TimeDimColumn
         implements Column
 {
     T_TIME_SK(IDENTIFIER),
-    T_TIME_ID(charr(16)),
+    T_TIME_ID(character(16)),
     T_TIME(INTEGER),
     T_HOUR(INTEGER),
     T_MINUTE(INTEGER),
     T_SECOND(INTEGER),
-    T_AM_PM(charr(2)),
-    T_SHIFT(charr(20)),
-    T_SUB_SHIFT(charr(20)),
-    T_MEAL_TIME(charr(20));
+    T_AM_PM(character(2)),
+    T_SHIFT(character(20)),
+    T_SUB_SHIFT(character(20)),
+    T_MEAL_TIME(character(20));
 
     private final ColumnType type;
 

@@ -19,7 +19,7 @@ import static com.teradata.tpcds.Table.WEB_SITE;
 import static com.teradata.tpcds.column.ColumnTypes.DATE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 import static com.teradata.tpcds.column.ColumnTypes.decimal;
 import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
@@ -27,7 +27,7 @@ public enum WebSiteColumn
         implements Column
 {
     WEB_SITE_SK(IDENTIFIER),
-    WEB_SITE_ID(charr(16)),
+    WEB_SITE_ID(character(16)),
     WEB_REC_START_DATE(DATE),
     WEB_REC_END_DATE(DATE),
     WEB_NAME(varchar(50)),
@@ -40,15 +40,15 @@ public enum WebSiteColumn
     WEB_MKT_DESC(varchar(100)),
     WEB_MARKET_MANAGER(varchar(40)),
     WEB_COMPANY_ID(INTEGER),
-    WEB_COMPANY_NAME(charr(50)),
-    WEB_STREET_NUMBER(charr(10)),
+    WEB_COMPANY_NAME(character(50)),
+    WEB_STREET_NUMBER(character(10)),
     WEB_STREET_NAME(varchar(60)),
-    WEB_STREET_TYPE(charr(15)),
-    WEB_SUITE_NUMBER(charr(10)),
+    WEB_STREET_TYPE(character(15)),
+    WEB_SUITE_NUMBER(character(10)),
     WEB_CITY(varchar(60)),
     WEB_COUNTY(varchar(30)),
-    WEB_STATE(charr(2)),
-    WEB_ZIP(charr(10)),
+    WEB_STATE(character(2)),
+    WEB_ZIP(character(10)),
     WEB_COUNTRY(varchar(20)),
     WEB_GMT_OFFSET(decimal(5, 2)),
     WEB_TAX_PERCENTAGE(decimal(5, 2));

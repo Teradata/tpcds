@@ -19,7 +19,7 @@ import static com.teradata.tpcds.Table.ITEM;
 import static com.teradata.tpcds.column.ColumnTypes.DATE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 import static com.teradata.tpcds.column.ColumnTypes.decimal;
 import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
@@ -27,27 +27,27 @@ public enum ItemColumn
         implements Column
 {
     I_ITEM_SK(IDENTIFIER),
-    I_ITEM_ID(charr(16)),
+    I_ITEM_ID(character(16)),
     I_REC_START_DATE(DATE),
     I_REC_END_DATE(DATE),
     I_ITEM_DESC(varchar(200)),
     I_CURRENT_PRICE(decimal(7, 2)),
     I_WHOLESALE_COST(decimal(7, 2)),
     I_BRAND_ID(INTEGER),
-    I_BRAND(charr(50)),
+    I_BRAND(character(50)),
     I_CLASS_ID(INTEGER),
-    I_CLASS(charr(50)),
+    I_CLASS(character(50)),
     I_CATEGORY_ID(INTEGER),
-    I_CATEGORY(charr(50)),
+    I_CATEGORY(character(50)),
     I_MANUFACT_ID(INTEGER),
-    I_MANUFACT(charr(50)),
-    I_SIZE(charr(20)),
-    I_FORMULATION(charr(20)),
-    I_COLOR(charr(20)),
-    I_UNITS(charr(10)),
-    I_CONTAINER(charr(10)),
+    I_MANUFACT(character(50)),
+    I_SIZE(character(20)),
+    I_FORMULATION(character(20)),
+    I_COLOR(character(20)),
+    I_UNITS(character(10)),
+    I_CONTAINER(character(10)),
     I_MANAGER_ID(INTEGER),
-    I_PRODUCT_NAME(charr(50));
+    I_PRODUCT_NAME(character(50));
 
     private final ColumnType type;
 

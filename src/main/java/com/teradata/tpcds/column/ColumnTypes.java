@@ -13,6 +13,9 @@
  */
 package com.teradata.tpcds.column;
 
+// This class was derived from the TpchColumnTypes class in the following repo
+// https://github.com/airlift/tpch. The license for that class can be found here
+// https://www.apache.org/licenses/LICENSE-2.0.
 public class ColumnTypes
 {
     private ColumnTypes() {}
@@ -27,7 +30,7 @@ public class ColumnTypes
         return new ColumnType(ColumnType.Base.VARCHAR, precision);
     }
 
-    public static ColumnType charr(int precision)
+    public static ColumnType character(int precision)
     {
         return new ColumnType(ColumnType.Base.CHAR, precision);
     }

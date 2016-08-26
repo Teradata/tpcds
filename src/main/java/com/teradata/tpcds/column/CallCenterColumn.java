@@ -19,7 +19,7 @@ import static com.teradata.tpcds.Table.CALL_CENTER;
 import static com.teradata.tpcds.column.ColumnTypes.DATE;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 import static com.teradata.tpcds.column.ColumnTypes.decimal;
 import static com.teradata.tpcds.column.ColumnTypes.varchar;
 
@@ -27,7 +27,7 @@ public enum CallCenterColumn
         implements Column
 {
     CC_CALL_CENTER_SK(IDENTIFIER),
-    CC_CALL_CENTER_ID(charr(16)),
+    CC_CALL_CENTER_ID(character(16)),
     CC_REC_START_DATE(DATE),
     CC_REC_END_DATE(DATE),
     CC_CLOSED_DATE_SK(INTEGER),
@@ -36,24 +36,24 @@ public enum CallCenterColumn
     CC_CLASS(varchar(50)),
     CC_EMPLOYEES(INTEGER),
     CC_SQ_FT(INTEGER),
-    CC_HOURS(charr(20)),
+    CC_HOURS(character(20)),
     CC_MANAGER(varchar(40)),
     CC_MKT_ID(INTEGER),
-    CC_MKT_CLASS(charr(50)),
+    CC_MKT_CLASS(character(50)),
     CC_MKT_DESC(varchar(100)),
     CC_MARKET_MANAGER(varchar(40)),
     CC_DIVISION(INTEGER),
     CC_DIVISION_NAME(varchar(50)),
     CC_COMPANY(INTEGER),
-    CC_COMPANY_NAME(charr(50)),
-    CC_STREET_NUMBER(charr(10)),
+    CC_COMPANY_NAME(character(50)),
+    CC_STREET_NUMBER(character(10)),
     CC_STREET_NAME(varchar(60)),
-    CC_STREET_TYPE(charr(15)),
-    CC_SUITE_NUMBER(charr(10)),
+    CC_STREET_TYPE(character(15)),
+    CC_SUITE_NUMBER(character(10)),
     CC_CITY(varchar(60)),
     CC_COUNTY(varchar(30)),
-    CC_STATE(charr(2)),
-    CC_ZIP(charr(10)),
+    CC_STATE(character(2)),
+    CC_ZIP(character(10)),
     CC_COUNTRY(varchar(20)),
     CC_GMT_OFFSET(decimal(5, 2)),
     CC_TAX_PERCENTAGE(decimal(5, 2));

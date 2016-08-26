@@ -18,17 +18,17 @@ import com.teradata.tpcds.Table;
 import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
 import static com.teradata.tpcds.column.ColumnTypes.IDENTIFIER;
 import static com.teradata.tpcds.column.ColumnTypes.INTEGER;
-import static com.teradata.tpcds.column.ColumnTypes.charr;
+import static com.teradata.tpcds.column.ColumnTypes.character;
 
 public enum CustomerDemographicsColumn
         implements Column
 {
     CD_DEMO_SK(IDENTIFIER),
-    CD_GENDER(charr(1)),
-    CD_MARITAL_STATUS(charr(1)),
-    CD_EDUCATION_STATUS(charr(20)),
+    CD_GENDER(character(1)),
+    CD_MARITAL_STATUS(character(1)),
+    CD_EDUCATION_STATUS(character(20)),
     CD_PURCHASE_ESTIMATE(INTEGER),
-    CD_CREDIT_RATING(charr(10)),
+    CD_CREDIT_RATING(character(10)),
     CD_DEP_COUNT(INTEGER),
     CD_DEP_EMPLOYED_COUNT(INTEGER),
     CD_DEP_COLLEGE_COUNT(INTEGER);

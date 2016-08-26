@@ -20,6 +20,9 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.teradata.tpcds.column.ColumnType.Base.DECIMAL;
 import static com.teradata.tpcds.column.ColumnType.Base.VARCHAR;
 
+// This class was derived from the TpchColumnType class in the following repo
+// https://github.com/airlift/tpch. The license for that class can be found here
+// https://www.apache.org/licenses/LICENSE-2.0.
 public class ColumnType
 {
     public enum Base {
