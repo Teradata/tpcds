@@ -1,4 +1,4 @@
-# TPCDS 
+# TPCDS [![BuildStatus](https://travis-ci.org/Teradata/tpcds.svg?branch=master)](https://travis-ci.org/Teradata/tpcds)
 
 The Java version of the TPC-DS data generator is based on the C dsdgen distributed
 by the TPC organization. Here is a brief outline of the components and structure of our
