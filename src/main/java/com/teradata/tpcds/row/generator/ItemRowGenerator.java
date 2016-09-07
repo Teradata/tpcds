@@ -86,7 +86,7 @@ public class ItemRowGenerator
     private Optional<ItemRow> previousRow = Optional.empty();
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(I_NULLS);
         long iItemSk = rowNumber;

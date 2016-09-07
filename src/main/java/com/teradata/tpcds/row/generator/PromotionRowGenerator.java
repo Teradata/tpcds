@@ -46,7 +46,7 @@ public class PromotionRowGenerator
     private static final int PROMO_DETAIL_LENGTH_MAX = 60;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(P_NULLS);
         long pPromoSk = rowNumber;

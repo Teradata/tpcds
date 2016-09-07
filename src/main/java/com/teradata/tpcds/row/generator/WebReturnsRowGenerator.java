@@ -49,9 +49,9 @@ public class WebReturnsRowGenerator
         implements RowGenerator
 {
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        RowGeneratorResult salesAndReturnsResult = WEB_SALES.getRowGenerator().generateRowAndChildRows(rowNumber, session);
+        RowGeneratorResult salesAndReturnsResult = parentRowGenerator.generateRowAndChildRows(rowNumber, session, null, this);
         if (salesAndReturnsResult.getRowAndChildRows().size() == 2) {
             return new RowGeneratorResult(ImmutableList.of(salesAndReturnsResult.getRowAndChildRows().get(1)), salesAndReturnsResult.shouldEndRow());
         }

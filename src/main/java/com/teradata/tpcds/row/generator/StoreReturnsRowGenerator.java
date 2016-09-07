@@ -53,12 +53,12 @@ public class StoreReturnsRowGenerator
     private static final int SR_SAME_CUSTOMER = 80;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         // The store_returns table is a child of the store_sales table because you can only return things that have
         // already been purchased.  This method should only get called if we are generating the store_returns table
         // in isolation. Otherwise store_returns is generated during the generation of the store_sales table
-        RowGeneratorResult salesAndReturnsResult = STORE_SALES.getRowGenerator().generateRowAndChildRows(rowNumber, session);
+        RowGeneratorResult salesAndReturnsResult = parentRowGenerator.generateRowAndChildRows(rowNumber, session, null, this);
         if (salesAndReturnsResult.getRowAndChildRows().size() == 2) {
             return new RowGeneratorResult(ImmutableList.of(salesAndReturnsResult.getRowAndChildRows().get(1)), salesAndReturnsResult.shouldEndRow());
         }

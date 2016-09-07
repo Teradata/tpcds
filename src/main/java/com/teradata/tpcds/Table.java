@@ -95,7 +95,6 @@ import com.teradata.tpcds.row.generator.WebReturnsRowGenerator;
 import com.teradata.tpcds.row.generator.WebSalesRowGenerator;
 import com.teradata.tpcds.row.generator.WebSiteRowGenerator;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -326,12 +325,17 @@ public enum Table
     private final TableFlags tableFlags;
     private final int nullBasisPoints;
     private final long notNullBitMap;
-    private final ThreadLocal<RowGenerator> rowGeneratorThreadLocal;
+    private final Class<? extends RowGenerator> rowGeneratorClass;
     private final GeneratorColumn[] generatorColumns;
     private final Column[] columns;
     private final ScalingInfo scalingInfo;
     private Optional<Table> parent = Optional.empty();
     private Optional<Table> child = Optional.empty();
+
+    public Class<? extends RowGenerator> getRowGeneratorClass()
+    {
+        return rowGeneratorClass;
+    }
 
     static {
         // initialize parent and child relationships here because in
@@ -351,7 +355,7 @@ public enum Table
         this.tableFlags = new TableFlagsBuilder().build();
         this.nullBasisPoints = 0;
         this.notNullBitMap = 0;
-        this.rowGeneratorThreadLocal = null;
+        this.rowGeneratorClass = null;
         this.generatorColumns = new GeneratorColumn[0];
         this.columns = new Column[0];
         this.scalingInfo = new ScalingInfo(0, LINEAR, new int[9], 0);
@@ -362,19 +366,7 @@ public enum Table
         this.tableFlags = tableFlags;
         this.nullBasisPoints = nullBasisPoints;
         this.notNullBitMap = notNullBitMap;
-        this.rowGeneratorThreadLocal = new ThreadLocal<RowGenerator>()
-        {
-            @Override
-            protected RowGenerator initialValue()
-            {
-                try {
-                    return rowGeneratorClass.getDeclaredConstructor().newInstance();
-                }
-                catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                    throw new TpcdsException(e.toString());
-                }
-            }
-        };
+        this.rowGeneratorClass = rowGeneratorClass;
         this.generatorColumns = generatorColumns;
         this.columns = columns;
         this.scalingInfo = scalingInfo;
@@ -423,11 +415,6 @@ public enum Table
     public long getNotNullBitMap()
     {
         return notNullBitMap;
-    }
-
-    public RowGenerator getRowGenerator()
-    {
-        return rowGeneratorThreadLocal.get();
     }
 
     public GeneratorColumn[] getGeneratorColumns()

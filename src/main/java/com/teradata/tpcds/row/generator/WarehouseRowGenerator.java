@@ -32,7 +32,7 @@ public class WarehouseRowGenerator
         implements RowGenerator
 {
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(W_NULLS);
         long wWarehouseSk = rowNumber;

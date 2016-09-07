@@ -19,8 +19,10 @@ import com.teradata.tpcds.Parallel.ChunkBoundaries;
 import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.row.TableRow;
+import com.teradata.tpcds.row.generator.RowGenerator;
 import com.teradata.tpcds.row.generator.RowGeneratorResult;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,6 +72,9 @@ public class Results
         private final Table table;
         private final Session session;
         private long rowNumber;
+        private final RowGenerator rowGenerator;
+        private final RowGenerator parentRowGenerator;
+        private final RowGenerator childRowGenerator;
 
         public ResultsIterator(Table table, long startingRowNumber, long endingRowNumber, Session session)
         {
@@ -82,7 +87,14 @@ public class Results
             this.rowNumber = startingRowNumber;
             this.endingRowNumber = endingRowNumber;
             this.session = session;
-
+            try {
+                this.rowGenerator = table.getRowGeneratorClass().getDeclaredConstructor().newInstance();
+                this.parentRowGenerator = table.isChild() ? table.getParent().getRowGeneratorClass().getDeclaredConstructor().newInstance() : null;
+                this.childRowGenerator = table.hasChild() ? table.getChild().getRowGeneratorClass().getDeclaredConstructor().newInstance() : null;
+            }
+            catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+                throw new TpcdsException(e.toString());
+            }
             skipRowsUntilStartingRowNumber(table, startingRowNumber);
         }
 
@@ -105,7 +117,7 @@ public class Results
                 return endOfData();
             }
 
-            RowGeneratorResult result = table.getRowGenerator().generateRowAndChildRows(rowNumber, session);
+            RowGeneratorResult result = rowGenerator.generateRowAndChildRows(rowNumber, session, parentRowGenerator, childRowGenerator);
             List<List<String>> tableRows = result.getRowAndChildRows().stream().map(TableRow::getValues).collect(Collectors.toList());
 
             if (result.shouldEndRow()) {
@@ -125,7 +137,7 @@ public class Results
             for (GeneratorColumn column : table.getGeneratorColumns()) {
                 column.getRandomNumberStream().resetSeed();
             }
-            table.getRowGenerator().reset();
+            rowGenerator.reset();
 
             if (table.isChild()) {
                 resetColumnsAndRowGenerator(table.getParent());

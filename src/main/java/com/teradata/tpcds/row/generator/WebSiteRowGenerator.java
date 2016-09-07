@@ -64,7 +64,7 @@ public class WebSiteRowGenerator
     private Optional<WebSiteRow> previousRow = Optional.empty();
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(WEB_NULLS);
         long webSiteSk = rowNumber;

@@ -34,7 +34,7 @@ public class CatalogPageRowGenerator
     private static final int WIDTH_CP_DESCRIPTION = 100;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long cpCatalogPageSk = rowNumber;
         String cpDepartment = "DEPARTMENT";

@@ -66,7 +66,7 @@ public class StoreRowGenerator
     private Optional<StoreRow> previousRow = Optional.empty();
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(W_STORE_NULLS);
         long storeSk = rowNumber;

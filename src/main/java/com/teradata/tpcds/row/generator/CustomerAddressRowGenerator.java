@@ -31,7 +31,7 @@ public class CustomerAddressRowGenerator
         implements RowGenerator
 {
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(CA_NULLS);
         long caAddrSk = rowNumber;
