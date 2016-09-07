@@ -26,7 +26,7 @@ public class IncomeBandRowGenerator
         implements RowGenerator
 {
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(IB_NULLS);
         int ibIncomeBandId = (int) rowNumber;

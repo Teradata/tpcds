@@ -72,7 +72,7 @@ public class StoreSalesRowGenerator
     private int itemIndex;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         int itemCount = (int) session.getScaling().getIdCount(ITEM);
         if (itemPermutation == null) {
@@ -119,7 +119,7 @@ public class StoreSalesRowGenerator
         // if the sale gets returned, generate a return row
         int randomInt = generateUniformRandomInt(0, 99, SR_IS_RETURNED.getRandomNumberStream());
         if (randomInt < SR_RETURN_PCT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != STORE_SALES)) {
-            generatedRows.add(((StoreReturnsRowGenerator) STORE_RETURNS.getRowGenerator()).generateRow(session, storeSalesRow));
+            generatedRows.add(((StoreReturnsRowGenerator) childRowGenerator).generateRow(session, storeSalesRow));
         }
 
         remainingLineItems--;

@@ -52,7 +52,7 @@ public class WebPageRowGenerator
     private Optional<WebPageRow> previousRow = Optional.empty();
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         Scaling scaling = session.getScaling();
 

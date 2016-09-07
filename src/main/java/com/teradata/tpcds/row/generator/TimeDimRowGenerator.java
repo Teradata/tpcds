@@ -27,7 +27,7 @@ public class TimeDimRowGenerator
         implements RowGenerator
 {
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(T_NULLS);
         long tTimeSk = rowNumber - 1;

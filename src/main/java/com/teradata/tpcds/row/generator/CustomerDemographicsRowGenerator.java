@@ -38,7 +38,7 @@ public class CustomerDemographicsRowGenerator
     private static final int MAX_COLLEGE = 7;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long nullBitMap = createNullBitMap(CD_NULLS);
         long cDemoSk = rowNumber;
