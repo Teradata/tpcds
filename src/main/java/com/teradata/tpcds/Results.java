@@ -18,6 +18,7 @@ import com.google.common.collect.AbstractIterator;
 import com.teradata.tpcds.Parallel.ChunkBoundaries;
 import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
+import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.row.generator.RowGeneratorResult;
 
 import java.util.Iterator;
@@ -30,7 +31,7 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 import static java.util.Objects.requireNonNull;
 
 public class Results
-        implements Iterable<List<String>>
+        implements Iterable<List<List<String>>>
 {
     private final Table table;
     private final long startingRowNumber;
@@ -57,13 +58,13 @@ public class Results
     }
 
     @Override
-    public Iterator<List<String>> iterator()
+    public Iterator<List<List<String>>> iterator()
     {
         return new ResultsIterator(table, startingRowNumber, rowCount, session);
     }
 
     private static class ResultsIterator
-            extends AbstractIterator<List<String>>
+            extends AbstractIterator<List<List<String>>>
     {
         private final long endingRowNumber;
         private final Table table;
@@ -97,7 +98,7 @@ public class Results
         }
 
         @Override
-        protected List<String> computeNext()
+        protected List<List<String>> computeNext()
         {
             if (rowNumber > endingRowNumber) {
                 resetColumnsAndRowGenerator(table);
@@ -105,7 +106,7 @@ public class Results
             }
 
             RowGeneratorResult result = table.getRowGenerator().generateRowAndChildRows(rowNumber, session);
-            List<String> formattedTableRows = result.getRowAndChildRows().stream().map(r -> formatRow(r.getValues())).collect(Collectors.toList());
+            List<List<String>> tableRows = result.getRowAndChildRows().stream().map(TableRow::getValues).collect(Collectors.toList());
 
             if (result.shouldEndRow()) {
                 rowStop(table);
@@ -113,10 +114,10 @@ public class Results
             }
 
             if (result.getRowAndChildRows().isEmpty()) {
-                formattedTableRows = computeNext();
+                tableRows = computeNext();
             }
 
-            return formattedTableRows;
+            return tableRows;
         }
 
         private void resetColumnsAndRowGenerator(Table table)
@@ -129,25 +130,6 @@ public class Results
             if (table.isChild()) {
                 resetColumnsAndRowGenerator(table.getParent());
             }
-        }
-
-        private String formatRow(List<String> values)
-        {
-            // replace nulls with the string representation for null
-            values = values.stream().map(value -> value != null ? value : session.getNullString()).collect(Collectors.toList());
-
-            StringBuilder stringBuilder = new StringBuilder();
-            char separator = session.getSeparator();
-            stringBuilder.append(values.get(0));
-            for (int i = 1; i < values.size(); i++) {
-                stringBuilder.append(separator);
-                stringBuilder.append(values.get(i));
-            }
-            if (session.terminateRowsWithSeparator()) {
-                stringBuilder.append(separator);
-            }
-            stringBuilder.append('\n');
-            return stringBuilder.toString();
         }
 
         private void rowStop(Table table)

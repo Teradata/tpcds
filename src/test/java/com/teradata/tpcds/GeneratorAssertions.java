@@ -26,6 +26,7 @@ import java.util.List;
 
 import static com.google.common.io.BaseEncoding.base16;
 import static com.teradata.tpcds.Results.constructResults;
+import static com.teradata.tpcds.TableGenerator.formatRow;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.testng.Assert.assertEquals;
 
@@ -36,12 +37,12 @@ public final class GeneratorAssertions
 {
     private GeneratorAssertions() {}
 
-    private static void assertEntityLinesMD5(Results results, String expectedMD5)
+    private static void assertEntityLinesMD5(Results results, Session session, String expectedMD5)
     {
         try {
             DigestOutputStream out = md5OutputStream(ByteStreams.nullOutputStream());
-            for (List<String> parentAndChildRows : results) {
-                out.write(parentAndChildRows.get(0).getBytes(ISO_8859_1));
+            for (List<List<String>> parentAndChildRows : results) {
+                out.write(formatRow(parentAndChildRows.get(0), session).getBytes(ISO_8859_1));
             }
             byte[] md5Digest = out.getMessageDigest().digest();
             assertEquals(base16().lowerCase().encode(md5Digest), expectedMD5);
@@ -63,6 +64,6 @@ public final class GeneratorAssertions
 
     static void assertPartialMD5(long startingRowNumber, long endingRowNumber, Table table, Session session, String expectedMD5)
     {
-        assertEntityLinesMD5(constructResults(table, startingRowNumber, endingRowNumber, session), expectedMD5);
+        assertEntityLinesMD5(constructResults(table, startingRowNumber, endingRowNumber, session), session, expectedMD5);
     }
 }

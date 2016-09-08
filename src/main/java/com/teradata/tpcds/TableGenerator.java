@@ -18,8 +18,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.teradata.tpcds.Results.constructResults;
 import static java.lang.String.format;
@@ -41,15 +43,16 @@ public class TableGenerator
             return;
         }
 
-        try (OutputStreamWriter parentWriter = addFileWriterForTable(table); OutputStreamWriter childWriter = table.hasChild() ? addFileWriterForTable(table.getChild()) : null) {
+        try (OutputStreamWriter parentWriter = addFileWriterForTable(table);
+                OutputStreamWriter childWriter = table.hasChild() && !session.generateOnlyOneTable() ? addFileWriterForTable(table.getChild()) : null) {
             Results results = constructResults(table, startingRowNumber, endingRowNumber, session);
-            for (List<String> parentAndChildRows : results) {
+            for (List<List<String>> parentAndChildRows : results) {
                 if (parentAndChildRows.size() > 0) {
-                    parentWriter.write(parentAndChildRows.get(0));
+                    writeResults(parentWriter, parentAndChildRows.get(0));
                 }
                 if (parentAndChildRows.size() > 1) {
                     requireNonNull(childWriter, "childWriter is null, but a child row was produced");
-                    childWriter.write(parentAndChildRows.get(1));
+                    writeResults(childWriter, parentAndChildRows.get(1));
                 }
             }
         }
@@ -95,5 +98,30 @@ public class TableGenerator
                 File.separator,
                 table.getName(),
                 session.getSuffix());
+    }
+
+    private void writeResults(Writer writer, List<String> values)
+            throws IOException
+    {
+        writer.write(formatRow(values, session));
+    }
+
+    public static String formatRow(List<String> values, Session session)
+    {
+        // replace nulls with the string representation for null
+        values = values.stream().map(value -> value != null ? value : session.getNullString()).collect(Collectors.toList());
+
+        StringBuilder stringBuilder = new StringBuilder();
+        char separator = session.getSeparator();
+        stringBuilder.append(values.get(0));
+        for (int i = 1; i < values.size(); i++) {
+            stringBuilder.append(separator);
+            stringBuilder.append(values.get(i));
+        }
+        if (session.terminateRowsWithSeparator()) {
+            stringBuilder.append(separator);
+        }
+        stringBuilder.append('\n');
+        return stringBuilder.toString();
     }
 }
