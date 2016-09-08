@@ -30,7 +30,6 @@ import static com.teradata.tpcds.Table.DATE_DIM;
 import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.Table.REASON;
 import static com.teradata.tpcds.Table.TIME_DIM;
-import static com.teradata.tpcds.Table.WEB_SALES;
 import static com.teradata.tpcds.generator.WebReturnsGeneratorColumn.WR_NULLS;
 import static com.teradata.tpcds.generator.WebReturnsGeneratorColumn.WR_PRICING;
 import static com.teradata.tpcds.generator.WebReturnsGeneratorColumn.WR_REASON_SK;

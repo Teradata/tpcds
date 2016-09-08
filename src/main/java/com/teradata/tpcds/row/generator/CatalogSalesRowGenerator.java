@@ -35,7 +35,6 @@ import static com.teradata.tpcds.Permutations.makePermutation;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
 import static com.teradata.tpcds.Table.CALL_CENTER;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
-import static com.teradata.tpcds.Table.CATALOG_RETURNS;
 import static com.teradata.tpcds.Table.CATALOG_SALES;
 import static com.teradata.tpcds.Table.CUSTOMER;
 import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;

@@ -24,7 +24,6 @@ import com.teradata.tpcds.type.Pricing;
 
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.Table.CATALOG_SALES;
 import static com.teradata.tpcds.Table.CUSTOMER;
 import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
 import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
@@ -60,7 +59,7 @@ public class CatalogReturnsRowGenerator
         // The catalog returns table is a child of the catalog_sales table because you can only return things that have
         // already been purchased.  This method should only get called if we are generating the catalog_returns table
         // in isolation. Otherwise catalog_returns is generated during the generation of the catalog_sales table
-        RowGeneratorResult salesAndReturnsResult = parentRowGenerator.generateRowAndChildRows(rowNumber, session, null , this);
+        RowGeneratorResult salesAndReturnsResult = parentRowGenerator.generateRowAndChildRows(rowNumber, session, null, this);
         if (salesAndReturnsResult.getRowAndChildRows().size() == 2) {
             return new RowGeneratorResult(ImmutableList.of(salesAndReturnsResult.getRowAndChildRows().get(1)), salesAndReturnsResult.shouldEndRow());
         }

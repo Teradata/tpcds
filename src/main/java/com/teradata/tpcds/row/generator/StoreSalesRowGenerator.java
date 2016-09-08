@@ -38,7 +38,6 @@ import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.Table.ITEM;
 import static com.teradata.tpcds.Table.PROMOTION;
 import static com.teradata.tpcds.Table.STORE;
-import static com.teradata.tpcds.Table.STORE_RETURNS;
 import static com.teradata.tpcds.Table.STORE_SALES;
 import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.generator.StoreSalesGeneratorColumn.SR_IS_RETURNED;

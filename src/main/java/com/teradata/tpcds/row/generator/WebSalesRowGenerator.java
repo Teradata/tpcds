@@ -43,7 +43,6 @@ import static com.teradata.tpcds.Table.SHIP_MODE;
 import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.Table.WAREHOUSE;
 import static com.teradata.tpcds.Table.WEB_PAGE;
-import static com.teradata.tpcds.Table.WEB_RETURNS;
 import static com.teradata.tpcds.Table.WEB_SALES;
 import static com.teradata.tpcds.Table.WEB_SITE;
 import static com.teradata.tpcds.generator.WebSalesGeneratorColumn.WR_IS_RETURNED;

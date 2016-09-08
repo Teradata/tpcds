@@ -31,7 +31,6 @@ import static com.teradata.tpcds.Table.DATE_DIM;
 import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.Table.REASON;
 import static com.teradata.tpcds.Table.STORE;
-import static com.teradata.tpcds.Table.STORE_SALES;
 import static com.teradata.tpcds.generator.StoreReturnsGeneratorColumn.SR_ADDR_SK;
 import static com.teradata.tpcds.generator.StoreReturnsGeneratorColumn.SR_CDEMO_SK;
 import static com.teradata.tpcds.generator.StoreReturnsGeneratorColumn.SR_CUSTOMER_SK;
