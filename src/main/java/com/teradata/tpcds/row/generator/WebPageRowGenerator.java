@@ -46,17 +46,22 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 import static com.teradata.tpcds.type.Date.JULIAN_TODAYS_DATE;
 
 public class WebPageRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final int WP_AUTOGEN_PERCENT = 30;
     private Optional<WebPageRow> previousRow = Optional.empty();
+
+    public WebPageRowGenerator()
+    {
+        super(WEB_PAGE);
+    }
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         Scaling scaling = session.getScaling();
 
-        long nullBitMap = createNullBitMap(WP_NULLS);
+        long nullBitMap = createNullBitMap(WEB_PAGE, getRandomNumberStream(WP_NULLS));
         long wpPageSk = rowNumber;
 
         SlowlyChangingDimensionKey slowlyChangingDimensionKey = computeScdKey(WEB_PAGE, rowNumber);
@@ -64,53 +69,53 @@ public class WebPageRowGenerator
         long wpRecStartDateId = slowlyChangingDimensionKey.getStartDate();
         long wpRecStartEndDateId = slowlyChangingDimensionKey.getEndDate();
         boolean isNewKey = slowlyChangingDimensionKey.isNewBusinessKey();
-        int fieldChangeFlags = (int) WP_SCD.getRandomNumberStream().nextRandom();
+        int fieldChangeFlags = (int) getRandomNumberStream(WP_SCD).nextRandom();
 
-        long wpCreationDateSk = generateJoinKey(WP_CREATION_DATE_SK, DATE_DIM, rowNumber, scaling);
+        long wpCreationDateSk = generateJoinKey(WP_CREATION_DATE_SK, getRandomNumberStream(WP_CREATION_DATE_SK), DATE_DIM, rowNumber, scaling);
         if (previousRow.isPresent()) {
             wpCreationDateSk = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpCreationDateSk(), wpCreationDateSk);
         }
         fieldChangeFlags >>= 1;
 
-        int lastAccess = generateUniformRandomInt(0, 100, WP_ACCESS_DATE_SK.getRandomNumberStream());
+        int lastAccess = generateUniformRandomInt(0, 100, getRandomNumberStream(WP_ACCESS_DATE_SK));
         long wpAccessDateSk = JULIAN_TODAYS_DATE - lastAccess;
         if (previousRow.isPresent()) {
             wpAccessDateSk = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpAccessDateSk(), wpAccessDateSk);
         }
         fieldChangeFlags >>= 1;
 
-        int randomInt = generateUniformRandomInt(0, 99, WP_AUTOGEN_FLAG.getRandomNumberStream());
+        int randomInt = generateUniformRandomInt(0, 99, getRandomNumberStream(WP_AUTOGEN_FLAG));
         boolean wpAutogenFlag = randomInt < WP_AUTOGEN_PERCENT;
         if (previousRow.isPresent()) {
             wpAutogenFlag = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpAutogenFlag(), wpAutogenFlag);
         }
         fieldChangeFlags >>= 1;
 
-        long wpCustomersk = generateJoinKey(WP_CUSTOMER_SK, CUSTOMER, 1, scaling);
+        long wpCustomersk = generateJoinKey(WP_CUSTOMER_SK, getRandomNumberStream(WP_CUSTOMER_SK), CUSTOMER, 1, scaling);
         if (previousRow.isPresent()) {
             wpCustomersk = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpCustomerSk(), wpCustomersk);
         }
         fieldChangeFlags >>= 1;
 
-        String wpUrl = generateRandomUrl(WP_URL.getRandomNumberStream()); // this actually returns the same value every time, so no need to check if it should change
+        String wpUrl = generateRandomUrl(getRandomNumberStream(WP_URL)); // this actually returns the same value every time, so no need to check if it should change
         fieldChangeFlags >>= 1;
 
-        String wpType = pickRandomWebPageUseType(WP_TYPE.getRandomNumberStream());  // always uses a new value due to a bug in the C code
+        String wpType = pickRandomWebPageUseType(getRandomNumberStream(WP_TYPE));  // always uses a new value due to a bug in the C code
         fieldChangeFlags >>= 1;
 
-        int wpLinkCount = generateUniformRandomInt(2, 25, WP_LINK_COUNT.getRandomNumberStream());
+        int wpLinkCount = generateUniformRandomInt(2, 25, getRandomNumberStream(WP_LINK_COUNT));
         if (previousRow.isPresent()) {
             wpLinkCount = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpLinkCount(), wpLinkCount);
         }
         fieldChangeFlags >>= 1;
 
-        int wpImageCount = generateUniformRandomInt(1, 7, WP_IMAGE_COUNT.getRandomNumberStream());
+        int wpImageCount = generateUniformRandomInt(1, 7, getRandomNumberStream(WP_IMAGE_COUNT));
         if (previousRow.isPresent()) {
             wpImageCount = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpImageCount(), wpImageCount);
         }
         fieldChangeFlags >>= 1;
 
-        int wpMaxAdCount = generateUniformRandomInt(0, 4, WP_MAX_AD_COUNT.getRandomNumberStream());
+        int wpMaxAdCount = generateUniformRandomInt(0, 4, getRandomNumberStream(WP_MAX_AD_COUNT));
         if (previousRow.isPresent()) {
             wpMaxAdCount = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpMaxAdCount(), wpMaxAdCount);
         }
@@ -118,7 +123,7 @@ public class WebPageRowGenerator
 
         int wpCharCount = generateUniformRandomInt(wpLinkCount * 125 + wpImageCount * 50,
                 wpLinkCount * 300 + wpImageCount * 150,
-                WP_CHAR_COUNT.getRandomNumberStream());
+                getRandomNumberStream(WP_CHAR_COUNT));
         if (previousRow.isPresent()) {
             wpCharCount = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewKey, previousRow.get().getWpCharCount(), wpCharCount);
         }
@@ -154,11 +159,5 @@ public class WebPageRowGenerator
                 wpLinkCount,
                 wpImageCount,
                 wpMaxAdCount));
-    }
-
-    @Override
-    public void reset()
-    {
-        previousRow = Optional.empty();
     }
 }

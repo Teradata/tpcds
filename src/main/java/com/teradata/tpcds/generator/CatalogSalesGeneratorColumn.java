@@ -18,6 +18,8 @@ import com.teradata.tpcds.Table;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
+import static com.teradata.tpcds.Table.CATALOG_SALES;
+
 public enum CatalogSalesGeneratorColumn
         implements GeneratorColumn
 {
@@ -63,23 +65,19 @@ public enum CatalogSalesGeneratorColumn
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
+    private final int seedsPerRow;
 
     CatalogSalesGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
+        this.seedsPerRow = seedsPerRow;
     }
 
     @Override
     public Table getTable()
     {
-        return Table.CATALOG_SALES;
-    }
-
-    @Override
-    public RandomNumberStream getRandomNumberStream()
-    {
-        return randomNumberStream;
+        return CATALOG_SALES;
     }
 
     @Override
@@ -92,5 +90,11 @@ public enum CatalogSalesGeneratorColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

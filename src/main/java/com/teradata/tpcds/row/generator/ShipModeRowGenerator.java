@@ -19,6 +19,7 @@ import com.teradata.tpcds.row.ShipModeRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.SHIP_MODE;
 import static com.teradata.tpcds.distribution.ShipModeDistributions.SHIP_MODE_TYPE_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.ShipModeDistributions.getShipModeCarrierAtIndex;
 import static com.teradata.tpcds.distribution.ShipModeDistributions.getShipModeCodeForIndexModSize;
@@ -29,12 +30,17 @@ import static com.teradata.tpcds.random.RandomValueGenerator.ALPHA_NUMERIC;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateRandomCharset;
 
 public class ShipModeRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
+    public ShipModeRowGenerator()
+    {
+        super(SHIP_MODE);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(SM_NULLS);
+        long nullBitMap = createNullBitMap(SHIP_MODE, getRandomNumberStream(SM_NULLS));
         long smShipModeSk = rowNumber;
         String smShipModeId = makeBusinessKey(rowNumber);
 
@@ -47,11 +53,8 @@ public class ShipModeRowGenerator
 
         String smCarrier = getShipModeCarrierAtIndex((int) (rowNumber) - 1);
 
-        String smContract = generateRandomCharset(ALPHA_NUMERIC, 1, 20, SM_CONTRACT.getRandomNumberStream());
+        String smContract = generateRandomCharset(ALPHA_NUMERIC, 1, 20, getRandomNumberStream(SM_CONTRACT));
 
         return new RowGeneratorResult(new ShipModeRow(nullBitMap, smShipModeSk, smShipModeId, smType, smCode, smCarrier, smContract));
     }
-
-    @Override
-    public void reset() {}
 }

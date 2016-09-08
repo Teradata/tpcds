@@ -18,6 +18,7 @@ import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.HouseholdDemographicsRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.BUY_POTENTIAL_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.DEP_COUNT_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.INCOME_BAND_DISTRIBUTION;
@@ -27,12 +28,17 @@ import static com.teradata.tpcds.distribution.DemographicsDistributions.getVehic
 import static com.teradata.tpcds.generator.HouseholdDemographicsGeneratorColumn.HD_NULLS;
 
 public class HouseholdDemographicsRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
+    public HouseholdDemographicsRowGenerator()
+    {
+        super(HOUSEHOLD_DEMOGRAPHICS);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(HD_NULLS);
+        long nullBitMap = createNullBitMap(HOUSEHOLD_DEMOGRAPHICS, getRandomNumberStream(HD_NULLS));
         long hdDemoSk = rowNumber;
         long index = hdDemoSk;
         long hdIncomeBandId = (index % INCOME_BAND_DISTRIBUTION.getSize()) + 1;
@@ -48,7 +54,4 @@ public class HouseholdDemographicsRowGenerator
 
         return new RowGeneratorResult(new HouseholdDemographicsRow(nullBitMap, hdDemoSk, hdIncomeBandId, hdBuyPotential, hdDepCount, hdVehicleCount));
     }
-
-    @Override
-    public void reset() {}
 }

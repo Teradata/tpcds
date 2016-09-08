@@ -16,6 +16,7 @@ package com.teradata.tpcds;
 
 import com.teradata.tpcds.distribution.CalendarDistribution;
 import com.teradata.tpcds.generator.GeneratorColumn;
+import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.type.Date;
 
 import static com.teradata.tpcds.PseudoTableScalingInfos.CONCURRENT_WEB_SITES;
@@ -55,33 +56,33 @@ public final class JoinKeyUtils
 
     private JoinKeyUtils() {}
 
-    public static long generateJoinKey(GeneratorColumn fromColumn, Table toTable, long joinCount, Scaling scaling)
+    public static long generateJoinKey(GeneratorColumn fromColumn, RandomNumberStream randomNumberStream, Table toTable, long joinCount, Scaling scaling)
     {
         Table fromTable = fromColumn.getTable();
 
         switch (toTable) {
             case CATALOG_PAGE:
-                return generateCatalogPageJoinKey(fromColumn, joinCount, scaling);
+                return generateCatalogPageJoinKey(randomNumberStream, joinCount, scaling);
             case DATE_DIM:
-                int year = generateUniformRandomInt(DATE_MINIMUM.getYear(), DATE_MAXIMUM.getYear(), fromColumn.getRandomNumberStream());
-                return generateDateJoinKey(fromTable, fromColumn, joinCount, year, scaling);
+                int year = generateUniformRandomInt(DATE_MINIMUM.getYear(), DATE_MAXIMUM.getYear(), randomNumberStream);
+                return generateDateJoinKey(fromTable, randomNumberStream, fromColumn, joinCount, year, scaling);
             case TIME_DIM:
-                return generateTimeJoinKey(fromTable, fromColumn);
+                return generateTimeJoinKey(fromTable, randomNumberStream);
             default:
                 if (toTable.keepsHistory()) {
-                    return generateScdJoinKey(toTable, fromColumn, joinCount, scaling);
+                    return generateScdJoinKey(toTable, randomNumberStream, joinCount, scaling);
                 }
 
-                return generateUniformRandomKey(1, scaling.getRowCount(toTable), fromColumn.getRandomNumberStream());
+                return generateUniformRandomKey(1, scaling.getRowCount(toTable), randomNumberStream);
         }
     }
 
-    private static long generateCatalogPageJoinKey(GeneratorColumn fromColumn, long julianDate, Scaling scaling)
+    private static long generateCatalogPageJoinKey(RandomNumberStream randomNumberStream, long julianDate, Scaling scaling)
     {
         int pagesPerCatalog = ((int) scaling.getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
 
-        String type = pickRandomCatalogPageType(fromColumn.getRandomNumberStream());
-        int page = generateUniformRandomInt(1, pagesPerCatalog, fromColumn.getRandomNumberStream());
+        String type = pickRandomCatalogPageType(randomNumberStream);
+        int page = generateUniformRandomInt(1, pagesPerCatalog, randomNumberStream);
         int offset = (int) julianDate - JULIAN_DATA_START_DATE - 1;
         int count = (offset / 365) * CATALOGS_PER_YEAR;
         offset %= 365;
@@ -105,7 +106,7 @@ public final class JoinKeyUtils
         return count * pagesPerCatalog + page;
     }
 
-    private static long generateDateJoinKey(Table fromTable, GeneratorColumn fromColumn, long joinCount, int year, Scaling scaling)
+    private static long generateDateJoinKey(Table fromTable, RandomNumberStream randomNumberStream, GeneratorColumn fromColumn, long joinCount, int year, Scaling scaling)
     {
         int dayNumber;
         switch (fromTable) {
@@ -116,7 +117,7 @@ public final class JoinKeyUtils
                 if (isLeapYear(year)) {
                     weights = SALES_LEAP_YEAR;
                 }
-                dayNumber = pickRandomDayOfYear(weights, fromColumn.getRandomNumberStream());
+                dayNumber = pickRandomDayOfYear(weights, randomNumberStream);
                 int result = toJulianDays(new Date(year, 1, 1)) + dayNumber;
                 return result > JULIAN_TODAYS_DATE ? -1 : result;
 
@@ -125,22 +126,22 @@ public final class JoinKeyUtils
             case STORE_RETURNS:
             case CATALOG_RETURNS:
             case WEB_RETURNS:
-                return generateDateReturnsJoinKey(fromTable, fromColumn, joinCount);
+                return generateDateReturnsJoinKey(fromTable, randomNumberStream, joinCount);
             case WEB_SITE:
             case WEB_PAGE:
-                return generateWebJoinKey(fromColumn, joinCount, scaling);
+                return generateWebJoinKey(fromColumn, randomNumberStream, joinCount, scaling);
             default:
                 weights = CalendarDistribution.Weights.UNIFORM;
                 if (isLeapYear(year)) {
                     weights = UNIFORM_LEAP_YEAR;
                 }
-                dayNumber = pickRandomDayOfYear(weights, fromColumn.getRandomNumberStream());
+                dayNumber = pickRandomDayOfYear(weights, randomNumberStream);
                 result = toJulianDays(new Date(year, 1, 1)) + dayNumber;
                 return result > JULIAN_TODAYS_DATE ? -1 : result;
         }
     }
 
-    private static long generateWebJoinKey(GeneratorColumn fromColumn, long joinKey, Scaling scaling)
+    private static long generateWebJoinKey(GeneratorColumn fromColumn, RandomNumberStream randomNumberStream, long joinKey, Scaling scaling)
     {
         if (fromColumn == WP_CREATION_DATE_SK) {
             // Page creation has to happen outside of the page window, to assure a constant number of pages,
@@ -149,7 +150,7 @@ public final class JoinKeyUtils
             int site = (int) (joinKey / WEB_PAGES_PER_SITE + 1);
             long webSiteDuration = getWebSiteDuration(scaling);
             int minResult = (int) (JULIAN_DATE_MINIMUM - ((site * WEB_DATE_STAGGER) % webSiteDuration / 2));
-            return generateUniformRandomInt(minResult, JULIAN_DATE_MINIMUM, fromColumn.getRandomNumberStream());
+            return generateUniformRandomInt(minResult, JULIAN_DATE_MINIMUM, randomNumberStream);
         }
 
         if (fromColumn == WEB_OPEN_DATE) {
@@ -188,7 +189,7 @@ public final class JoinKeyUtils
         return (joinKey / 2 % 2) != 0;
     }
 
-    private static long generateDateReturnsJoinKey(Table fromTable, GeneratorColumn fromColumn, long joinCount)
+    private static long generateDateReturnsJoinKey(Table fromTable, RandomNumberStream randomNumberStream, long joinCount)
     {
         int min;
         int max;
@@ -205,35 +206,35 @@ public final class JoinKeyUtils
             default:
                 throw new TpcdsException("Invalid table for dateJoinReturns");
         }
-        int lag = generateUniformRandomInt(min * 2, max * 2, fromColumn.getRandomNumberStream());
+        int lag = generateUniformRandomInt(min * 2, max * 2, randomNumberStream);
         return joinCount + lag;
     }
 
-    private static long generateTimeJoinKey(Table fromTable, GeneratorColumn fromColumn)
+    private static long generateTimeJoinKey(Table fromTable, RandomNumberStream randomNumberStream)
     {
         int hour;
         switch (fromTable) {
             case STORE_SALES:
             case STORE_RETURNS:
-                hour = pickRandomHour(STORE, fromColumn.getRandomNumberStream());
+                hour = pickRandomHour(STORE, randomNumberStream);
                 break;
             case CATALOG_SALES:
             case WEB_SALES:
             case CATALOG_RETURNS:
             case WEB_RETURNS:
-                hour = pickRandomHour(CATALOG_AND_WEB, fromColumn.getRandomNumberStream());
+                hour = pickRandomHour(CATALOG_AND_WEB, randomNumberStream);
                 break;
             default:
-                hour = pickRandomHour(UNIFORM, fromColumn.getRandomNumberStream());
+                hour = pickRandomHour(UNIFORM, randomNumberStream);
                 break;
         }
 
-        int seconds = generateUniformRandomInt(0, 3599, fromColumn.getRandomNumberStream());
+        int seconds = generateUniformRandomInt(0, 3599, randomNumberStream);
 
         return (long) (hour * 3600 + seconds);
     }
 
-    private static long generateScdJoinKey(Table toTable, GeneratorColumn fromColumn, long julianDate, Scaling scaling)
+    private static long generateScdJoinKey(Table toTable, RandomNumberStream randomNumberStream, long julianDate, Scaling scaling)
     {
         // can't have a revision in the future
         if (julianDate > Date.JULIAN_DATA_END_DATE) {
@@ -241,7 +242,7 @@ public final class JoinKeyUtils
         }
 
         long idCount = scaling.getIdCount(toTable);
-        long key = generateUniformRandomKey(1, idCount, fromColumn.getRandomNumberStream());
+        long key = generateUniformRandomKey(1, idCount, randomNumberStream);
         // map to the date sensitive surrogate key
         key = matchSurrogateKey(key, julianDate, toTable, scaling);
 

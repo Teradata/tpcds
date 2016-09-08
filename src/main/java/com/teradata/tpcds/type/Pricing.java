@@ -126,7 +126,7 @@ public class Pricing
         this.netLoss = netLoss;
     }
 
-    public static Pricing generatePricingForSalesTable(GeneratorColumn column)
+    public static Pricing generatePricingForSalesTable(GeneratorColumn column, RandomNumberStream randomNumberStream)
     {
         if (!LIMITS_PER_COLUMN.containsKey(column)) {
             throw new TpcdsException("No price limits for column: " + column);
@@ -134,7 +134,6 @@ public class Pricing
 
         Limits limits = LIMITS_PER_COLUMN.get(column);
 
-        RandomNumberStream randomNumberStream = column.getRandomNumberStream();
         int quantity = generateUniformRandomInt(QUANTITY_MIN, limits.getMaxQuantitySold(), randomNumberStream);
         Decimal decimalQuantity = Decimal.fromInteger(quantity);
         Decimal wholesaleCost = generateUniformRandomDecimal(new Decimal(100, 2), limits.getMaxWholesaleCost(), randomNumberStream);
@@ -205,7 +204,7 @@ public class Pricing
                 netLoss);
     }
 
-    public static Pricing generatePricingForReturnsTable(GeneratorColumn column, int quantity, Pricing basePricing)
+    public static Pricing generatePricingForReturnsTable(GeneratorColumn column, RandomNumberStream randomNumberStream, int quantity, Pricing basePricing)
     {
         Decimal wholesaleCost = basePricing.wholesaleCost;
         Decimal listPrice = basePricing.listPrice;
@@ -219,7 +218,7 @@ public class Pricing
         Decimal extListPrice = multiply(listPrice, decimalQuantity);
         Decimal extSalesPrice = multiply(salesPrice, decimalQuantity);
         Decimal netPaid = extSalesPrice;
-        Decimal shipping = generateUniformRandomDecimal(ZERO, ONE_HALF, column.getRandomNumberStream());
+        Decimal shipping = generateUniformRandomDecimal(ZERO, ONE_HALF, randomNumberStream);
         Decimal shipCost = multiply(listPrice, shipping);
         Decimal extShipCost = multiply(shipCost, decimalQuantity);
         Decimal netPaidIncludingShipping = add(netPaid, extShipCost);
@@ -230,11 +229,11 @@ public class Pricing
 
         //see to it that the returned amounts add up to the total returned
         // allocate some of return to cash
-        Decimal cashPercentage = Decimal.fromInteger(generateUniformRandomInt(0, 100, column.getRandomNumberStream()));
+        Decimal cashPercentage = Decimal.fromInteger(generateUniformRandomInt(0, 100, randomNumberStream));
         Decimal refundedCash = multiply(divide(cashPercentage, ONE_HUNDRED), netPaid);
 
         // allocate some to reversed charges
-        Decimal creditPercent = Decimal.fromInteger(generateUniformRandomInt(1, 100, column.getRandomNumberStream()));
+        Decimal creditPercent = Decimal.fromInteger(generateUniformRandomInt(1, 100, randomNumberStream));
         creditPercent = divide(creditPercent, ONE_HUNDRED);
         Decimal paidMinusRefunded = subtract(netPaid, refundedCash);
         Decimal reversedCharge = multiply(creditPercent, paidMinusRefunded);
@@ -244,7 +243,7 @@ public class Pricing
         storeCredit = subtract(storeCredit, refundedCash);
 
         // pick a fee for the return
-        Decimal fee = generateUniformRandomDecimal(ONE_HALF, ONE_HUNDRED, column.getRandomNumberStream());
+        Decimal fee = generateUniformRandomDecimal(ONE_HALF, ONE_HUNDRED, randomNumberStream);
 
         // and calculate the net effect
         Decimal netLoss = subtract(netPaidIncludingShippingAndTax, storeCredit);

@@ -16,8 +16,6 @@ package com.teradata.tpcds;
 
 import com.google.common.collect.AbstractIterator;
 import com.teradata.tpcds.Parallel.ChunkBoundaries;
-import com.teradata.tpcds.generator.GeneratorColumn;
-import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.row.TableRow;
 import com.teradata.tpcds.row.generator.RowGenerator;
 import com.teradata.tpcds.row.generator.RowGeneratorResult;
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.teradata.tpcds.Parallel.splitWork;
-import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.util.Objects.requireNonNull;
 
 public class Results
@@ -95,17 +92,17 @@ public class Results
             catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                 throw new TpcdsException(e.toString());
             }
-            skipRowsUntilStartingRowNumber(table, startingRowNumber);
+            skipRowsUntilStartingRowNumber(startingRowNumber);
         }
 
-        private void skipRowsUntilStartingRowNumber(Table table, long startingRowNumber)
+        private void skipRowsUntilStartingRowNumber(long startingRowNumber)
         {
-            for (GeneratorColumn column : table.getGeneratorColumns()) {
-                column.getRandomNumberStream().skipRows((int) startingRowNumber - 1);  // casting long to int copies C code
+            rowGenerator.skipRowsUntilStartingRowNumber(startingRowNumber);
+            if (parentRowGenerator != null) {
+                parentRowGenerator.skipRowsUntilStartingRowNumber(startingRowNumber);
             }
-
-            if (table.isChild()) {
-                skipRowsUntilStartingRowNumber(table.getParent(), startingRowNumber);
+            if (childRowGenerator != null) {
+                childRowGenerator.skipRowsUntilStartingRowNumber(startingRowNumber);
             }
         }
 
@@ -113,7 +110,6 @@ public class Results
         protected List<List<String>> computeNext()
         {
             if (rowNumber > endingRowNumber) {
-                resetColumnsAndRowGenerator(table);
                 return endOfData();
             }
 
@@ -121,7 +117,7 @@ public class Results
             List<List<String>> tableRows = result.getRowAndChildRows().stream().map(TableRow::getValues).collect(Collectors.toList());
 
             if (result.shouldEndRow()) {
-                rowStop(table);
+                rowStop();
                 rowNumber++;
             }
 
@@ -132,37 +128,14 @@ public class Results
             return tableRows;
         }
 
-        private void resetColumnsAndRowGenerator(Table table)
+        private void rowStop()
         {
-            for (GeneratorColumn column : table.getGeneratorColumns()) {
-                column.getRandomNumberStream().resetSeed();
+            rowGenerator.consumeRemainingSeedsForRow();
+            if (parentRowGenerator != null) {
+                parentRowGenerator.consumeRemainingSeedsForRow();
             }
-            rowGenerator.reset();
-
-            if (table.isChild()) {
-                resetColumnsAndRowGenerator(table.getParent());
-            }
-        }
-
-        private void rowStop(Table table)
-        {
-            consumeRemainingSeedsForRow(table);
-            if (table.hasChild() && !session.generateOnlyOneTable()) {
-                rowStop(table.getChild());
-            }
-            else if (session.generateOnlyOneTable() && table.isChild()) {
-                rowStop(table.getParent());
-            }
-        }
-
-        private void consumeRemainingSeedsForRow(Table table)
-        {
-            for (GeneratorColumn column : table.getGeneratorColumns()) {
-                RandomNumberStream randomNumberStream = column.getRandomNumberStream();
-                while (randomNumberStream.getSeedsUsed() < randomNumberStream.getSeedsPerRow()) {
-                    generateUniformRandomInt(1, 100, randomNumberStream);
-                }
-                randomNumberStream.resetSeedsUsed();
+            if (childRowGenerator != null) {
+                childRowGenerator.consumeRemainingSeedsForRow();
             }
         }
     }

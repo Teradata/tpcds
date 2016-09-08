@@ -14,7 +14,6 @@
 
 package com.teradata.tpcds.row.generator;
 
-import com.teradata.tpcds.Nulls;
 import com.teradata.tpcds.Parallel.DateNextIndexPair;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Session;
@@ -29,13 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
+import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.Parallel.skipDaysUntilFirstRowOfChunk;
 import static com.teradata.tpcds.Permutations.getPermutationEntry;
 import static com.teradata.tpcds.Permutations.makePermutation;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
 import static com.teradata.tpcds.Table.CALL_CENTER;
 import static com.teradata.tpcds.Table.CATALOG_PAGE;
-import static com.teradata.tpcds.Table.CATALOG_RETURNS;
 import static com.teradata.tpcds.Table.CATALOG_SALES;
 import static com.teradata.tpcds.Table.CUSTOMER;
 import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
@@ -72,7 +71,7 @@ import static com.teradata.tpcds.type.Pricing.generatePricingForSalesTable;
 
 @NotThreadSafe
 public class CatalogSalesRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     public static final int CS_QUANTITY_MAX = 100;
     public static final Decimal CS_MARKUP_MAX = new Decimal(200, 2);
@@ -92,12 +91,17 @@ public class CatalogSalesRowGenerator
     private OrderInfo orderInfo = new OrderInfo(); // initialize with all zeros because one of the fields is used in generation of new orderInfos.
     private int ticketItemBase;
 
+    public CatalogSalesRowGenerator()
+    {
+        super(CATALOG_SALES);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         int itemCount = (int) session.getScaling().getIdCount(ITEM);
         if (itemPermutation == null) {
-            itemPermutation = makePermutation(itemCount, CS_PERMUTE.getRandomNumberStream());
+            itemPermutation = makePermutation(itemCount, getRandomNumberStream(CS_PERMUTE));
             DateNextIndexPair pair = skipDaysUntilFirstRowOfChunk(CATALOG_SALES, session);
             julianDate = pair.getJulianDate();
             nextDateIndex = pair.getNextDateIndex();
@@ -105,14 +109,14 @@ public class CatalogSalesRowGenerator
 
         if (remainingLineItems == 0) {
             orderInfo = generateOrderInfo(rowNumber, session);
-            ticketItemBase = generateUniformRandomInt(1, itemCount, CS_SOLD_ITEM_SK.getRandomNumberStream());
-            remainingLineItems = generateUniformRandomInt(4, 14, CS_ORDER_NUMBER.getRandomNumberStream());
+            ticketItemBase = generateUniformRandomInt(1, itemCount, getRandomNumberStream(CS_SOLD_ITEM_SK));
+            remainingLineItems = generateUniformRandomInt(4, 14, getRandomNumberStream(CS_ORDER_NUMBER));
         }
 
-        long nullBitMap = Nulls.createNullBitMap(CS_NULLS);
+        long nullBitMap = createNullBitMap(CATALOG_SALES, getRandomNumberStream(CS_NULLS));
 
         // orders are shipped some number of days after they are ordered
-        int shippingLag = generateUniformRandomInt(CS_MIN_SHIP_DELAY, CS_MAX_SHIP_DELAY, CS_SHIP_DATE_SK.getRandomNumberStream());
+        int shippingLag = generateUniformRandomInt(CS_MIN_SHIP_DELAY, CS_MAX_SHIP_DELAY, getRandomNumberStream(CS_SHIP_DATE_SK));
         long csShipDateSk = orderInfo.getCsSoldDateSk() == -1 ? -1 : orderInfo.getCsSoldDateSk() + shippingLag;
 
         // items need to be unique within an order
@@ -127,12 +131,12 @@ public class CatalogSalesRowGenerator
         long csSoldItemSk = matchSurrogateKey(item, orderInfo.getCsSoldDateSk(), ITEM, scaling);
 
         // catalog page needs to be from a catalog active at the time of the sale
-        long csCatalogPageSk = (orderInfo.getCsSoldDateSk() == -1) ? -1 : generateJoinKey(CS_CATALOG_PAGE_SK, CATALOG_PAGE, orderInfo.getCsSoldDateSk(), scaling);
+        long csCatalogPageSk = (orderInfo.getCsSoldDateSk() == -1) ? -1 : generateJoinKey(CS_CATALOG_PAGE_SK, getRandomNumberStream(CS_CATALOG_PAGE_SK), CATALOG_PAGE, orderInfo.getCsSoldDateSk(), scaling);
 
-        long csShipModeSk = generateJoinKey(CS_SHIP_MODE_SK, SHIP_MODE, 1, scaling);
-        long csWarehouseSk = generateJoinKey(CS_WAREHOUSE_SK, WAREHOUSE, 1, scaling);
-        long csPromoSk = generateJoinKey(CS_PROMO_SK, PROMOTION, 1, scaling);
-        Pricing csPricing = generatePricingForSalesTable(CS_PRICING);
+        long csShipModeSk = generateJoinKey(CS_SHIP_MODE_SK, getRandomNumberStream(CS_SHIP_MODE_SK), SHIP_MODE, 1, scaling);
+        long csWarehouseSk = generateJoinKey(CS_WAREHOUSE_SK, getRandomNumberStream(CS_WAREHOUSE_SK), WAREHOUSE, 1, scaling);
+        long csPromoSk = generateJoinKey(CS_PROMO_SK, getRandomNumberStream(CS_PROMO_SK), PROMOTION, 1, scaling);
+        Pricing csPricing = generatePricingForSalesTable(CS_PRICING, getRandomNumberStream(CS_PRICING));
 
         CatalogSalesRow catalogSalesRow = new CatalogSalesRow(orderInfo.getCsSoldDateSk(),
                 orderInfo.getCsSoldTimeSk(),
@@ -159,7 +163,7 @@ public class CatalogSalesRowGenerator
         generatedRows.add(catalogSalesRow);
 
         // if the sale gets returned, generate a return row
-        int randomInt = generateUniformRandomInt(0, 99, CR_IS_RETURNED.getRandomNumberStream());
+        int randomInt = generateUniformRandomInt(0, 99, getRandomNumberStream(CR_IS_RETURNED));
         if (randomInt < CatalogReturnsRowGenerator.RETURN_PERCENT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != CATALOG_SALES)) {
             TableRow catalogReturnsRow = ((CatalogReturnsRowGenerator) childRowGenerator).generateRow(session, catalogSalesRow);
             generatedRows.add(catalogReturnsRow);
@@ -167,18 +171,6 @@ public class CatalogSalesRowGenerator
 
         remainingLineItems--;
         return new RowGeneratorResult(generatedRows, isLastRowInOrder());
-    }
-
-    @Override
-    public void reset()
-    {
-        itemPermutation = null;
-        julianDate = 0;
-        nextDateIndex = 0;
-
-        remainingLineItems = 0;
-        orderInfo = new OrderInfo(); // initialize with all zeros because one of the fields is used in generation of new orderInfos.
-        ticketItemBase = 0;
     }
 
     private boolean isLastRowInOrder()
@@ -204,24 +196,24 @@ public class CatalogSalesRowGenerator
         // recent values that were used to set the values of the orderline-invariant columns
 
         long csSoldDateSk = julianDate;
-        long csSoldTimeSk = generateJoinKey(CS_SOLD_TIME_SK, TIME_DIM, orderInfo.getCsCallCenterSk(), scaling);
-        long csCallCenterSk = (csSoldDateSk == -1) ? -1 : generateJoinKey(CS_CALL_CENTER_SK, CALL_CENTER, csSoldDateSk, scaling);
-        long csBillCustomerSk = generateJoinKey(CS_BILL_CUSTOMER_SK, CUSTOMER, 1, scaling);
-        long csBillCdemoSk = generateJoinKey(CS_BILL_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 1, scaling);
-        long csBillHdemoSk = generateJoinKey(CS_BILL_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
-        long csBillAddrSk = generateJoinKey(CS_BILL_ADDR_SK, CUSTOMER_ADDRESS, 1, scaling);
+        long csSoldTimeSk = generateJoinKey(CS_SOLD_TIME_SK, getRandomNumberStream(CS_SOLD_TIME_SK), TIME_DIM, orderInfo.getCsCallCenterSk(), scaling);
+        long csCallCenterSk = (csSoldDateSk == -1) ? -1 : generateJoinKey(CS_CALL_CENTER_SK, getRandomNumberStream(CS_CALL_CENTER_SK), CALL_CENTER, csSoldDateSk, scaling);
+        long csBillCustomerSk = generateJoinKey(CS_BILL_CUSTOMER_SK, getRandomNumberStream(CS_BILL_CUSTOMER_SK), CUSTOMER, 1, scaling);
+        long csBillCdemoSk = generateJoinKey(CS_BILL_CDEMO_SK, getRandomNumberStream(CS_BILL_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 1, scaling);
+        long csBillHdemoSk = generateJoinKey(CS_BILL_HDEMO_SK, getRandomNumberStream(CS_BILL_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
+        long csBillAddrSk = generateJoinKey(CS_BILL_ADDR_SK, getRandomNumberStream(CS_BILL_ADDR_SK), CUSTOMER_ADDRESS, 1, scaling);
 
         // most orders are for the ordering customers, some are not
-        int giftPercentage = generateUniformRandomInt(0, 99, CS_SHIP_CUSTOMER_SK.getRandomNumberStream());
+        int giftPercentage = generateUniformRandomInt(0, 99, getRandomNumberStream(CS_SHIP_CUSTOMER_SK));
         long csShipCustomerSk = csBillCustomerSk;
         long csShipCdemoSk = csBillCdemoSk;
         long csShipHdemoSk = csBillHdemoSk;
         long csShipAddrSk = csBillAddrSk;
         if (giftPercentage <= GIFT_PERCENTAGE) {
-            csShipCustomerSk = generateJoinKey(CS_SHIP_CUSTOMER_SK, CUSTOMER, 2, scaling);
-            csShipCdemoSk = generateJoinKey(CS_SHIP_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 2, scaling);
-            csShipHdemoSk = generateJoinKey(CS_SHIP_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
-            csShipAddrSk = generateJoinKey(CS_SHIP_ADDR_SK, CUSTOMER_ADDRESS, 2, scaling);
+            csShipCustomerSk = generateJoinKey(CS_SHIP_CUSTOMER_SK, getRandomNumberStream(CS_SHIP_CUSTOMER_SK), CUSTOMER, 2, scaling);
+            csShipCdemoSk = generateJoinKey(CS_SHIP_CDEMO_SK, getRandomNumberStream(CS_SHIP_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 2, scaling);
+            csShipHdemoSk = generateJoinKey(CS_SHIP_HDEMO_SK, getRandomNumberStream(CS_SHIP_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
+            csShipAddrSk = generateJoinKey(CS_SHIP_ADDR_SK, getRandomNumberStream(CS_SHIP_ADDR_SK), CUSTOMER_ADDRESS, 2, scaling);
         }
 
         long csOrderNumber = rowNumber;

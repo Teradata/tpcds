@@ -43,7 +43,6 @@ import static com.teradata.tpcds.Table.SHIP_MODE;
 import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.Table.WAREHOUSE;
 import static com.teradata.tpcds.Table.WEB_PAGE;
-import static com.teradata.tpcds.Table.WEB_RETURNS;
 import static com.teradata.tpcds.Table.WEB_SALES;
 import static com.teradata.tpcds.Table.WEB_SITE;
 import static com.teradata.tpcds.generator.WebSalesGeneratorColumn.WR_IS_RETURNED;
@@ -73,7 +72,7 @@ import static com.teradata.tpcds.type.Pricing.generatePricingForSalesTable;
 
 @NotThreadSafe
 public class WebSalesRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     public static final int GIFT_PERCENTAGE = 7;
     public static final int RETURN_PERCENTAGE = 10;
@@ -85,13 +84,18 @@ public class WebSalesRowGenerator
     private OrderInfo orderInfo;
     private int itemIndex;
 
+    public WebSalesRowGenerator()
+    {
+        super(WEB_SALES);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         Scaling scaling = session.getScaling();
         int itemCount = (int) scaling.getIdCount(ITEM);
         if (itemPermutation == null) {
-            itemPermutation = makePermutation(itemCount, WS_PERMUTATION.getRandomNumberStream());
+            itemPermutation = makePermutation(itemCount, getRandomNumberStream(WS_PERMUTATION));
             DateNextIndexPair dateNextIndexPair = skipDaysUntilFirstRowOfChunk(WEB_SALES, session);
             julianDate = dateNextIndexPair.getJulianDate();
             nextDateIndex = dateNextIndexPair.getNextDateIndex();
@@ -99,13 +103,13 @@ public class WebSalesRowGenerator
 
         if (remainingLineItems == 0) {
             orderInfo = generateOrderInfo(rowNumber, session);
-            itemIndex = generateUniformRandomInt(1, itemCount, WS_ITEM_SK.getRandomNumberStream());
-            remainingLineItems = generateUniformRandomInt(8, 16, WS_ORDER_NUMBER.getRandomNumberStream());
+            itemIndex = generateUniformRandomInt(1, itemCount, getRandomNumberStream(WS_ITEM_SK));
+            remainingLineItems = generateUniformRandomInt(8, 16, getRandomNumberStream(WS_ORDER_NUMBER));
         }
 
-        long nullBitMap = createNullBitMap(WS_NULLS);
+        long nullBitMap = createNullBitMap(WEB_SALES, getRandomNumberStream(WS_NULLS));
 
-        int shipLag = generateUniformRandomInt(1, 120, WS_SHIP_DATE_SK.getRandomNumberStream());
+        int shipLag = generateUniformRandomInt(1, 120, getRandomNumberStream(WS_SHIP_DATE_SK));
         long wsShipDateSk = orderInfo.wsSoldDateSk + shipLag;
 
         if (++itemIndex > itemCount) {
@@ -115,13 +119,13 @@ public class WebSalesRowGenerator
         long wsItemSk = matchSurrogateKey(getPermutationEntry(itemPermutation, itemIndex), orderInfo.wsSoldDateSk, ITEM, scaling);
 
         // the web page needs to be valid for the sale date
-        long wsWebPageSk = generateJoinKey(WS_WEB_PAGE_SK, WEB_PAGE, orderInfo.wsSoldDateSk, scaling);
-        long wsWebSiteSk = generateJoinKey(WS_WEB_SITE_SK, WEB_SITE, orderInfo.wsSoldDateSk, scaling);
+        long wsWebPageSk = generateJoinKey(WS_WEB_PAGE_SK, getRandomNumberStream(WS_WEB_PAGE_SK), WEB_PAGE, orderInfo.wsSoldDateSk, scaling);
+        long wsWebSiteSk = generateJoinKey(WS_WEB_SITE_SK, getRandomNumberStream(WS_WEB_SITE_SK), WEB_SITE, orderInfo.wsSoldDateSk, scaling);
 
-        long wsShipModeSk = generateJoinKey(WS_SHIP_MODE_SK, SHIP_MODE, 1, scaling);
-        long wsWarehouseSk = generateJoinKey(WS_WAREHOUSE_SK, WAREHOUSE, 1, scaling);
-        long wsPromoSk = generateJoinKey(WS_PROMO_SK, PROMOTION, 1, scaling);
-        Pricing wsPricing = generatePricingForSalesTable(WS_PRICING);
+        long wsShipModeSk = generateJoinKey(WS_SHIP_MODE_SK, getRandomNumberStream(WS_SHIP_MODE_SK), SHIP_MODE, 1, scaling);
+        long wsWarehouseSk = generateJoinKey(WS_WAREHOUSE_SK, getRandomNumberStream(WS_WAREHOUSE_SK), WAREHOUSE, 1, scaling);
+        long wsPromoSk = generateJoinKey(WS_PROMO_SK, getRandomNumberStream(WS_PROMO_SK), PROMOTION, 1, scaling);
+        Pricing wsPricing = generatePricingForSalesTable(WS_PRICING, getRandomNumberStream(WS_PRICING));
 
         WebSalesRow salesRow = new WebSalesRow(nullBitMap,
                 orderInfo.wsSoldDateSk,
@@ -148,7 +152,7 @@ public class WebSalesRowGenerator
         generatedRows.add(salesRow);
 
         // if the item gets returned, generate a returns row
-        int randomInt = generateUniformRandomInt(0, 99, WR_IS_RETURNED.getRandomNumberStream());
+        int randomInt = generateUniformRandomInt(0, 99, getRandomNumberStream(WR_IS_RETURNED));
         if (randomInt < RETURN_PERCENTAGE && (!session.generateOnlyOneTable() || !(session.getOnlyTableToGenerate() == WEB_SALES))) {
             TableRow returnsRow = ((WebReturnsRowGenerator) childRowGenerator).generateRow(session, salesRow);
             generatedRows.add(returnsRow);
@@ -166,24 +170,24 @@ public class WebSalesRowGenerator
             nextDateIndex += scaling.getRowCountForDate(WEB_SALES, julianDate);
         }
 
-        long wsSoldDateSk = generateJoinKey(WS_SOLD_DATE_SK, DATE_DIM, 1, scaling);
-        long wsSoldTimeSk = generateJoinKey(WS_SOLD_TIME_SK, TIME_DIM, 1, scaling);
-        long wsBillCustomerSk = generateJoinKey(WS_BILL_CUSTOMER_SK, CUSTOMER, 1, scaling);
-        long wsBillCdemoSk = generateJoinKey(WS_BILL_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 1, scaling);
-        long wsBillHdemoSk = generateJoinKey(WS_BILL_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
-        long wsBillAddrSk = generateJoinKey(WS_BILL_ADDR_SK, CUSTOMER_ADDRESS, 1, scaling);
+        long wsSoldDateSk = generateJoinKey(WS_SOLD_DATE_SK, getRandomNumberStream(WS_SOLD_DATE_SK), DATE_DIM, 1, scaling);
+        long wsSoldTimeSk = generateJoinKey(WS_SOLD_TIME_SK, getRandomNumberStream(WS_SOLD_TIME_SK), TIME_DIM, 1, scaling);
+        long wsBillCustomerSk = generateJoinKey(WS_BILL_CUSTOMER_SK, getRandomNumberStream(WS_BILL_CUSTOMER_SK), CUSTOMER, 1, scaling);
+        long wsBillCdemoSk = generateJoinKey(WS_BILL_CDEMO_SK, getRandomNumberStream(WS_BILL_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 1, scaling);
+        long wsBillHdemoSk = generateJoinKey(WS_BILL_HDEMO_SK, getRandomNumberStream(WS_BILL_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
+        long wsBillAddrSk = generateJoinKey(WS_BILL_ADDR_SK, getRandomNumberStream(WS_BILL_ADDR_SK), CUSTOMER_ADDRESS, 1, scaling);
 
         // Usually the billing info and shipping info are the same.  If it's a gift, they'll be different.
         long wsShipCustomerSk = wsBillCustomerSk;
         long wsShipCdemoSk = wsBillCdemoSk;
         long wsShipHdemoSK = wsBillHdemoSk;
         long wsShipAddrSk = wsBillAddrSk;
-        int randomInt = generateUniformRandomInt(0, 99, WS_SHIP_CUSTOMER_SK.getRandomNumberStream());
+        int randomInt = generateUniformRandomInt(0, 99, getRandomNumberStream(WS_SHIP_CUSTOMER_SK));
         if (randomInt > GIFT_PERCENTAGE) {
-            wsShipCustomerSk = generateJoinKey(WS_SHIP_CUSTOMER_SK, CUSTOMER, 2, scaling);
-            wsShipCdemoSk = generateJoinKey(WS_SHIP_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 2, scaling);
-            wsShipHdemoSK = generateJoinKey(WS_SHIP_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
-            wsShipAddrSk = generateJoinKey(WS_SHIP_ADDR_SK, CUSTOMER_ADDRESS, 2, scaling);
+            wsShipCustomerSk = generateJoinKey(WS_SHIP_CUSTOMER_SK, getRandomNumberStream(WS_SHIP_CUSTOMER_SK), CUSTOMER, 2, scaling);
+            wsShipCdemoSk = generateJoinKey(WS_SHIP_CDEMO_SK, getRandomNumberStream(WS_SHIP_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 2, scaling);
+            wsShipHdemoSK = generateJoinKey(WS_SHIP_HDEMO_SK, getRandomNumberStream(WS_SHIP_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
+            wsShipAddrSk = generateJoinKey(WS_SHIP_ADDR_SK, getRandomNumberStream(WS_SHIP_ADDR_SK), CUSTOMER_ADDRESS, 2, scaling);
         }
 
         long wsOrderNumber = rowNumber;
@@ -199,17 +203,6 @@ public class WebSalesRowGenerator
                 wsShipHdemoSK,
                 wsShipAddrSk,
                 wsOrderNumber);
-    }
-
-    @Override
-    public void reset()
-    {
-        itemPermutation = null;
-        nextDateIndex = 0;
-        julianDate = 0;
-        remainingLineItems = 0;
-        orderInfo = null;
-        itemIndex = 0;
     }
 
     private static class OrderInfo
