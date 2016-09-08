@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import static com.teradata.tpcds.Results.constructResults;
 import static com.teradata.tpcds.Session.getDefaultSession;
 import static com.teradata.tpcds.Table.DBGEN_VERSION;
+import static com.teradata.tpcds.TableGenerator.formatRow;
 import static org.testng.Assert.assertTrue;
 
 public class DbgenVersionTest
@@ -28,7 +29,7 @@ public class DbgenVersionTest
     public void testSingleRowCorrectlyGenerated()
     {
         Results outputRows = constructResults(DBGEN_VERSION, 1, 1, TEST_SESSION);
-        String row = outputRows.iterator().next().get(0);
+        String row = formatRow(outputRows.iterator().next().get(0), TEST_SESSION);
 
         assertTrue(row.startsWith("2.0.0|"));
         assertTrue(row.endsWith("|--table dbgen_version|\n"));
