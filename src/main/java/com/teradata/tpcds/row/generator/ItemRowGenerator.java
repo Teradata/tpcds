@@ -73,7 +73,7 @@ import static java.lang.String.format;
 
 @NotThreadSafe
 public class ItemRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final Decimal MIN_ITEM_MARKDOWN_PCT = new Decimal(30, 2);
     private static final Decimal MAX_ITEM_MARKDOWN_PCT = new Decimal(90, 2);
@@ -85,14 +85,19 @@ public class ItemRowGenerator
 
     private Optional<ItemRow> previousRow = Optional.empty();
 
+    public ItemRowGenerator()
+    {
+        super(ITEM);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(I_NULLS);
+        long nullBitMap = createNullBitMap(ITEM, getRandomNumberStream(I_NULLS));
         long iItemSk = rowNumber;
 
-        List<Integer> managerIdRange = ItemsDistributions.pickRandomManagerIdRange(UNIFIED, I_MANAGER_ID.getRandomNumberStream());
-        long iManagerId = generateUniformRandomKey(managerIdRange.get(0), managerIdRange.get(1), I_MANAGER_ID.getRandomNumberStream());
+        List<Integer> managerIdRange = ItemsDistributions.pickRandomManagerIdRange(UNIFIED, getRandomNumberStream(I_MANAGER_ID));
+        long iManagerId = generateUniformRandomKey(managerIdRange.get(0), managerIdRange.get(1), getRandomNumberStream(I_MANAGER_ID));
 
         SlowlyChangingDimensionKey slowlyChangingDimensionKey = computeScdKey(ITEM, rowNumber);
         String iItemId = slowlyChangingDimensionKey.getBusinessKey();
@@ -102,33 +107,33 @@ public class ItemRowGenerator
 
         // select the random number that controls if a field changes from
         // one record to the next.
-        int fieldChangeFlags = (int) I_SCD.getRandomNumberStream().nextRandom();
+        int fieldChangeFlags = (int) getRandomNumberStream(I_SCD).nextRandom();
 
         // the rest of the record in a history-keeping dimension can either be a new data value or not;
         // use a random number and its bit pattern to determine which fields to replace and which to retain
-        String iItemDesc = generateRandomText(1, ROW_SIZE_I_ITEM_DESC, I_ITEM_DESC.getRandomNumberStream());
+        String iItemDesc = generateRandomText(1, ROW_SIZE_I_ITEM_DESC, getRandomNumberStream(I_ITEM_DESC));
         if (previousRow.isPresent()) {
             iItemDesc = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getiItemDesc(), iItemDesc);
         }
         fieldChangeFlags >>= 1;
 
         // There is a bug in the C code that always chooses the new record for current price
-        List<Decimal> currentPriceRange = pickRandomCurrentPriceRange(I_CURRENT_PRICE.getRandomNumberStream());
-        Decimal iCurrentPrice = generateUniformRandomDecimal(currentPriceRange.get(0), currentPriceRange.get(1), I_CURRENT_PRICE.getRandomNumberStream());
+        List<Decimal> currentPriceRange = pickRandomCurrentPriceRange(getRandomNumberStream(I_CURRENT_PRICE));
+        Decimal iCurrentPrice = generateUniformRandomDecimal(currentPriceRange.get(0), currentPriceRange.get(1), getRandomNumberStream(I_CURRENT_PRICE));
         fieldChangeFlags >>= 1;
 
-        Decimal markdown = generateUniformRandomDecimal(MIN_ITEM_MARKDOWN_PCT, MAX_ITEM_MARKDOWN_PCT, I_WHOLESALE_COST.getRandomNumberStream());
+        Decimal markdown = generateUniformRandomDecimal(MIN_ITEM_MARKDOWN_PCT, MAX_ITEM_MARKDOWN_PCT, getRandomNumberStream(I_WHOLESALE_COST));
         Decimal iWholesaleCost = multiply(iCurrentPrice, markdown);
         if (previousRow.isPresent()) {
             iWholesaleCost = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getiWholesaleCost(), iWholesaleCost);
         }
         fieldChangeFlags >>= 1;
 
-        int iCategoryIndex = CategoriesDistribution.pickRandomIndex(I_CATEGORY.getRandomNumberStream());
+        int iCategoryIndex = CategoriesDistribution.pickRandomIndex(getRandomNumberStream(I_CATEGORY));
         int iCategoryId = iCategoryIndex + 1;
         String iCategory = getCategoryAtIndex(iCategoryIndex);
 
-        CategoryClass categoryClass = pickRandomCategoryClass(iCategoryIndex, I_CLASS.getRandomNumberStream());
+        CategoryClass categoryClass = pickRandomCategoryClass(iCategoryIndex, getRandomNumberStream(I_CLASS));
         String iClass = categoryClass.getName();
         long newClassId = categoryClass.getId();
         long iClassId = newClassId;
@@ -149,11 +154,11 @@ public class ItemRowGenerator
 
         // always uses a new value due to a bug in the C code
         int hasSize = getHasSizeAtIndex(iCategoryIndex);
-        String iSize = pickRandomSize(hasSize == 0 ? NO_SIZE : SIZED, I_SIZE.getRandomNumberStream());
+        String iSize = pickRandomSize(hasSize == 0 ? NO_SIZE : SIZED, getRandomNumberStream(I_SIZE));
         fieldChangeFlags >>= 1;
 
-        List<Integer> manufactIdRange = pickRandomManufactIdRange(UNIFIED, I_MANUFACT_ID.getRandomNumberStream());
-        long iManufactId = generateUniformRandomInt(manufactIdRange.get(0), manufactIdRange.get(1), I_MANUFACT_ID.getRandomNumberStream());
+        List<Integer> manufactIdRange = pickRandomManufactIdRange(UNIFIED, getRandomNumberStream(I_MANUFACT_ID));
+        long iManufactId = generateUniformRandomInt(manufactIdRange.get(0), manufactIdRange.get(1), getRandomNumberStream(I_MANUFACT_ID));
         if (previousRow.isPresent()) {
             iManufactId = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getiManufactId(), iManufactId);
         }
@@ -165,9 +170,9 @@ public class ItemRowGenerator
         }
         fieldChangeFlags >>= 1;
 
-        String iFormulation = generateRandomCharset(DIGITS, ROW_SIZE_I_FORMULATION, ROW_SIZE_I_FORMULATION, I_FORMULATION.getRandomNumberStream());
-        String color = pickRandomColor(SKEWED, I_FORMULATION.getRandomNumberStream());
-        int position = generateUniformRandomInt(0, iFormulation.length() - color.length() - 1, I_FORMULATION.getRandomNumberStream());
+        String iFormulation = generateRandomCharset(DIGITS, ROW_SIZE_I_FORMULATION, ROW_SIZE_I_FORMULATION, getRandomNumberStream(I_FORMULATION));
+        String color = pickRandomColor(SKEWED, getRandomNumberStream(I_FORMULATION));
+        int position = generateUniformRandomInt(0, iFormulation.length() - color.length() - 1, getRandomNumberStream(I_FORMULATION));
         StringBuilder builder = new StringBuilder(iFormulation);
         builder.replace(position, color.length() + position, color);
         iFormulation = builder.toString();
@@ -176,13 +181,13 @@ public class ItemRowGenerator
         }
 
         // these fields always use a new value due to a bug in the C code
-        String iColor = pickRandomColor(SKEWED, I_COLOR.getRandomNumberStream());
-        String iUnits = pickRandomUnit(I_UNITS.getRandomNumberStream());
+        String iColor = pickRandomColor(SKEWED, getRandomNumberStream(I_COLOR));
+        String iUnits = pickRandomUnit(getRandomNumberStream(I_UNITS));
         String iContainer = "Unknown";
         String iProductName = generateWord(rowNumber, ROW_SIZE_I_PRODUCT_NAME, SYLLABLES_DISTRIBUTION);
 
-        long iPromoSk = generateJoinKey(I_PROMO_SK, PROMOTION, 1, session.getScaling());
-        int temp = generateUniformRandomInt(1, 100, I_PROMO_SK.getRandomNumberStream());
+        long iPromoSk = generateJoinKey(I_PROMO_SK, getRandomNumberStream(I_PROMO_SK), PROMOTION, 1, session.getScaling());
+        int temp = generateUniformRandomInt(1, 100, getRandomNumberStream(I_PROMO_SK));
         if (temp > I_PROMO_PERCENTAGE) {
             iPromoSk = -1;
         }
@@ -213,11 +218,5 @@ public class ItemRowGenerator
                 iPromoSk);
         previousRow = Optional.of(row);
         return new RowGeneratorResult(row);
-    }
-
-    @Override
-    public void reset()
-    {
-        previousRow = Optional.empty();
     }
 }

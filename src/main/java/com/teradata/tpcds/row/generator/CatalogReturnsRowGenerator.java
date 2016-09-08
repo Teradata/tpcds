@@ -24,6 +24,7 @@ import com.teradata.tpcds.type.Pricing;
 
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.CATALOG_RETURNS;
 import static com.teradata.tpcds.Table.CUSTOMER;
 import static com.teradata.tpcds.Table.CUSTOMER_ADDRESS;
 import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
@@ -49,9 +50,14 @@ import static com.teradata.tpcds.type.Pricing.generatePricingForReturnsTable;
 import static java.util.Collections.emptyList;
 
 public class CatalogReturnsRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     public static final int RETURN_PERCENT = 10;
+
+    public CatalogReturnsRowGenerator()
+    {
+        super(CATALOG_RETURNS);
+    }
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
@@ -68,20 +74,17 @@ public class CatalogReturnsRowGenerator
         }
     }
 
-    @Override
-    public void reset() {}
-
     public TableRow generateRow(Session session, CatalogSalesRow salesRow)
     {
-        long nullBitMap = createNullBitMap(CR_NULLS);
+        long nullBitMap = createNullBitMap(CATALOG_RETURNS, getRandomNumberStream(CR_NULLS));
 
         // some of the fields are conditionally taken from the sale
         Scaling scaling = session.getScaling();
-        long crReturningCustomerSk = generateJoinKey(CR_RETURNING_CUSTOMER_SK, CUSTOMER, 2, scaling);
-        long crReturningCdemoSk = generateJoinKey(CR_RETURNING_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 2, scaling);
-        long crReturningHdemoSk = generateJoinKey(CR_RETURNING_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
-        long crReturningAddrSk = generateJoinKey(CR_RETURNING_ADDR_SK, CUSTOMER_ADDRESS, 2, scaling);
-        if (generateUniformRandomInt(0, 99, CR_RETURNING_CUSTOMER_SK.getRandomNumberStream()) < CatalogSalesRowGenerator.GIFT_PERCENTAGE) {
+        long crReturningCustomerSk = generateJoinKey(CR_RETURNING_CUSTOMER_SK, getRandomNumberStream(CR_RETURNING_CUSTOMER_SK), CUSTOMER, 2, scaling);
+        long crReturningCdemoSk = generateJoinKey(CR_RETURNING_CDEMO_SK, getRandomNumberStream(CR_RETURNING_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 2, scaling);
+        long crReturningHdemoSk = generateJoinKey(CR_RETURNING_HDEMO_SK, getRandomNumberStream(CR_RETURNING_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 2, scaling);
+        long crReturningAddrSk = generateJoinKey(CR_RETURNING_ADDR_SK, getRandomNumberStream(CR_RETURNING_ADDR_SK), CUSTOMER_ADDRESS, 2, scaling);
+        if (generateUniformRandomInt(0, 99, getRandomNumberStream(CR_RETURNING_CUSTOMER_SK)) < CatalogSalesRowGenerator.GIFT_PERCENTAGE) {
             crReturningCustomerSk = salesRow.getCsShipCustomerSk();
             crReturningCdemoSk = salesRow.getCsShipCdemoSk();
             // skip crReturningHdemoSk, since it doesn't exist on the sales record
@@ -91,12 +94,12 @@ public class CatalogReturnsRowGenerator
         Pricing salesPricing = salesRow.getCsPricing();
         int quantity = salesPricing.getQuantity();
         if (salesRow.getCsPricing().getQuantity() != -1) {
-            quantity = generateUniformRandomInt(1, quantity, CR_PRICING.getRandomNumberStream());
+            quantity = generateUniformRandomInt(1, quantity, getRandomNumberStream(CR_PRICING));
         }
-        Pricing crPricing = generatePricingForReturnsTable(CR_PRICING, quantity, salesPricing);
+        Pricing crPricing = generatePricingForReturnsTable(CR_PRICING, getRandomNumberStream(CR_PRICING), quantity, salesPricing);
 
-        return new CatalogReturnsRow(generateJoinKey(CR_RETURNED_DATE_SK, DATE_DIM, salesRow.getCsShipDateSk(), scaling), // items cannot be returned until  they are shipped
-                generateJoinKey(CR_RETURNED_TIME_SK, TIME_DIM, 1, scaling),
+        return new CatalogReturnsRow(generateJoinKey(CR_RETURNED_DATE_SK, getRandomNumberStream(CR_RETURNED_DATE_SK), DATE_DIM, salesRow.getCsShipDateSk(), scaling), // items cannot be returned until  they are shipped
+                generateJoinKey(CR_RETURNED_TIME_SK, getRandomNumberStream(CR_RETURNED_TIME_SK), TIME_DIM, 1, scaling),
                 salesRow.getCsSoldItemSk(),
                 salesRow.getCsBillCustomerSk(),
                 salesRow.getCsBillCdemoSk(),
@@ -108,9 +111,9 @@ public class CatalogReturnsRowGenerator
                 crReturningAddrSk,
                 salesRow.getCsCallCenterSk(),
                 salesRow.getCsCatalogPageSk(),
-                generateJoinKey(CR_SHIP_MODE_SK, SHIP_MODE, 1, scaling),
-                generateJoinKey(CR_WAREHOUSE_SK, WAREHOUSE, 1, scaling),
-                generateJoinKey(CR_REASON_SK, REASON, 1, scaling),
+                generateJoinKey(CR_SHIP_MODE_SK, getRandomNumberStream(CR_SHIP_MODE_SK), SHIP_MODE, 1, scaling),
+                generateJoinKey(CR_WAREHOUSE_SK, getRandomNumberStream(CR_WAREHOUSE_SK), WAREHOUSE, 1, scaling),
+                generateJoinKey(CR_REASON_SK, getRandomNumberStream(CR_REASON_SK), REASON, 1, scaling),
                 salesRow.getCsOrderNumber(),
                 crPricing,
                 nullBitMap);

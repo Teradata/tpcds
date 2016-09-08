@@ -20,6 +20,7 @@ import com.teradata.tpcds.type.Date;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.DATE_DIM;
 import static com.teradata.tpcds.distribution.CalendarDistribution.getIsHolidayFlagAtIndex;
 import static com.teradata.tpcds.distribution.CalendarDistribution.getQuarterAtIndex;
 import static com.teradata.tpcds.generator.DateDimGeneratorColumn.D_NULLS;
@@ -38,12 +39,17 @@ import static com.teradata.tpcds.type.Date.isLeapYear;
 import static com.teradata.tpcds.type.Date.toJulianDays;
 
 public class DateDimRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
+    public DateDimRowGenerator()
+    {
+        super(DATE_DIM);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(D_NULLS);
+        long nullBitMap = createNullBitMap(DATE_DIM, getRandomNumberStream(D_NULLS));
 
         Date baseDate = new Date(1900, 1, 1);
         long dDateSk = rowNumber + toJulianDays(baseDate);
@@ -116,7 +122,4 @@ public class DateDimRowGenerator
                 dCurrentQuarter,
                 dCurrentYear));
     }
-
-    @Override
-    public void reset() {}
 }

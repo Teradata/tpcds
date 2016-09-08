@@ -18,6 +18,7 @@ import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.CustomerDemographicsRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.CREDIT_RATING_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.EDUCATION_DISTRIBUTION;
 import static com.teradata.tpcds.distribution.DemographicsDistributions.GENDER_DISTRIBUTION;
@@ -31,16 +32,21 @@ import static com.teradata.tpcds.distribution.DemographicsDistributions.getPurch
 import static com.teradata.tpcds.generator.CustomerDemographicsGeneratorColumn.CD_NULLS;
 
 public class CustomerDemographicsRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final int MAX_CHILDREN = 7;
     private static final int MAX_EMPLOYED = 7;
     private static final int MAX_COLLEGE = 7;
 
+    public CustomerDemographicsRowGenerator()
+    {
+        super(CUSTOMER_DEMOGRAPHICS);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(CD_NULLS);
+        long nullBitMap = createNullBitMap(CUSTOMER_DEMOGRAPHICS, getRandomNumberStream(CD_NULLS));
         long cDemoSk = rowNumber;
         long index = cDemoSk - 1;
 
@@ -77,7 +83,4 @@ public class CustomerDemographicsRowGenerator
                 cdEmployedCount,
                 cdDepCollegeCount));
     }
-
-    @Override
-    public void reset() {}
 }

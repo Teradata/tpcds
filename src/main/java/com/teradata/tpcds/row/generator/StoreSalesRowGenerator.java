@@ -58,7 +58,7 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 import static com.teradata.tpcds.type.Pricing.generatePricingForSalesTable;
 
 public class StoreSalesRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final int SR_RETURN_PCT = 10;
 
@@ -70,12 +70,17 @@ public class StoreSalesRowGenerator
     private OrderInfo orderInfo = new OrderInfo();
     private int itemIndex;
 
+    public StoreSalesRowGenerator()
+    {
+        super(STORE_SALES);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         int itemCount = (int) session.getScaling().getIdCount(ITEM);
         if (itemPermutation == null) {
-            itemPermutation = makePermutation(itemCount, SS_PERMUTATION.getRandomNumberStream());
+            itemPermutation = makePermutation(itemCount, getRandomNumberStream(SS_PERMUTATION));
             Parallel.DateNextIndexPair pair = skipDaysUntilFirstRowOfChunk(STORE_SALES, session);
             julianDate = pair.getJulianDate();
             nextDateIndex = pair.getNextDateIndex();
@@ -84,11 +89,11 @@ public class StoreSalesRowGenerator
         Scaling scaling = session.getScaling();
         if (remainingLineItems == 0) {
             orderInfo = generateOrderInfo(rowNumber, session);
-            remainingLineItems = generateUniformRandomInt(8, 16, SS_TICKET_NUMBER.getRandomNumberStream());
-            itemIndex = generateUniformRandomInt(1, (int) scaling.getIdCount(ITEM), SS_SOLD_ITEM_SK.getRandomNumberStream());
+            remainingLineItems = generateUniformRandomInt(8, 16, getRandomNumberStream(SS_TICKET_NUMBER));
+            itemIndex = generateUniformRandomInt(1, (int) scaling.getIdCount(ITEM), getRandomNumberStream(SS_SOLD_ITEM_SK));
         }
 
-        long nullBitMap = createNullBitMap(SS_NULLS);
+        long nullBitMap = createNullBitMap(STORE_SALES, getRandomNumberStream(SS_NULLS));
 
         //items need to be unique within an order
         // use a sequence within the permutation
@@ -97,8 +102,8 @@ public class StoreSalesRowGenerator
         }
 
         long ssSoldItemSk = matchSurrogateKey(getPermutationEntry(itemPermutation, itemIndex), orderInfo.getSsSoldDateSk(), ITEM, scaling);
-        long ssSoldPromoSk = generateJoinKey(SS_SOLD_PROMO_SK, PROMOTION, 1, scaling);
-        Pricing ssPricing = generatePricingForSalesTable(SS_PRICING);
+        long ssSoldPromoSk = generateJoinKey(SS_SOLD_PROMO_SK, getRandomNumberStream(SS_SOLD_PROMO_SK), PROMOTION, 1, scaling);
+        Pricing ssPricing = generatePricingForSalesTable(SS_PRICING, getRandomNumberStream(SS_PRICING));
 
         StoreSalesRow storeSalesRow = new StoreSalesRow(nullBitMap,
                 orderInfo.getSsSoldDateSk(),
@@ -116,7 +121,7 @@ public class StoreSalesRowGenerator
         generatedRows.add(storeSalesRow);
 
         // if the sale gets returned, generate a return row
-        int randomInt = generateUniformRandomInt(0, 99, SR_IS_RETURNED.getRandomNumberStream());
+        int randomInt = generateUniformRandomInt(0, 99, getRandomNumberStream(SR_IS_RETURNED));
         if (randomInt < SR_RETURN_PCT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != STORE_SALES)) {
             generatedRows.add(((StoreReturnsRowGenerator) childRowGenerator).generateRow(session, storeSalesRow));
         }
@@ -134,13 +139,13 @@ public class StoreSalesRowGenerator
             nextDateIndex += scaling.getRowCountForDate(STORE_SALES, julianDate);
         }
 
-        long ssSoldStoreSk = generateJoinKey(SS_SOLD_STORE_SK, STORE, 1, scaling);
-        long ssSoldTimeSk = generateJoinKey(SS_SOLD_TIME_SK, TIME_DIM, 1, scaling);
-        long ssSoldDateSk = generateJoinKey(SS_SOLD_DATE_SK, DATE_DIM, 1, scaling);
-        long ssSoldCustomerSk = generateJoinKey(SS_SOLD_CUSTOMER_SK, CUSTOMER, 1, scaling);
-        long ssSoldCdemoSk = generateJoinKey(SS_SOLD_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 1, scaling);
-        long ssSoldHdemoSk = generateJoinKey(SS_SOLD_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
-        long ssSoldAddrSk = generateJoinKey(SS_SOLD_ADDR_SK, CUSTOMER_ADDRESS, 1, scaling);
+        long ssSoldStoreSk = generateJoinKey(SS_SOLD_STORE_SK, getRandomNumberStream(SS_SOLD_STORE_SK), STORE, 1, scaling);
+        long ssSoldTimeSk = generateJoinKey(SS_SOLD_TIME_SK, getRandomNumberStream(SS_SOLD_TIME_SK), TIME_DIM, 1, scaling);
+        long ssSoldDateSk = generateJoinKey(SS_SOLD_DATE_SK, getRandomNumberStream(SS_SOLD_DATE_SK), DATE_DIM, 1, scaling);
+        long ssSoldCustomerSk = generateJoinKey(SS_SOLD_CUSTOMER_SK, getRandomNumberStream(SS_SOLD_CUSTOMER_SK), CUSTOMER, 1, scaling);
+        long ssSoldCdemoSk = generateJoinKey(SS_SOLD_CDEMO_SK, getRandomNumberStream(SS_SOLD_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 1, scaling);
+        long ssSoldHdemoSk = generateJoinKey(SS_SOLD_HDEMO_SK, getRandomNumberStream(SS_SOLD_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
+        long ssSoldAddrSk = generateJoinKey(SS_SOLD_ADDR_SK, getRandomNumberStream(SS_SOLD_ADDR_SK), CUSTOMER_ADDRESS, 1, scaling);
         long ssTicketNumber = rowNumber;
 
         return new OrderInfo(ssSoldStoreSk,
@@ -156,17 +161,6 @@ public class StoreSalesRowGenerator
     private boolean isLastRowInOrder()
     {
         return remainingLineItems == 0;
-    }
-
-    @Override
-    public void reset()
-    {
-        itemPermutation = null;
-        julianDate = 0;
-        nextDateIndex = 0;
-        orderInfo = new OrderInfo();
-        remainingLineItems = 0;
-        itemIndex = 0;
     }
 
     private class OrderInfo

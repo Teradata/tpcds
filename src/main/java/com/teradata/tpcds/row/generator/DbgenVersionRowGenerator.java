@@ -14,6 +14,7 @@
 package com.teradata.tpcds.row.generator;
 
 import com.teradata.tpcds.Session;
+import com.teradata.tpcds.Table;
 import com.teradata.tpcds.row.DbgenVersionRow;
 
 import java.text.DateFormat;
@@ -21,9 +22,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DbgenVersionRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final String DBGEN_VERSION = "2.0.0";
+
+    public DbgenVersionRowGenerator()
+    {
+        super(Table.DBGEN_VERSION);
+    }
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
@@ -39,7 +45,4 @@ public class DbgenVersionRowGenerator
                 session.getCommandLineArguments());
         return new RowGeneratorResult(row);
     }
-
-    @Override
-    public void reset() {}
 }

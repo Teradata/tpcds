@@ -55,23 +55,19 @@ public enum CatalogReturnsGeneratorColumn
 
     private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
+    private final int seedsPerRow;
 
     CatalogReturnsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
         this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
+        this.seedsPerRow = seedsPerRow;
     }
 
     @Override
     public Table getTable()
     {
         return CATALOG_RETURNS;
-    }
-
-    @Override
-    public RandomNumberStream getRandomNumberStream()
-    {
-        return randomNumberStream;
     }
 
     @Override
@@ -84,5 +80,11 @@ public enum CatalogReturnsGeneratorColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

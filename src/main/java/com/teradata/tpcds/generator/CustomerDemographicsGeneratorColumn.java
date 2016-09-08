@@ -15,8 +15,6 @@
 package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.random.RandomNumberStream;
-import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.CUSTOMER_DEMOGRAPHICS;
 
@@ -34,25 +32,19 @@ public enum CustomerDemographicsGeneratorColumn
     CD_DEP_COLLEGE_COUNT(157, 1),
     CD_NULLS(158, 2);
 
-    private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
+    private final int seedsPerRow;
 
     CustomerDemographicsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
-        this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
+        this.seedsPerRow = seedsPerRow;
     }
 
     @Override
     public Table getTable()
     {
         return CUSTOMER_DEMOGRAPHICS;
-    }
-
-    @Override
-    public RandomNumberStream getRandomNumberStream()
-    {
-        return randomNumberStream;
     }
 
     @Override
@@ -65,5 +57,11 @@ public enum CustomerDemographicsGeneratorColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

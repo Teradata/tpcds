@@ -15,7 +15,6 @@
 package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.random.RandomNumberStream;
 
 /**
  * GeneratorColumns are columns that are used only within the context of the
@@ -27,9 +26,9 @@ public interface GeneratorColumn
 {
     Table getTable();
 
-    RandomNumberStream getRandomNumberStream();
-
     int getGlobalColumnNumber();
+
+    int getSeedsPerRow();
 
     String getName();
 }

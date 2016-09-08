@@ -15,8 +15,6 @@
 package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.random.RandomNumberStream;
-import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.ITEM;
 
@@ -49,25 +47,19 @@ public enum ItemGeneratorColumn
     I_SCD(226, 1),
     I_PROMO_SK(227, 2);
 
-    private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
+    private final int seedsPerRow;
 
     ItemGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
-        this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
+        this.seedsPerRow = seedsPerRow;
     }
 
     @Override
     public Table getTable()
     {
         return ITEM;
-    }
-
-    @Override
-    public RandomNumberStream getRandomNumberStream()
-    {
-        return randomNumberStream;
     }
 
     @Override
@@ -80,5 +72,11 @@ public enum ItemGeneratorColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

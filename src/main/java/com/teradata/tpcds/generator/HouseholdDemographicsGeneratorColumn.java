@@ -15,8 +15,6 @@
 package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.random.RandomNumberStream;
-import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 
@@ -30,25 +28,19 @@ public enum HouseholdDemographicsGeneratorColumn
     HD_VEHICLE_COUNT(192, 1),
     HD_NULLS(193, 2);
 
-    private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
+    private final int seedsPerRow;
 
     HouseholdDemographicsGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
-        this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
+        this.seedsPerRow = seedsPerRow;
     }
 
     @Override
     public Table getTable()
     {
         return HOUSEHOLD_DEMOGRAPHICS;
-    }
-
-    @Override
-    public RandomNumberStream getRandomNumberStream()
-    {
-        return randomNumberStream;
     }
 
     @Override
@@ -61,5 +53,11 @@ public enum HouseholdDemographicsGeneratorColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

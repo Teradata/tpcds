@@ -15,8 +15,6 @@
 package com.teradata.tpcds.generator;
 
 import com.teradata.tpcds.Table;
-import com.teradata.tpcds.random.RandomNumberStream;
-import com.teradata.tpcds.random.RandomNumberStreamImpl;
 
 import static com.teradata.tpcds.Table.WEB_SALES;
 
@@ -62,25 +60,19 @@ public enum WebSalesGeneratorColumn
     WR_IS_RETURNED(445, 16),
     WS_PERMUTATION(446, 0);
 
-    private final RandomNumberStream randomNumberStream;
     private final int globalColumnNumber;
+    private final int seedsPerRow;
 
     WebSalesGeneratorColumn(int globalColumnNumber, int seedsPerRow)
     {
         this.globalColumnNumber = globalColumnNumber;
-        this.randomNumberStream = new RandomNumberStreamImpl(globalColumnNumber, seedsPerRow);
+        this.seedsPerRow = seedsPerRow;
     }
 
     @Override
     public Table getTable()
     {
         return WEB_SALES;
-    }
-
-    @Override
-    public RandomNumberStream getRandomNumberStream()
-    {
-        return randomNumberStream;
     }
 
     @Override
@@ -93,5 +85,11 @@ public enum WebSalesGeneratorColumn
     public String getName()
     {
         return name().toLowerCase();
+    }
+
+    @Override
+    public int getSeedsPerRow()
+    {
+        return seedsPerRow;
     }
 }

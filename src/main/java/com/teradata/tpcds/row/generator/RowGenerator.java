@@ -20,5 +20,7 @@ public interface RowGenerator
 {
     RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator);
 
-    void reset();
+    void consumeRemainingSeedsForRow();
+
+    void skipRowsUntilStartingRowNumber(long startingRowNumber);
 }
