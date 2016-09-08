@@ -96,6 +96,7 @@ import com.teradata.tpcds.row.generator.WebSalesRowGenerator;
 import com.teradata.tpcds.row.generator.WebSiteRowGenerator;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -442,6 +443,16 @@ public enum Table
     public Column[] getColumns()
     {
         return columns;
+    }
+
+    public Column getColumn(String columnName)
+    {
+        List<Column> allColumnMatches = Arrays.stream(getColumns())
+                .filter(column -> columnName.toLowerCase().equals(column.getName().toLowerCase()))
+                .collect(Collectors.toList());
+
+        checkState(allColumnMatches.size() == 1);
+        return allColumnMatches.get(0);
     }
 
     public static Table getTable(String tableName)

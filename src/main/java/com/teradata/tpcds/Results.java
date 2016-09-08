@@ -15,6 +15,7 @@
 package com.teradata.tpcds;
 
 import com.google.common.collect.AbstractIterator;
+import com.teradata.tpcds.Parallel.ChunkBoundaries;
 import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 import com.teradata.tpcds.row.generator.RowGeneratorResult;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.teradata.tpcds.Parallel.splitWork;
 import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRandomInt;
 import static java.util.Objects.requireNonNull;
 
@@ -41,6 +43,12 @@ public class Results
         this.startingRowNumber = startingRowNumber;
         this.rowCount = rowCount;
         this.session = session;
+    }
+
+    public static Results constructResults(Table table, Session session)
+    {
+        ChunkBoundaries chunkBoundaries = splitWork(table, session);
+        return new Results(table, chunkBoundaries.getFirstRow(), chunkBoundaries.getLastRow(), session);
     }
 
     public static Results constructResults(Table table, long startingRowNumber, long endingRowNumber, Session session)
