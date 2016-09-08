@@ -55,12 +55,12 @@ public class CatalogReturnsRowGenerator
     public static final int RETURN_PERCENT = 10;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         // The catalog returns table is a child of the catalog_sales table because you can only return things that have
         // already been purchased.  This method should only get called if we are generating the catalog_returns table
         // in isolation. Otherwise catalog_returns is generated during the generation of the catalog_sales table
-        RowGeneratorResult salesAndReturnsResult = CATALOG_SALES.getRowGenerator().generateRowAndChildRows(rowNumber, session);
+        RowGeneratorResult salesAndReturnsResult = parentRowGenerator.generateRowAndChildRows(rowNumber, session, null , this);
         if (salesAndReturnsResult.getRowAndChildRows().size() == 2) {
             return new RowGeneratorResult(ImmutableList.of(salesAndReturnsResult.getRowAndChildRows().get(1)), salesAndReturnsResult.shouldEndRow());
         }

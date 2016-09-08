@@ -59,7 +59,7 @@ public class CustomerRowGenerator
         implements RowGenerator
 {
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long cCustomerSk = rowNumber;
         String cCustomerId = makeBusinessKey(rowNumber);

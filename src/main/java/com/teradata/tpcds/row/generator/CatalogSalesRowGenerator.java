@@ -93,7 +93,7 @@ public class CatalogSalesRowGenerator
     private int ticketItemBase;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         int itemCount = (int) session.getScaling().getIdCount(ITEM);
         if (itemPermutation == null) {
@@ -161,7 +161,7 @@ public class CatalogSalesRowGenerator
         // if the sale gets returned, generate a return row
         int randomInt = generateUniformRandomInt(0, 99, CR_IS_RETURNED.getRandomNumberStream());
         if (randomInt < CatalogReturnsRowGenerator.RETURN_PERCENT && (!session.generateOnlyOneTable() || session.getOnlyTableToGenerate() != CATALOG_SALES)) {
-            TableRow catalogReturnsRow = ((CatalogReturnsRowGenerator) CATALOG_RETURNS.getRowGenerator()).generateRow(session, catalogSalesRow);
+            TableRow catalogReturnsRow = ((CatalogReturnsRowGenerator) childRowGenerator).generateRow(session, catalogSalesRow);
             generatedRows.add(catalogReturnsRow);
         }
 

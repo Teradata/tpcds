@@ -86,7 +86,7 @@ public class WebSalesRowGenerator
     private int itemIndex;
 
     @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session)
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         Scaling scaling = session.getScaling();
         int itemCount = (int) scaling.getIdCount(ITEM);
@@ -150,7 +150,7 @@ public class WebSalesRowGenerator
         // if the item gets returned, generate a returns row
         int randomInt = generateUniformRandomInt(0, 99, WR_IS_RETURNED.getRandomNumberStream());
         if (randomInt < RETURN_PERCENTAGE && (!session.generateOnlyOneTable() || !(session.getOnlyTableToGenerate() == WEB_SALES))) {
-            TableRow returnsRow = ((WebReturnsRowGenerator) (WEB_RETURNS.getRowGenerator())).generateRow(session, salesRow);
+            TableRow returnsRow = ((WebReturnsRowGenerator) childRowGenerator).generateRow(session, salesRow);
             generatedRows.add(returnsRow);
         }
 
