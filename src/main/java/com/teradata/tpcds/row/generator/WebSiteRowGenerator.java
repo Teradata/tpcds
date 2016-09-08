@@ -59,14 +59,19 @@ import static java.lang.String.format;
 
 @NotThreadSafe
 public class WebSiteRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private Optional<WebSiteRow> previousRow = Optional.empty();
+
+    public WebSiteRowGenerator()
+    {
+        super(WEB_SITE);
+    }
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(WEB_NULLS);
+        long nullBitMap = createNullBitMap(WEB_SITE, getRandomNumberStream(WEB_NULLS));
         long webSiteSk = rowNumber;
         String webClass = "Unknown";
 
@@ -81,8 +86,8 @@ public class WebSiteRowGenerator
         long webCloseDate;
         String webName;
         if (isNewBusinessKey) {
-            webOpenDate = generateJoinKey(WEB_OPEN_DATE, DATE_DIM, rowNumber, scaling);
-            webCloseDate = generateJoinKey(WEB_CLOSE_DATE, DATE_DIM, rowNumber, scaling);
+            webOpenDate = generateJoinKey(WEB_OPEN_DATE, getRandomNumberStream(WEB_OPEN_DATE), DATE_DIM, rowNumber, scaling);
+            webCloseDate = generateJoinKey(WEB_CLOSE_DATE, getRandomNumberStream(WEB_CLOSE_DATE), DATE_DIM, rowNumber, scaling);
             if (webCloseDate > webRecEndDateId) {
                 webCloseDate = -1;
             }
@@ -96,43 +101,43 @@ public class WebSiteRowGenerator
         }
 
         // controls whether a field changes from one row to the next
-        int fieldChangeFlags = (int) WEB_SCD.getRandomNumberStream().nextRandom();
+        int fieldChangeFlags = (int) getRandomNumberStream(WEB_SCD).nextRandom();
 
-        String firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, WEB_MANAGER.getRandomNumberStream());
-        String lastName = pickRandomLastName(WEB_MANAGER.getRandomNumberStream());
+        String firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, getRandomNumberStream(WEB_MANAGER));
+        String lastName = pickRandomLastName(getRandomNumberStream(WEB_MANAGER));
         String webManager = format("%s %s", firstName, lastName);
         if (previousRow.isPresent()) {
             webManager = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebManager(), webManager);
         }
         fieldChangeFlags >>= 1;
 
-        int webMarketId = generateUniformRandomInt(1, 6, WEB_MARKET_ID.getRandomNumberStream());
+        int webMarketId = generateUniformRandomInt(1, 6, getRandomNumberStream(WEB_MARKET_ID));
         if (previousRow.isPresent()) {
             webMarketId = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebMarketId(), webMarketId);
         }
         fieldChangeFlags >>= 1;
 
-        String webMarketClass = generateRandomText(20, 50, WEB_MARKET_CLASS.getRandomNumberStream());
+        String webMarketClass = generateRandomText(20, 50, getRandomNumberStream(WEB_MARKET_CLASS));
         if (previousRow.isPresent()) {
             webMarketClass = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebMarketClass(), webMarketClass);
         }
         fieldChangeFlags >>= 1;
 
-        String webMarketDesc = generateRandomText(20, 100, WEB_MARKET_DESC.getRandomNumberStream());
+        String webMarketDesc = generateRandomText(20, 100, getRandomNumberStream(WEB_MARKET_DESC));
         if (previousRow.isPresent()) {
             webMarketDesc = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebMarketDesc(), webMarketDesc);
         }
         fieldChangeFlags >>= 1;
 
-        firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, WEB_MARKET_MANAGER.getRandomNumberStream());
-        lastName = pickRandomLastName(WEB_MARKET_MANAGER.getRandomNumberStream());
+        firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, getRandomNumberStream(WEB_MARKET_MANAGER));
+        lastName = pickRandomLastName(getRandomNumberStream(WEB_MARKET_MANAGER));
         String webMarketManager = format("%s %s", firstName, lastName);
         if (previousRow.isPresent()) {
             webMarketManager = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebMarketManager(), webMarketManager);
         }
         fieldChangeFlags >>= 1;
 
-        int webCompanyId = generateUniformRandomInt(1, 6, WEB_COMPANY_ID.getRandomNumberStream());
+        int webCompanyId = generateUniformRandomInt(1, 6, getRandomNumberStream(WEB_COMPANY_ID));
         if (previousRow.isPresent()) {
             webCompanyId = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebCompanyId(), webCompanyId);
         }
@@ -144,7 +149,7 @@ public class WebSiteRowGenerator
         }
         fieldChangeFlags >>= 1;
 
-        Address webAddress = makeAddressForColumn(WEB_ADDRESS, scaling);
+        Address webAddress = makeAddressForColumn(WEB_SITE, getRandomNumberStream(WEB_ADDRESS), scaling);
 
         // some of the fields of address always use a new value due to a bug in the C code, but we still need to update the fieldChangeFlags
         fieldChangeFlags >>= 1; // city
@@ -185,7 +190,7 @@ public class WebSiteRowGenerator
                 zip,
                 gmtOffset);
 
-        Decimal webTaxPercentage = generateUniformRandomDecimal(ZERO, new Decimal(12, 2), WEB_TAX_PERCENTAGE.getRandomNumberStream());
+        Decimal webTaxPercentage = generateUniformRandomDecimal(ZERO, new Decimal(12, 2), getRandomNumberStream(WEB_TAX_PERCENTAGE));
         if (previousRow.isPresent()) {
             webTaxPercentage = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getWebTaxPercentage(), webTaxPercentage);
         }
@@ -211,11 +216,5 @@ public class WebSiteRowGenerator
 
         previousRow = Optional.of(row);
         return new RowGeneratorResult(row);
-    }
-
-    @Override
-    public void reset()
-    {
-        previousRow = Optional.empty();
     }
 }

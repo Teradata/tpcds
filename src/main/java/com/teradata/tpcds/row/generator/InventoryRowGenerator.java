@@ -20,6 +20,7 @@ import com.teradata.tpcds.SlowlyChangingDimensionUtils;
 import com.teradata.tpcds.row.InventoryRow;
 
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.INVENTORY;
 import static com.teradata.tpcds.Table.ITEM;
 import static com.teradata.tpcds.Table.WAREHOUSE;
 import static com.teradata.tpcds.generator.InventoryGeneratorColumn.INV_NULLS;
@@ -28,12 +29,17 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
 
 public class InventoryRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
+    public InventoryRowGenerator()
+    {
+        super(INVENTORY);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(INV_NULLS);
+        long nullBitMap = createNullBitMap(INVENTORY, getRandomNumberStream(INV_NULLS));
         int index = (int) rowNumber - 1;
         Scaling scaling = session.getScaling();
         long itemCount = scaling.getIdCount(ITEM);
@@ -52,11 +58,8 @@ public class InventoryRowGenerator
         // but item is a slowly changing dimension, so we need to account for that in selecting the surrogate key to join with
         invItemSk = SlowlyChangingDimensionUtils.matchSurrogateKey(invItemSk, invDateSk, ITEM, scaling);
 
-        int invQuantityOnHand = generateUniformRandomInt(0, 1000, INV_QUANTITY_ON_HAND.getRandomNumberStream());
+        int invQuantityOnHand = generateUniformRandomInt(0, 1000, getRandomNumberStream(INV_QUANTITY_ON_HAND));
 
         return new RowGeneratorResult(new InventoryRow(nullBitMap, invDateSk, invItemSk, invWarehouseSk, invQuantityOnHand));
     }
-
-    @Override
-    public void reset() {}
 }

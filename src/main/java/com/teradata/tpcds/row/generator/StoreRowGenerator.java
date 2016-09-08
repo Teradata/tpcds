@@ -25,6 +25,7 @@ import java.util.Optional;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.computeScdKey;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.getValueForSlowlyChangingDimension;
+import static com.teradata.tpcds.Table.STORE;
 import static com.teradata.tpcds.Table.S_STORE;
 import static com.teradata.tpcds.distribution.CallCenterDistributions.pickRandomCallCenterHours;
 import static com.teradata.tpcds.distribution.EnglishDistributions.SYLLABLES_DISTRIBUTION;
@@ -53,7 +54,7 @@ import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
 import static java.lang.String.format;
 
 public class StoreRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final int ROW_SIZE_S_MARKET_DESC = 100;
     private static final Decimal STORE_MIN_TAX_PERCENTAGE = new Decimal(0, 2);
@@ -65,10 +66,15 @@ public class StoreRowGenerator
 
     private Optional<StoreRow> previousRow = Optional.empty();
 
+    public StoreRowGenerator()
+    {
+        super(STORE);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(W_STORE_NULLS);
+        long nullBitMap = createNullBitMap(STORE, getRandomNumberStream(W_STORE_NULLS));
         long storeSk = rowNumber;
 
         // The id combined with start and end dates represent the unique key for this row.
@@ -82,15 +88,15 @@ public class StoreRowGenerator
 
         // Select the random number that controls if a field changes from
         // one record to the next.
-        int fieldChangeFlags = (int) W_STORE_SCD.getRandomNumberStream().nextRandom();
+        int fieldChangeFlags = (int) getRandomNumberStream(W_STORE_SCD).nextRandom();
 
         // The rest of the fields can either be a new data value or not.
         // We use a random number to determine which fields to replace and which to retain.
         // A field changes if isNewBusinessKey is true or the lowest order bit of the random number is zero.
         // Then we do a single bitshift so the next field is determined by the next lower bit.
 
-        int percentage = generateUniformRandomInt(1, 100, W_STORE_CLOSED_DATE_ID.getRandomNumberStream());
-        int daysOpen = generateUniformRandomInt(STORE_MIN_DAYS_OPEN, STORE_MAX_DAYS_OPEN, W_STORE_CLOSED_DATE_ID.getRandomNumberStream());
+        int percentage = generateUniformRandomInt(1, 100, getRandomNumberStream(W_STORE_CLOSED_DATE_ID));
+        int daysOpen = generateUniformRandomInt(STORE_MIN_DAYS_OPEN, STORE_MAX_DAYS_OPEN, getRandomNumberStream(W_STORE_CLOSED_DATE_ID));
         long closedDateId;
         if (percentage < STORE_CLOSED_PCT) {
             closedDateId = JULIAN_DATE_MINIMUM + daysOpen;
@@ -109,36 +115,36 @@ public class StoreRowGenerator
         }
         fieldChangeFlags >>= 1;
 
-        int employees = generateUniformRandomInt(200, 300, W_STORE_EMPLOYEES.getRandomNumberStream());
+        int employees = generateUniformRandomInt(200, 300, getRandomNumberStream(W_STORE_EMPLOYEES));
         if (previousRow.isPresent()) {
             employees = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getEmployees(), employees);
         }
         fieldChangeFlags >>= 1;
 
-        int floorSpace = generateUniformRandomInt(5000000, 10000000, W_STORE_FLOOR_SPACE.getRandomNumberStream());
+        int floorSpace = generateUniformRandomInt(5000000, 10000000, getRandomNumberStream(W_STORE_FLOOR_SPACE));
         if (previousRow.isPresent()) {
             floorSpace = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getFloorSpace(), floorSpace);
         }
         fieldChangeFlags >>= 1;
 
-        String hours = pickRandomCallCenterHours(W_STORE_HOURS.getRandomNumberStream());
+        String hours = pickRandomCallCenterHours(getRandomNumberStream(W_STORE_HOURS));
         fieldChangeFlags >>= 1;
 
-        String firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, W_STORE_MANAGER.getRandomNumberStream());
-        String lastName = pickRandomLastName(W_STORE_MANAGER.getRandomNumberStream());
+        String firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, getRandomNumberStream(W_STORE_MANAGER));
+        String lastName = pickRandomLastName(getRandomNumberStream(W_STORE_MANAGER));
         String storeManager = format("%s %s", firstName, lastName);
         if (previousRow.isPresent()) {
             storeManager = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getStoreManager(), storeManager);
         }
         fieldChangeFlags >>= 1;
 
-        int marketId = generateUniformRandomInt(1, 10, W_STORE_MARKET_ID.getRandomNumberStream());
+        int marketId = generateUniformRandomInt(1, 10, getRandomNumberStream(W_STORE_MARKET_ID));
         if (previousRow.isPresent()) {
             marketId = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getMarketId(), marketId);
         }
         fieldChangeFlags >>= 1;
 
-        Decimal dTaxPercentage = generateUniformRandomDecimal(STORE_MIN_TAX_PERCENTAGE, STORE_MAX_TAX_PERCENTAGE, W_STORE_TAX_PERCENTAGE.getRandomNumberStream());
+        Decimal dTaxPercentage = generateUniformRandomDecimal(STORE_MIN_TAX_PERCENTAGE, STORE_MAX_TAX_PERCENTAGE, getRandomNumberStream(W_STORE_TAX_PERCENTAGE));
         if (previousRow.isPresent()) {
             dTaxPercentage = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getdTaxPercentage(), dTaxPercentage);
         }
@@ -149,14 +155,14 @@ public class StoreRowGenerator
         String geographyClass = "Unknown";
         fieldChangeFlags >>= 1; // geographyClass
 
-        String marketDesc = generateRandomText(STORE_DESC_MIN, ROW_SIZE_S_MARKET_DESC, W_STORE_MARKET_DESC.getRandomNumberStream());
+        String marketDesc = generateRandomText(STORE_DESC_MIN, ROW_SIZE_S_MARKET_DESC, getRandomNumberStream(W_STORE_MARKET_DESC));
         if (previousRow.isPresent()) {
             marketDesc = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getMarketDesc(), marketDesc);
         }
         fieldChangeFlags >>= 1;
 
-        firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, W_STORE_MARKET_MANAGER.getRandomNumberStream());
-        lastName = pickRandomLastName(W_STORE_MARKET_MANAGER.getRandomNumberStream());
+        firstName = pickRandomFirstName(session.isSexist() ? MALE_FREQUENCY : GENERAL_FREQUENCY, getRandomNumberStream(W_STORE_MARKET_MANAGER));
+        lastName = pickRandomLastName(getRandomNumberStream(W_STORE_MARKET_MANAGER));
         String marketManager = format("%s %s", firstName, lastName);
         if (previousRow.isPresent()) {
             marketManager = getValueForSlowlyChangingDimension(fieldChangeFlags, isNewBusinessKey, previousRow.get().getMarketManager(), marketManager);
@@ -177,7 +183,7 @@ public class StoreRowGenerator
 
         // Many of the address values never get updated due to a bug in the C code whose behavior we are copying.
         // The fieldChangeFlags still need to be updated
-        Address address = makeAddressForColumn(W_STORE_ADDRESS, session.getScaling());
+        Address address = makeAddressForColumn(STORE, getRandomNumberStream(W_STORE_ADDRESS), session.getScaling());
         fieldChangeFlags >>= 1; // city
         fieldChangeFlags >>= 1; // county
 
@@ -238,11 +244,5 @@ public class StoreRowGenerator
                 address);
         previousRow = Optional.of(row);
         return new RowGeneratorResult(row);
-    }
-
-    @Override
-    public void reset()
-    {
-        previousRow = Optional.empty();
     }
 }

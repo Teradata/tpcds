@@ -28,17 +28,22 @@ import static com.teradata.tpcds.type.Date.DATE_MINIMUM;
 import static com.teradata.tpcds.type.Date.JULIAN_DATA_START_DATE;
 
 public class CatalogPageRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     public static final int CATALOGS_PER_YEAR = 18;
     private static final int WIDTH_CP_DESCRIPTION = 100;
+
+    public CatalogPageRowGenerator()
+    {
+        super(CATALOG_PAGE);
+    }
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
         long cpCatalogPageSk = rowNumber;
         String cpDepartment = "DEPARTMENT";
-        long nullBitMap = createNullBitMap(CP_NULLS);
+        long nullBitMap = createNullBitMap(CATALOG_PAGE, getRandomNumberStream(CP_NULLS));
         String cpCatalogPageId = makeBusinessKey(rowNumber);
 
         int catalogPageMax = ((int) (session.getScaling().getRowCount(CATALOG_PAGE) / CATALOGS_PER_YEAR)) / (DATE_MAXIMUM.getYear() - DATE_MINIMUM.getYear() + 2);
@@ -72,7 +77,7 @@ public class CatalogPageRowGenerator
 
         long cpStartDateId = JULIAN_DATA_START_DATE + offset + ((cpCatalogNumber - 1) / CATALOGS_PER_YEAR) * 365;
         long cpEndDateId = cpStartDateId + duration - 1;
-        String cpDescription = generateRandomText(WIDTH_CP_DESCRIPTION / 2, WIDTH_CP_DESCRIPTION - 1, CP_DESCRIPTION.getRandomNumberStream());
+        String cpDescription = generateRandomText(WIDTH_CP_DESCRIPTION / 2, WIDTH_CP_DESCRIPTION - 1, getRandomNumberStream(CP_DESCRIPTION));
 
         return new RowGeneratorResult(new CatalogPageRow(
                 cpCatalogPageSk,
@@ -86,7 +91,4 @@ public class CatalogPageRowGenerator
                 cpType,
                 nullBitMap));
     }
-
-    @Override
-    public void reset() {}
 }

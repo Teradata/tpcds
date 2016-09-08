@@ -20,6 +20,7 @@ import com.teradata.tpcds.type.Address;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.WAREHOUSE;
 import static com.teradata.tpcds.generator.WarehouseGeneratorColumn.W_NULLS;
 import static com.teradata.tpcds.generator.WarehouseGeneratorColumn.W_WAREHOUSE_ADDRESS;
 import static com.teradata.tpcds.generator.WarehouseGeneratorColumn.W_WAREHOUSE_NAME;
@@ -29,21 +30,23 @@ import static com.teradata.tpcds.random.RandomValueGenerator.generateUniformRand
 import static com.teradata.tpcds.type.Address.makeAddressForColumn;
 
 public class WarehouseRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
-    @Override
-    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
+    public WarehouseRowGenerator()
     {
-        long nullBitMap = createNullBitMap(W_NULLS);
-        long wWarehouseSk = rowNumber;
-        String wWarehouseId = makeBusinessKey(rowNumber);
-        String wWarehouseName = generateRandomText(10, 20, W_WAREHOUSE_NAME.getRandomNumberStream());
-        int wWarehouseSqFt = generateUniformRandomInt(50000, 1000000, W_WAREHOUSE_SQ_FT.getRandomNumberStream());
-        Address wAddress = makeAddressForColumn(W_WAREHOUSE_ADDRESS, session.getScaling());
-
-        return new RowGeneratorResult(new WarehouseRow(nullBitMap, wWarehouseSk, wWarehouseId, wWarehouseName, wWarehouseSqFt, wAddress));
+        super(WAREHOUSE);
     }
 
     @Override
-    public void reset() {}
+    public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
+    {
+        long nullBitMap = createNullBitMap(WAREHOUSE, getRandomNumberStream(W_NULLS));
+        long wWarehouseSk = rowNumber;
+        String wWarehouseId = makeBusinessKey(rowNumber);
+        String wWarehouseName = generateRandomText(10, 20, getRandomNumberStream(W_WAREHOUSE_NAME));
+        int wWarehouseSqFt = generateUniformRandomInt(50000, 1000000, getRandomNumberStream(W_WAREHOUSE_SQ_FT));
+        Address wAddress = makeAddressForColumn(WAREHOUSE, getRandomNumberStream(W_WAREHOUSE_ADDRESS), session.getScaling());
+
+        return new RowGeneratorResult(new WarehouseRow(nullBitMap, wWarehouseSk, wWarehouseId, wWarehouseName, wWarehouseSqFt, wAddress));
+    }
 }

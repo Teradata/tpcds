@@ -31,7 +31,7 @@ import static com.teradata.tpcds.Table.DATE_DIM;
 import static com.teradata.tpcds.Table.HOUSEHOLD_DEMOGRAPHICS;
 import static com.teradata.tpcds.Table.REASON;
 import static com.teradata.tpcds.Table.STORE;
-import static com.teradata.tpcds.Table.STORE_SALES;
+import static com.teradata.tpcds.Table.STORE_RETURNS;
 import static com.teradata.tpcds.generator.StoreReturnsGeneratorColumn.SR_ADDR_SK;
 import static com.teradata.tpcds.generator.StoreReturnsGeneratorColumn.SR_CDEMO_SK;
 import static com.teradata.tpcds.generator.StoreReturnsGeneratorColumn.SR_CUSTOMER_SK;
@@ -48,9 +48,14 @@ import static com.teradata.tpcds.type.Pricing.generatePricingForReturnsTable;
 import static java.util.Collections.emptyList;
 
 public class StoreReturnsRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
     private static final int SR_SAME_CUSTOMER = 80;
+
+    public StoreReturnsRowGenerator()
+    {
+        super(STORE_RETURNS);
+    }
 
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
@@ -69,7 +74,7 @@ public class StoreReturnsRowGenerator
 
     public TableRow generateRow(Session session, StoreSalesRow salesRow)
     {
-        long nullBitMap = createNullBitMap(SR_NULLS);
+        long nullBitMap = createNullBitMap(STORE_RETURNS, getRandomNumberStream(SR_NULLS));
 
         // some of the information in the return is taken from the original sale
         long srTicketNumber = salesRow.getSsTicketNumber();
@@ -77,24 +82,24 @@ public class StoreReturnsRowGenerator
 
         // some of the fields are conditionally taken from the sale
         Scaling scaling = session.getScaling();
-        long srCustomerSk = generateJoinKey(SR_CUSTOMER_SK, CUSTOMER, 1, scaling);
-        int randomInt = generateUniformRandomInt(1, 100, SR_TICKET_NUMBER.getRandomNumberStream());
+        long srCustomerSk = generateJoinKey(SR_CUSTOMER_SK, getRandomNumberStream(SR_CUSTOMER_SK), CUSTOMER, 1, scaling);
+        int randomInt = generateUniformRandomInt(1, 100, getRandomNumberStream(SR_TICKET_NUMBER));
         if (randomInt < SR_SAME_CUSTOMER) {
             srCustomerSk = salesRow.getSsSoldCustomerSk();
         }
 
         // the rest of the columns are generated for this specific return
-        long srReturnedDateSk = generateJoinKey(SR_RETURNED_DATE_SK, DATE_DIM, salesRow.getSsSoldDateSk(), scaling);
-        long srReturnedTimeSk = generateUniformRandomInt(8 * 3600 - 1, 17 * 3600 - 1, SR_RETURNED_TIME_SK.getRandomNumberStream());
-        long srCdemoSk = generateJoinKey(SR_CDEMO_SK, CUSTOMER_DEMOGRAPHICS, 1, scaling);
-        long srHdemoSk = generateJoinKey(SR_HDEMO_SK, HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
-        long srAddrSk = generateJoinKey(SR_ADDR_SK, CUSTOMER_ADDRESS, 1, scaling);
-        long srStoreSk = generateJoinKey(SR_STORE_SK, STORE, 1, scaling);
-        long srReasonSk = generateJoinKey(SR_REASON_SK, REASON, 1, scaling);
+        long srReturnedDateSk = generateJoinKey(SR_RETURNED_DATE_SK, getRandomNumberStream(SR_RETURNED_DATE_SK), DATE_DIM, salesRow.getSsSoldDateSk(), scaling);
+        long srReturnedTimeSk = generateUniformRandomInt(8 * 3600 - 1, 17 * 3600 - 1, getRandomNumberStream(SR_RETURNED_TIME_SK));
+        long srCdemoSk = generateJoinKey(SR_CDEMO_SK, getRandomNumberStream(SR_CDEMO_SK), CUSTOMER_DEMOGRAPHICS, 1, scaling);
+        long srHdemoSk = generateJoinKey(SR_HDEMO_SK, getRandomNumberStream(SR_HDEMO_SK), HOUSEHOLD_DEMOGRAPHICS, 1, scaling);
+        long srAddrSk = generateJoinKey(SR_ADDR_SK, getRandomNumberStream(SR_ADDR_SK), CUSTOMER_ADDRESS, 1, scaling);
+        long srStoreSk = generateJoinKey(SR_STORE_SK, getRandomNumberStream(SR_STORE_SK), STORE, 1, scaling);
+        long srReasonSk = generateJoinKey(SR_REASON_SK, getRandomNumberStream(SR_REASON_SK), REASON, 1, scaling);
 
         Pricing salesPricing = salesRow.getSsPricing();
-        int quantity = generateUniformRandomInt(1, salesPricing.getQuantity(), SR_PRICING.getRandomNumberStream());
-        Pricing srPricing = generatePricingForReturnsTable(SR_PRICING, quantity, salesPricing);
+        int quantity = generateUniformRandomInt(1, salesPricing.getQuantity(), getRandomNumberStream(SR_PRICING));
+        Pricing srPricing = generatePricingForReturnsTable(SR_PRICING, getRandomNumberStream(SR_PRICING), quantity, salesPricing);
 
         return new StoreReturnsRow(nullBitMap,
                 srReturnedDateSk,
@@ -109,7 +114,4 @@ public class StoreReturnsRowGenerator
                 srTicketNumber,
                 srPricing);
     }
-
-    @Override
-    public void reset() {}
 }

@@ -20,16 +20,22 @@ import com.teradata.tpcds.row.TimeDimRow;
 
 import static com.teradata.tpcds.BusinessKeyGenerator.makeBusinessKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
+import static com.teradata.tpcds.Table.TIME_DIM;
 import static com.teradata.tpcds.distribution.HoursDistribution.getHourInfoForHour;
 import static com.teradata.tpcds.generator.TimeDimGeneratorColumn.T_NULLS;
 
 public class TimeDimRowGenerator
-        implements RowGenerator
+        extends AbstractRowGenerator
 {
+    public TimeDimRowGenerator()
+    {
+        super(TIME_DIM);
+    }
+
     @Override
     public RowGeneratorResult generateRowAndChildRows(long rowNumber, Session session, RowGenerator parentRowGenerator, RowGenerator childRowGenerator)
     {
-        long nullBitMap = createNullBitMap(T_NULLS);
+        long nullBitMap = createNullBitMap(TIME_DIM, getRandomNumberStream(T_NULLS));
         long tTimeSk = rowNumber - 1;
         String tTimeId = makeBusinessKey(rowNumber);
         int tTime = (int) (rowNumber - 1);
@@ -48,7 +54,4 @@ public class TimeDimRowGenerator
 
         return new RowGeneratorResult(new TimeDimRow(nullBitMap, tTimeSk, tTimeId, tTime, tHour, tMinute, tSecond, tAmPm, tShift, tSubShift, tMealTime));
     }
-
-    @Override
-    public void reset() {}
 }

@@ -17,7 +17,6 @@ package com.teradata.tpcds.type;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Table;
 import com.teradata.tpcds.distribution.FipsCountyDistribution;
-import com.teradata.tpcds.generator.GeneratorColumn;
 import com.teradata.tpcds.random.RandomNumberStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -86,10 +85,9 @@ public class Address
         this.gmtOffset = gmtOffset;
     }
 
-    public static Address makeAddressForColumn(GeneratorColumn column, Scaling scaling)
+    public static Address makeAddressForColumn(Table table, RandomNumberStream randomNumberStream, Scaling scaling)
     {
         AddressBuilder builder = new AddressBuilder();
-        RandomNumberStream randomNumberStream = column.getRandomNumberStream();
         builder.setStreetNumber(generateUniformRandomInt(1, 1000, randomNumberStream));
         builder.setStreetName1(pickRandomStreetName(DEFAULT, randomNumberStream));
         builder.setStreetName2(pickRandomStreetName(HALF_EMPTY, randomNumberStream));
@@ -103,8 +101,7 @@ public class Address
             builder.setSuiteNumber(format("Suite %c", ((randomInt / 2) % 25) + 'A'));
         }
 
-        Table table = column.getTable();
-        int rowCount = (int) scaling.getRowCount(column.getTable());
+        int rowCount = (int) scaling.getRowCount(table);
         String city;
         if ((table.isSmall())) {
             int maxCities = (int) ACTIVE_CITIES.getRowCountForScale(scaling.getScale());
@@ -112,7 +109,7 @@ public class Address
             city = getCityAtIndex(randomInt);
         }
         else {
-            city = pickRandomCity(UNIFIED_STEP_FUNCTION, column.getRandomNumberStream());
+            city = pickRandomCity(UNIFIED_STEP_FUNCTION, randomNumberStream);
         }
         builder.setCity(city);
 
