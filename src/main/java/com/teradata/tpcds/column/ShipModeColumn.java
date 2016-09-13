@@ -53,4 +53,10 @@ public enum ShipModeColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

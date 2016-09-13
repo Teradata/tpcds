@@ -82,4 +82,10 @@ public enum CallCenterColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

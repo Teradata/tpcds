@@ -23,4 +23,6 @@ public interface Column
     String getName();
 
     ColumnType getType();
+
+    int getPosition();
 }

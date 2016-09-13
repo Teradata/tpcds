@@ -69,4 +69,10 @@ public enum PromotionColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

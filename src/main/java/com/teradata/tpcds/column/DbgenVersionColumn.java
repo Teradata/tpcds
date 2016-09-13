@@ -52,4 +52,10 @@ public enum DbgenVersionColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

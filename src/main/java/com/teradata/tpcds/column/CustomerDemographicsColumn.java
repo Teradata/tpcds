@@ -57,4 +57,10 @@ public enum CustomerDemographicsColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

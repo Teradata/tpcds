@@ -68,4 +68,10 @@ public enum StoreReturnsColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

@@ -80,4 +80,10 @@ public enum StoreColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

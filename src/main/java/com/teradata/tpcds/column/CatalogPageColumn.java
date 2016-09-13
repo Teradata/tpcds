@@ -58,4 +58,10 @@ public enum CatalogPageColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

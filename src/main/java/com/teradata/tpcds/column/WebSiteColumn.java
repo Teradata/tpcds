@@ -77,4 +77,10 @@ public enum WebSiteColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

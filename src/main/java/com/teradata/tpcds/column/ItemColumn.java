@@ -73,4 +73,10 @@ public enum ItemColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

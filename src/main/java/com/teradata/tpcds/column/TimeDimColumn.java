@@ -58,4 +58,10 @@ public enum TimeDimColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

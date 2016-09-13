@@ -50,4 +50,10 @@ public enum IncomeBandColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

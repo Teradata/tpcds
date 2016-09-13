@@ -82,4 +82,10 @@ public enum CatalogSalesColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

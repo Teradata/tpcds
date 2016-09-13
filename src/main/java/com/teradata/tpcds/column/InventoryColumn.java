@@ -51,4 +51,10 @@ public enum InventoryColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

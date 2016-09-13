@@ -64,4 +64,10 @@ public enum WarehouseColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

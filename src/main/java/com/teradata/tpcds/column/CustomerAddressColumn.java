@@ -62,4 +62,10 @@ public enum CustomerAddressColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

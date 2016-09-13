@@ -71,4 +71,10 @@ public enum WebReturnsColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

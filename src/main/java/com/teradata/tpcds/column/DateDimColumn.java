@@ -77,4 +77,10 @@ public enum DateDimColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

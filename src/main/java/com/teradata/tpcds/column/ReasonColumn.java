@@ -50,4 +50,10 @@ public enum ReasonColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

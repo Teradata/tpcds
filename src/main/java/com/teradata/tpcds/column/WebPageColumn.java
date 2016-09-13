@@ -64,4 +64,10 @@ public enum WebPageColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }

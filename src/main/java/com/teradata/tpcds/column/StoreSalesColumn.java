@@ -71,4 +71,10 @@ public enum StoreSalesColumn
     {
         return type;
     }
+
+    @Override
+    public int getPosition()
+    {
+        return ordinal();
+    }
 }
