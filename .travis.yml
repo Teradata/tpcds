@@ -1,3 +1,15 @@
 language: java
 jdk:
     - oraclejdk8
+
+cache:
+  directories:
+    - $HOME/.m2/repository
+
+before_install:
+  # This is needed until Travis #4629 is fixed (https://github.com/travis-ci/travis-ci/issues/4629)
+  - sed -i.bak -e 's|https://nexus.codehaus.org/snapshots/|https://oss.sonatype.org/content/repositories/codehaus-snapshots/|g' ~/.m2/settings.xml
+
+before_cache:
+  #make the cache stable between builds by removing build output
+  - rm -rf $HOME/.m2/repository/com/teradata
