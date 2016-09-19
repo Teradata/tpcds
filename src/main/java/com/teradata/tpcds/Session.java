@@ -133,6 +133,23 @@ public class Session
         );
     }
 
+    public Session withNoSexism(boolean noSexism)
+    {
+        return new Session(
+                this.scaling.getScale(),
+                this.targetDirectory,
+                this.suffix,
+                this.table,
+                this.nullString,
+                this.separator,
+                this.terminate,
+                noSexism,
+                this.parallelism,
+                this.chunkNumber,
+                this.overwrite
+        );
+    }
+
     public Scaling getScaling()
     {
         return scaling;
