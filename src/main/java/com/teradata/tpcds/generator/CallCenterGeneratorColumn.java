@@ -78,12 +78,6 @@ public enum CallCenterGeneratorColumn
     }
 
     @Override
-    public String getName()
-    {
-        return name().toLowerCase();
-    }
-
-    @Override
     public int getSeedsPerRow()
     {
         return seedsPerRow;

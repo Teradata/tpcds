@@ -29,6 +29,4 @@ public interface GeneratorColumn
     int getGlobalColumnNumber();
 
     int getSeedsPerRow();
-
-    String getName();
 }
