@@ -36,7 +36,7 @@ public class TableGenerator
         this.session = requireNonNull(session, "session is null");
     }
 
-    public void generateTable(Table table, long startingRowNumber, long endingRowNumber)
+    public void generateTable(Table table)
     {
         // If this is a child table and not the only table being generated, it will be generated when its parent is generated, so move on.
         if (table.isChild() && !session.generateOnlyOneTable()) {
@@ -45,7 +45,7 @@ public class TableGenerator
 
         try (OutputStreamWriter parentWriter = addFileWriterForTable(table);
                 OutputStreamWriter childWriter = table.hasChild() && !session.generateOnlyOneTable() ? addFileWriterForTable(table.getChild()) : null) {
-            Results results = constructResults(table, startingRowNumber, endingRowNumber, session);
+            Results results = constructResults(table, session);
             for (List<List<String>> parentAndChildRows : results) {
                 if (parentAndChildRows.size() > 0) {
                     writeResults(parentWriter, parentAndChildRows.get(0));

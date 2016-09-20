@@ -46,10 +46,7 @@ public class Driver
         }
 
         Session session = options.toSession();
-
-        TableGenerator tableGenerator = new TableGenerator(session);
         List<Table> tablesToGenerate;
-
         if (session.generateOnlyOneTable()) {
             tablesToGenerate = ImmutableList.of(session.getOnlyTableToGenerate());
         }
@@ -57,9 +54,12 @@ public class Driver
             tablesToGenerate = Table.getBaseTables();
         }
 
-        Scaling scaling = session.getScaling();
-        for (Table table : tablesToGenerate) {
-            tableGenerator.generateTable(table, 1, scaling.getRowCount(table));
+        for (int i = 1; i <= session.getParallelism(); i++) {
+            int chunkNumber = i;
+            new Thread(() -> {
+                        TableGenerator tableGenerator = new TableGenerator(session.withChunkNumber(chunkNumber));
+                        tablesToGenerate.forEach(tableGenerator::generateTable);
+                    }).start();
         }
     }
 }
