@@ -17,6 +17,7 @@ package com.teradata.tpcds;
 import java.util.Optional;
 
 import static com.teradata.tpcds.Options.DEFAULT_DIRECTORY;
+import static com.teradata.tpcds.Options.DEFAULT_DO_NOT_TERMINATE;
 import static com.teradata.tpcds.Options.DEFAULT_NO_SEXISM;
 import static com.teradata.tpcds.Options.DEFAULT_NULL_STRING;
 import static com.teradata.tpcds.Options.DEFAULT_OVERWRITE;
@@ -24,7 +25,6 @@ import static com.teradata.tpcds.Options.DEFAULT_PARALLELISM;
 import static com.teradata.tpcds.Options.DEFAULT_SCALE;
 import static com.teradata.tpcds.Options.DEFAULT_SEPARATOR;
 import static com.teradata.tpcds.Options.DEFAULT_SUFFIX;
-import static com.teradata.tpcds.Options.DEFAULT_TERMINATE;
 
 public class Session
 {
@@ -34,18 +34,18 @@ public class Session
     private final Optional<Table> table;
     private final String nullString;
     private final char separator;
-    private final boolean terminate;
+    private final boolean doNotTerminate;
     private final boolean noSexism;
     private final int parallelism;
     private final int chunkNumber;
     private final boolean overwrite;
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism, boolean overwrite)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, boolean overwrite)
     {
-        this(scale, targetDirectory, suffix, table, nullString, separator, terminate, noSexism, parallelism, 1, overwrite);
+        this(scale, targetDirectory, suffix, table, nullString, separator, doNotTerminate, noSexism, parallelism, 1, overwrite);
     }
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean terminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
+    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
     {
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
@@ -53,7 +53,7 @@ public class Session
         this.table = table;
         this.nullString = nullString;
         this.separator = separator;
-        this.terminate = terminate;
+        this.doNotTerminate = doNotTerminate;
         this.noSexism = noSexism;
         this.parallelism = parallelism;
         this.chunkNumber = chunkNumber;
@@ -74,7 +74,7 @@ public class Session
                 Optional.of(table),
                 this.nullString,
                 this.separator,
-                this.terminate,
+                this.doNotTerminate,
                 this.noSexism,
                 this.parallelism,
                 this.chunkNumber,
@@ -91,7 +91,7 @@ public class Session
                 this.table,
                 this.nullString,
                 this.separator,
-                this.terminate,
+                this.doNotTerminate,
                 this.noSexism,
                 this.parallelism,
                 this.chunkNumber,
@@ -108,7 +108,7 @@ public class Session
                 this.table,
                 this.nullString,
                 this.separator,
-                this.terminate,
+                this.doNotTerminate,
                 this.noSexism,
                 parallelism,
                 this.chunkNumber,
@@ -125,7 +125,7 @@ public class Session
                 this.table,
                 this.nullString,
                 this.separator,
-                this.terminate,
+                this.doNotTerminate,
                 this.noSexism,
                 this.parallelism,
                 chunkNumber,
@@ -142,7 +142,7 @@ public class Session
                 this.table,
                 this.nullString,
                 this.separator,
-                this.terminate,
+                this.doNotTerminate,
                 noSexism,
                 this.parallelism,
                 this.chunkNumber,
@@ -190,7 +190,7 @@ public class Session
 
     public boolean terminateRowsWithSeparator()
     {
-        return terminate;
+        return !doNotTerminate;
     }
 
     public boolean isSexist()
@@ -234,8 +234,8 @@ public class Session
         if (separator != DEFAULT_SEPARATOR) {
             output.append("--separator ").append(separator).append(" ");
         }
-        if (terminate != DEFAULT_TERMINATE) {
-            output.append("--terminate ");
+        if (doNotTerminate != DEFAULT_DO_NOT_TERMINATE) {
+            output.append("--do-not-terminate ");
         }
         if (noSexism != DEFAULT_NO_SEXISM) {
             output.append("--no-sexism ");

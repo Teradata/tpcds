@@ -26,7 +26,7 @@ public class Options
     public static final String DEFAULT_TABLE = null;
     public static final String DEFAULT_NULL_STRING = "";
     public static final char DEFAULT_SEPARATOR = '|';
-    public static final boolean DEFAULT_TERMINATE = true;
+    public static final boolean DEFAULT_DO_NOT_TERMINATE = false;
     public static final boolean DEFAULT_NO_SEXISM = false;
     public static final int DEFAULT_PARALLELISM = 1;
     public static final boolean DEFAULT_OVERWRITE = false;
@@ -49,8 +49,8 @@ public class Options
     @Option(name = {"--separator"}, title = "separator", description = "Separator between columns (Default: |)")
     public char separator = DEFAULT_SEPARATOR;
 
-    @Option(name = {"--terminate"}, title = "terminate", description = "Terminate each row with a separator (Default: true)")
-    public boolean terminate = DEFAULT_TERMINATE;
+    @Option(name = {"--do-not-terminate"}, title = "do-not-terminate", description = "Do not terminate each row with a separator (Default: false)")
+    public boolean doNotTerminate = DEFAULT_DO_NOT_TERMINATE;
 
     @Option(name = {"--no-sexism"}, title = "no-sexism",
             description = "The reference C implementation picks only male names for the manager fields. " +
@@ -74,7 +74,7 @@ public class Options
                 toTableOptional(table),
                 nullString,
                 separator,
-                terminate,
+                doNotTerminate,
                 noSexism,
                 parallelism,
                 overwrite);
