@@ -19,7 +19,7 @@ a scale factor of 1GB.  The results will be written out to files named `<table_n
 
 If you wanted to generate just the call_center table at a scale of 10GB, you would run
 
-```java -jar tpcds-1.0-SNAPSHOT-jar-with-dependencies.jar --table call_center --scale 1```
+```java -jar tpcds-1.0-SNAPSHOT-jar-with-dependencies.jar --table call_center --scale 10```
 
 For a list of all options, run `--help`
 
