@@ -15,15 +15,15 @@ Tables can be generated on the command line, or within a Java program.
 If the program is run with no arguments, it will generate all of the TPC-DS tables at
 a scale factor of 1GB.  The results will be written out to files named `<table_name>.dat`
 
-```java -jar tpcds-1.0-SNAPSHOT-jar-with-dependencies.jar```
+```java -jar tpcds-1.1-SNAPSHOT-jar-with-dependencies.jar```
 
 If you wanted to generate just the call_center table at a scale of 10GB, you would run
 
-```java -jar tpcds-1.0-SNAPSHOT-jar-with-dependencies.jar --table call_center --scale 10```
+```java -jar tpcds-1.1-SNAPSHOT-jar-with-dependencies.jar --table call_center --scale 10```
 
 For a list of all options, run `--help`
 
-```java-jar-tpcds-1.0-SNAPSHOT-jar-with-dependies.jar --help```
+```java -jar tpcds-1.0-SNAPSHOT-jar-with-dependencies.jar --help```
 
 ### Generating Tables Within a Java Program
 To generate a section of a table, call
