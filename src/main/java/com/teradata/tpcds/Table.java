@@ -104,6 +104,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LINEAR;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.LOGARITHMIC;
 import static com.teradata.tpcds.ScalingInfo.ScalingModel.STATIC;
+import static java.util.Objects.requireNonNull;
 
 public enum Table
 {
@@ -113,175 +114,200 @@ public enum Table
             CallCenterRowGenerator.class,
             CallCenterGeneratorColumn.values(),
             CallCenterColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {3, 12, 15, 18, 21, 24, 27, 30, 30}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {3, 12, 15, 18, 21, 24, 27, 30, 30}, 0),
+            Optional.of(CallCenterColumn.CC_CALL_CENTER_SK)),
     CATALOG_PAGE(new TableFlagsBuilder().build(),
             200,
             0x3,
             CatalogPageRowGenerator.class,
             CatalogPageGeneratorColumn.values(),
             CatalogPageColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {11718, 12000, 20400, 26000, 30000, 36000, 40000, 46000, 50000}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {11718, 12000, 20400, 26000, 30000, 36000, 40000, 46000, 50000}, 0),
+            Optional.of(CatalogPageColumn.CP_CATALOG_PAGE_SK)),
     CATALOG_RETURNS(new TableFlagsBuilder().build(),
             400,
             0x10007,
             CatalogReturnsRowGenerator.class,
             CatalogReturnsGeneratorColumn.values(),
             CatalogReturnsColumn.values(),
-            new ScalingInfo(4, LINEAR, new int[] {16, 160, 1600, 4800, 16000, 48000, 160000, 480000, 1600000}, 0)),
+            new ScalingInfo(4, LINEAR, new int[] {16, 160, 1600, 4800, 16000, 48000, 160000, 480000, 1600000}, 0),
+            Optional.of(CatalogReturnsColumn.CR_ORDER_NUMBER)),
     CATALOG_SALES(new TableFlagsBuilder().setIsDateBased().build(),
             100,
             0x28000,
             CatalogSalesRowGenerator.class,
             CatalogSalesGeneratorColumn.values(),
             CatalogSalesColumn.values(),
-            new ScalingInfo(4, LINEAR, new int[] {16, 160, 1600, 4800, 16000, 48000, 160000, 480000, 1600000}, 0)),
+            new ScalingInfo(4, LINEAR, new int[] {16, 160, 1600, 4800, 16000, 48000, 160000, 480000, 1600000}, 0),
+            Optional.of(CatalogSalesColumn.CS_ORDER_NUMBER)),
     CUSTOMER(new TableFlagsBuilder().build(),
             700,
             0x13,
             CustomerRowGenerator.class,
             CustomerGeneratorColumn.values(),
             CustomerColumn.values(),
-            new ScalingInfo(3, LOGARITHMIC, new int[] {100, 500, 2000, 5000, 12000, 30000, 65000, 80000, 100000}, 0)),
+            new ScalingInfo(3, LOGARITHMIC, new int[] {100, 500, 2000, 5000, 12000, 30000, 65000, 80000, 100000}, 0),
+            Optional.of(CustomerColumn.C_CUSTOMER_SK)),
     CUSTOMER_ADDRESS(new TableFlagsBuilder().build(),
             600,
             0x3,
             CustomerAddressRowGenerator.class,
             CustomerAddressGeneratorColumn.values(),
             CustomerAddressColumn.values(),
-            new ScalingInfo(3, LOGARITHMIC, new int[] {50, 250, 1000, 2500, 6000, 15000, 32500, 40000, 50000}, 0)),
+            new ScalingInfo(3, LOGARITHMIC, new int[] {50, 250, 1000, 2500, 6000, 15000, 32500, 40000, 50000}, 0),
+            Optional.of(CustomerAddressColumn.CA_ADDRESS_SK)),
     CUSTOMER_DEMOGRAPHICS(new TableFlagsBuilder().build(),
             0,
             0x1,
             CustomerDemographicsRowGenerator.class,
             CustomerDemographicsGeneratorColumn.values(),
             CustomerDemographicsColumn.values(),
-            new ScalingInfo(2, STATIC, new int[] {19208, 19208, 19208, 19208, 19208, 19208, 19208, 19208, 19208}, 0)),
+            new ScalingInfo(2, STATIC, new int[] {19208, 19208, 19208, 19208, 19208, 19208, 19208, 19208, 19208}, 0),
+            Optional.of(CustomerDemographicsColumn.CD_DEMO_SK)),
     DATE_DIM(new TableFlagsBuilder().build(),
             0,
             0x03,
             DateDimRowGenerator.class,
             DateDimGeneratorColumn.values(),
             DateDimColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {73049, 73049, 73049, 73049, 73049, 73049, 73049, 73049, 73049}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {73049, 73049, 73049, 73049, 73049, 73049, 73049, 73049, 73049}, 0),
+            Optional.of(DateDimColumn.D_DATE_SK)),
     HOUSEHOLD_DEMOGRAPHICS(new TableFlagsBuilder().build(),
             0,
             0x01,
             HouseholdDemographicsRowGenerator.class,
             HouseholdDemographicsGeneratorColumn.values(),
             HouseholdDemographicsColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {7200, 7200, 7200, 7200, 7200, 7200, 7200, 7200, 7200}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {7200, 7200, 7200, 7200, 7200, 7200, 7200, 7200, 7200}, 0),
+            Optional.of(HouseholdDemographicsColumn.HD_DEMO_SK)),
     INCOME_BAND(new TableFlagsBuilder().build(),
             0,
             0x1,
             IncomeBandRowGenerator.class,
             IncomeBandGeneratorColumn.values(),
             IncomeBandColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {20, 20, 20, 20, 20, 20, 20, 20, 20}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {20, 20, 20, 20, 20, 20, 20, 20, 20}, 0),
+            Optional.of(IncomeBandColumn.IB_INCOME_BAND_SK)),
     INVENTORY(new TableFlagsBuilder().setIsDateBased().build(),
             1000,
             0x07,
             InventoryRowGenerator.class,
             InventoryGeneratorColumn.values(),
             InventoryColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}, 0)), // the inventory table is scaled based on item and warehouse
+            new ScalingInfo(0, LOGARITHMIC, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}, 0), // the inventory table is scaled based on item and warehouse
+            Optional.empty()),
     ITEM(new TableFlagsBuilder().setKeepsHistory().build(),
             50,
             0x0B,
             ItemRowGenerator.class,
             ItemGeneratorColumn.values(),
             ItemColumn.values(),
-            new ScalingInfo(3, LOGARITHMIC, new int[] {9, 51, 102, 132, 150, 180, 201, 231, 251}, 0)),
+            new ScalingInfo(3, LOGARITHMIC, new int[] {9, 51, 102, 132, 150, 180, 201, 231, 251}, 0),
+            Optional.of(ItemColumn.I_ITEM_SK)),
     PROMOTION(new TableFlagsBuilder().build(),
             200,
             0x3,
             PromotionRowGenerator.class,
             PromotionGeneratorColumn.values(),
             PromotionColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {300, 500, 1000, 1300, 1500, 1800, 2000, 2300, 2500}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {300, 500, 1000, 1300, 1500, 1800, 2000, 2300, 2500}, 0),
+            Optional.of(PromotionColumn.P_PROMO_SK)),
     REASON(new TableFlagsBuilder().build(),
             0,
             0x03,
             ReasonRowGenerator.class,
             ReasonGeneratorColumn.values(),
             ReasonColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {35, 45, 55, 60, 65, 67, 70, 72, 75}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {35, 45, 55, 60, 65, 67, 70, 72, 75}, 0),
+            Optional.of(ReasonColumn.R_REASON_SK)),
     SHIP_MODE(new TableFlagsBuilder().build(),
             0,
             0x03,
             ShipModeRowGenerator.class,
             ShipModeGeneratorColumn.values(),
             ShipModeColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {20, 20, 20, 20, 20, 20, 20, 20, 20}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {20, 20, 20, 20, 20, 20, 20, 20, 20}, 0),
+            Optional.of(ShipModeColumn.SM_SHIP_MODE_SK)),
     STORE(new TableFlagsBuilder().setKeepsHistory().setIsSmall().build(),
             100,
             0xB,
             StoreRowGenerator.class,
             StoreGeneratorColumn.values(),
             StoreColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {6, 51, 201, 402, 501, 675, 750, 852, 951}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {6, 51, 201, 402, 501, 675, 750, 852, 951}, 0),
+            Optional.of(StoreColumn.S_STORE_SK)),
     STORE_RETURNS(new TableFlagsBuilder().build(),
             700,
             0x204,
             StoreReturnsRowGenerator.class,
             StoreReturnsGeneratorColumn.values(),
             StoreReturnsColumn.values(),
-            new ScalingInfo(4, LINEAR, new int[] {24, 240, 2400, 7200, 24000, 72000, 240000, 720000, 2400000}, 0)),
+            new ScalingInfo(4, LINEAR, new int[] {24, 240, 2400, 7200, 24000, 72000, 240000, 720000, 2400000}, 0),
+            Optional.of(StoreReturnsColumn.SR_TICKET_NUMBER)),
     STORE_SALES(new TableFlagsBuilder().setIsDateBased().build(),
             900,
             0x204,
             StoreSalesRowGenerator.class,
             StoreSalesGeneratorColumn.values(),
             StoreSalesColumn.values(),
-            new ScalingInfo(4, LINEAR, new int[] {24, 240, 2400, 7200, 24000, 72000, 240000, 720000, 2400000}, 0)),
+            new ScalingInfo(4, LINEAR, new int[] {24, 240, 2400, 7200, 24000, 72000, 240000, 720000, 2400000}, 0),
+            Optional.of(StoreSalesColumn.SS_TICKET_NUMBER)),
     TIME_DIM(new TableFlagsBuilder().build(),
             0,
             0x03,
             TimeDimRowGenerator.class,
             TimeDimGeneratorColumn.values(),
             TimeDimColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400}, 0),
+            Optional.of(TimeDimColumn.T_TIME_SK)),
     WAREHOUSE(new TableFlagsBuilder().setIsSmall().build(),
             200,
             0x03,
             WarehouseRowGenerator.class,
             WarehouseGeneratorColumn.values(),
             WarehouseColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {5, 10, 15, 17, 20, 22, 25, 27, 30}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {5, 10, 15, 17, 20, 22, 25, 27, 30}, 0),
+            Optional.of(WarehouseColumn.W_WAREHOUSE_SK)),
     WEB_PAGE(new TableFlagsBuilder().setKeepsHistory().build(),
             250,
             0x0B,
             WebPageRowGenerator.class,
             WebPageGeneratorColumn.values(),
             WebPageColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {30, 100, 1020, 1302, 1500, 1800, 2001, 2301, 2502}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {30, 100, 1020, 1302, 1500, 1800, 2001, 2301, 2502}, 0),
+            Optional.of(WebPageColumn.WP_WEB_PAGE_SK)),
     WEB_RETURNS(new TableFlagsBuilder().build(),
             900,
             0x2004,
             WebReturnsRowGenerator.class,
             WebReturnsGeneratorColumn.values(),
             WebReturnsColumn.values(),
-            new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0)),
+            new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0),
+            Optional.of(WebReturnsColumn.WR_ORDER_NUMBER)),
     WEB_SALES(new TableFlagsBuilder().setIsDateBased().build(),
             5,
             0x20008,
             WebSalesRowGenerator.class,
             WebSalesGeneratorColumn.values(),
             WebSalesColumn.values(),
-            new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0)),
+            new ScalingInfo(3, LINEAR, new int[] {60, 600, 6000, 18000, 60000, 180000, 600000, 1800000, 6000000}, 0),
+            Optional.of(WebSalesColumn.WS_ORDER_NUMBER)),
     WEB_SITE(new TableFlagsBuilder().setKeepsHistory().setIsSmall().build(),
             100,
             0x0B,
             WebSiteRowGenerator.class,
             WebSiteGeneratorColumn.values(),
             WebSiteColumn.values(),
-            new ScalingInfo(0, LOGARITHMIC, new int[] {15, 21, 12, 21, 27, 33, 39, 42, 48}, 0)),
+            new ScalingInfo(0, LOGARITHMIC, new int[] {15, 21, 12, 21, 27, 33, 39, 42, 48}, 0),
+            Optional.of(WebSiteColumn.WEB_SITE_SK)),
     DBGEN_VERSION(new TableFlagsBuilder().build(),
             0,
             0x0,
             DbgenVersionRowGenerator.class,
             DbgenVersionGeneratorColumn.values(),
             DbgenVersionColumn.values(),
-            new ScalingInfo(0, STATIC, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1}, 0)),
+            new ScalingInfo(0, STATIC, new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1}, 0),
+            Optional.empty()),
 
     // source tables
     S_BRAND,
@@ -329,6 +355,7 @@ public enum Table
     private final GeneratorColumn[] generatorColumns;
     private final Column[] columns;
     private final ScalingInfo scalingInfo;
+    private final Optional<Column> partitioningColumn;
     private Optional<Table> parent = Optional.empty();
     private Optional<Table> child = Optional.empty();
 
@@ -359,17 +386,19 @@ public enum Table
         this.generatorColumns = new GeneratorColumn[0];
         this.columns = new Column[0];
         this.scalingInfo = new ScalingInfo(0, LINEAR, new int[9], 0);
+        partitioningColumn = null;
     }
 
-    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, GeneratorColumn[] generatorColumns, Column[] columns, ScalingInfo scalingInfo)
+    Table(TableFlags tableFlags, int nullBasisPoints, long notNullBitMap, Class<? extends RowGenerator> rowGeneratorClass, GeneratorColumn[] generatorColumns, Column[] columns, ScalingInfo scalingInfo, Optional<Column> partitioningColumn)
     {
-        this.tableFlags = tableFlags;
+        this.tableFlags = requireNonNull(tableFlags);
         this.nullBasisPoints = nullBasisPoints;
         this.notNullBitMap = notNullBitMap;
-        this.rowGeneratorClass = rowGeneratorClass;
-        this.generatorColumns = generatorColumns;
-        this.columns = columns;
-        this.scalingInfo = scalingInfo;
+        this.rowGeneratorClass = requireNonNull(rowGeneratorClass);
+        this.generatorColumns = requireNonNull(generatorColumns);
+        this.columns = requireNonNull(columns);
+        this.scalingInfo = requireNonNull(scalingInfo);
+        this.partitioningColumn = requireNonNull(partitioningColumn);
     }
 
     public String getName()
@@ -430,6 +459,11 @@ public enum Table
     public Column[] getColumns()
     {
         return columns;
+    }
+
+    public Optional<Column> getPartitioningColumn()
+    {
+        return this.partitioningColumn;
     }
 
     public Column getColumn(String columnName)
