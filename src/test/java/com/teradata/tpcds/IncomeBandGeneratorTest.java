@@ -24,6 +24,14 @@ public class IncomeBandGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(INCOME_BAND);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(INCOME_BAND), INCOME_BAND, session, "e9fee41416a86689e7538ef50978190e");
+    }
+
     @Test
     public void testScaleFactor1()
     {

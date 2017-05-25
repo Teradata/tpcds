@@ -26,6 +26,14 @@ public class WebReturnsGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(WEB_RETURNS);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(WEB_RETURNS), WEB_RETURNS, session, "81e1e14146985c1575731abe57b55ea9");
+    }
+
     @Test
     public void testScaleFactor1()
     {

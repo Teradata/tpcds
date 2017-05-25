@@ -29,7 +29,7 @@ public class DriverTest
     public void testParsing()
     {
         Driver driver = singleCommand(Driver.class).parse("--scale", "10", "--suffix", "abcd");
-        assertEquals(driver.options.scale, 10);
+        assertEquals(driver.options.scale, 10.0f);
         assertEquals(driver.options.suffix, "abcd");
         assertEquals(driver.options.directory, ".");
         Session session = driver.options.toSession();
@@ -88,7 +88,7 @@ public class DriverTest
         }
     }
 
-    @Test()
+    @Test
     public void testInvalidScale()
     {
         Driver driver = singleCommand(Driver.class).parse("--scale", "-1");
@@ -97,7 +97,14 @@ public class DriverTest
             fail("expected exception");
         }
         catch (InvalidOptionException e) {
-            assertEquals(e.getMessage(), "Invalid value for scale: '-1'. Scale must be greater than 0 and less than 100000");
+            assertEquals(e.getMessage(), "Invalid value for scale: '-1.0'. Scale must be greater than 0 and less than 100000");
         }
+    }
+
+    @Test
+    public void testDecimalScale()
+    {
+        Driver driver = singleCommand(Driver.class).parse("--scale", "0.1");
+        assertEquals(driver.options.scale, 0.1f);
     }
 }

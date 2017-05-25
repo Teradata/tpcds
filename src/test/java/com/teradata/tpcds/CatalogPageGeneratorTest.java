@@ -24,6 +24,14 @@ public class CatalogPageGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(CATALOG_PAGE);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(CATALOG_PAGE), CATALOG_PAGE, session, "a3a36324fdc8641b9921db0516c82df9");
+    }
+
     @Test
     public void testScaleFactor1()
     {

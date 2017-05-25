@@ -24,6 +24,14 @@ public class CustomerDemographicsGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(CUSTOMER_DEMOGRAPHICS);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(CUSTOMER_DEMOGRAPHICS), CUSTOMER_DEMOGRAPHICS, session, "45691126b91b40bbc37589cfe2926ceb");
+    }
+
     @Test
     public void testScaleFactor1()
     {

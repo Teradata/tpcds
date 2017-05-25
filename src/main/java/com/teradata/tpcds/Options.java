@@ -32,7 +32,7 @@ public class Options
     public static final boolean DEFAULT_OVERWRITE = false;
 
     @Option(name = {"--scale", "-s"}, title = "scale", description = "Volume of data to generate in GB (Default: 1)")
-    public int scale = DEFAULT_SCALE;
+    public float scale = DEFAULT_SCALE;
 
     @Option(name = {"--directory", "-d"}, title = "directory", description = "Directory to put generated files (Default: .) ")
     public String directory = DEFAULT_DIRECTORY;
@@ -97,7 +97,7 @@ public class Options
     private void validateProperties()
     {
         if (scale < 0 || scale > 100000) {
-            throw new InvalidOptionException("scale", Integer.toString(scale), "Scale must be greater than 0 and less than 100000");
+            throw new InvalidOptionException("scale", Float.toString(scale), "Scale must be greater than 0 and less than 100000");
         }
         if (directory.equals("")) {
             throw new InvalidOptionException("directory", directory, "Directory cannot be an empty string");

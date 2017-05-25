@@ -41,10 +41,10 @@ import static com.teradata.tpcds.type.Date.isLeapYear;
 
 public class Scaling
 {
-    private final int scale;
+    private final float scale;
     private final Map<Table, Long> tableToRowCountMap = new EnumMap<>(Table.class);
 
-    public Scaling(int scale)
+    public Scaling(float scale)
     {
         this.scale = scale;
 
@@ -108,7 +108,7 @@ public class Scaling
         return getIdCount(ITEM) * getRowCount(WAREHOUSE) * nDays;
     }
 
-    public int getScale()
+    public float getScale()
     {
         return scale;
     }

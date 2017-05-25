@@ -40,12 +40,12 @@ public class Session
     private final int chunkNumber;
     private final boolean overwrite;
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, boolean overwrite)
+    public Session(float scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, boolean overwrite)
     {
         this(scale, targetDirectory, suffix, table, nullString, separator, doNotTerminate, noSexism, parallelism, 1, overwrite);
     }
 
-    public Session(int scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
+    public Session(float scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
     {
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
@@ -82,7 +82,7 @@ public class Session
         );
     }
 
-    public Session withScale(int scale)
+    public Session withScale(float scale)
     {
         return new Session(
                 scale,
