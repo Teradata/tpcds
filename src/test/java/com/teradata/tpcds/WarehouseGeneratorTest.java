@@ -24,6 +24,14 @@ public class WarehouseGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(WAREHOUSE);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(WAREHOUSE), WAREHOUSE, session, "6557a055bbc8908d004cf09eec209093");
+    }
+
     @Test
     public void testScaleFactor1()
     {

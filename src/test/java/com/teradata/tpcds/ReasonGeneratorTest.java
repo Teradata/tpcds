@@ -24,6 +24,14 @@ public class ReasonGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(REASON);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(REASON), REASON, session, "c285f1a3a3bb655fdcdaaf5ef55b60df");
+    }
+
     @Test
     public void testScaleFactor1()
     {

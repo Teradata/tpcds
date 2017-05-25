@@ -24,6 +24,14 @@ public class TimeDimGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(TIME_DIM);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(TIME_DIM), TIME_DIM, session, "a68339c5720d25380b53f6e0f2f72333");
+    }
+
     @Test
     public void testScaleFactor1()
     {

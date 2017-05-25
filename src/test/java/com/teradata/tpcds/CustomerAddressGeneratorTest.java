@@ -26,6 +26,14 @@ public class CustomerAddressGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(CUSTOMER_ADDRESS);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(CUSTOMER_ADDRESS), CUSTOMER_ADDRESS, session, "3cf2c6975495a8e6992539c47b00635d");
+    }
+
     @Test
     public void testScaleFactor1()
     {

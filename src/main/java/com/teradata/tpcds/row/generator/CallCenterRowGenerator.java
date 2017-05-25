@@ -133,7 +133,7 @@ public class CallCenterRowGenerator
         builder.setCcClass(ccClass);
         fieldChangeFlag >>= 1;
 
-        int ccEmployees = generateUniformRandomInt(1, MAX_NUMBER_OF_EMPLOYEES_UNSCALED * scaling.getScale() * scaling.getScale(), getRandomNumberStream(CC_EMPLOYEES));
+        int ccEmployees = generateUniformRandomInt(1, MAX_NUMBER_OF_EMPLOYEES_UNSCALED * (int) Math.ceil(scaling.getScale()) * (int) Math.ceil(scaling.getScale()), getRandomNumberStream(CC_EMPLOYEES));
         if (previousRow.isPresent()) {
             ccEmployees = getValueForSlowlyChangingDimension(fieldChangeFlag, isNewBusinessKey, previousRow.get().getCcEmployees(), ccEmployees);
         }
