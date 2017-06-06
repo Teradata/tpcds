@@ -22,10 +22,10 @@ import static java.util.Objects.requireNonNull;
 
 public class ScalingInfo
 {
-    private static final int[] DEFINED_SCALES = {1, 10, 100, 300, 1000, 3000, 10000, 30000, 100000};
+    private static final double[] DEFINED_SCALES = {0, 1, 10, 100, 300, 1000, 3000, 10000, 30000, 100000};
     private int multiplier;
     private ScalingModel scalingModel;
-    private Map<Integer, Integer> scalesToRowCountsMap;
+    private Map<Double, Integer> scalesToRowCountsMap;
     private int updatePercentage;
 
     public ScalingInfo(int multiplier, ScalingModel scalingModel, int[] rowCountsPerScale, int updatePercentage)
@@ -49,7 +49,7 @@ public class ScalingInfo
         return multiplier;
     }
 
-    public long getRowCountForScale(int scale)
+    public long getRowCountForScale(double scale)
     {
         checkArgument(scale <= 100000, "scale must be less than 100000");
         if (scalesToRowCountsMap.containsKey(scale)) {
@@ -74,16 +74,24 @@ public class ScalingInfo
         return getRowCountForScale(1);
     }
 
-    private long computeCountUsingLogScale(int scale)
+    private long computeCountUsingLogScale(double scale)
     {
         int scaleSlot = getScaleSlot(scale);
         long delta = getRowCountForScale(DEFINED_SCALES[scaleSlot]) - getRowCountForScale(DEFINED_SCALES[scaleSlot - 1]);
-        float floatOffset = (float) (scale - DEFINED_SCALES[scaleSlot - 1]) / (float) (DEFINED_SCALES[scaleSlot] - DEFINED_SCALES[scaleSlot - 1]);
+        double floatOffset = (scale - DEFINED_SCALES[scaleSlot - 1]) / (DEFINED_SCALES[scaleSlot] - DEFINED_SCALES[scaleSlot - 1]);
 
-        return (int) (floatOffset * (float) delta) + getRowCountForScale(DEFINED_SCALES[0]);
+        long baseRowCount = 0;
+        if (scale < 1.0) {
+            baseRowCount = getRowCountForScale(DEFINED_SCALES[0]);
+        }
+        else {
+            baseRowCount = getRowCountForScale(DEFINED_SCALES[1]);
+        }
+        long count = (long) (floatOffset * (float) delta) + baseRowCount;
+        return count == 0 ? 1 : count;
     }
 
-    private static int getScaleSlot(int scale)
+    private static int getScaleSlot(double scale)
     {
         for (int i = 0; i < DEFINED_SCALES.length; i++) {
             if (scale <= DEFINED_SCALES[i]) {
@@ -95,12 +103,20 @@ public class ScalingInfo
         throw new TpcdsException("scale was greater than max scale");
     }
 
-    private long computeCountUsingLinearScale(int scale)
+    private long computeCountUsingLinearScale(double scale)
     {
         long rowCount = 0;
-        int targetGB = scale;
+        double targetGB = scale;
 
-        for (int i = DEFINED_SCALES.length - 1; i >= 0; i--) {  // work from large scales down
+        if (scale < 1) {
+            rowCount = Math.round(scale * getRowCountForScale(DEFINED_SCALES[1]));
+            if (rowCount == 0) {
+                return 1;
+            }
+            return rowCount;
+        }
+
+        for (int i = DEFINED_SCALES.length - 1; i > 0; i--) {  // work from large scales down
             // use the defined rowcounts to build up the target GB volume
             while (targetGB >= DEFINED_SCALES[i]) {
                 rowCount += getRowCountForScale(DEFINED_SCALES[i]);

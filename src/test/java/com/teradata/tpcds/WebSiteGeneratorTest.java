@@ -24,6 +24,14 @@ public class WebSiteGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(WEB_SITE);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(WEB_SITE), WEB_SITE, session, "5b23913ffdeaf555352bf879dbc5b6ef");
+    }
+
     @Test
     public void testScaleFactor1()
     {

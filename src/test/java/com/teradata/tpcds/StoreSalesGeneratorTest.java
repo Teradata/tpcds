@@ -28,6 +28,14 @@ public class StoreSalesGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(STORE_SALES);
 
+    // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
+    @Test
+    public void testScaleFactor0_1()
+    {
+        Session session = TEST_SESSION.withScale(0.1f);
+        assertPartialMD5(1, session.getScaling().getRowCount(STORE_SALES), STORE_SALES, session, "3cac4deaedd53c8bfb0392bcbba266af");
+    }
+
     @Test
     public void testScaleFactor1()
             throws IOException
