@@ -31,7 +31,7 @@ public class CatalogSalesGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(CATALOG_SALES), CATALOG_SALES, session, "161809563a9e73396eb6ecd03715195c");
+        assertPartialMD5(1, session.getScaling().getRowCount(CATALOG_SALES), CATALOG_SALES, session, "f1dc6cca6abb04375752c1990967f342");
     }
 
     @Test

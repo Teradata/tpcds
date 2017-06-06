@@ -29,7 +29,7 @@ public class ShipModeGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(SHIP_MODE), SHIP_MODE, session, "27364af6bc0b2c1a258e3b64622ddcfe");
+        assertPartialMD5(1, session.getScaling().getRowCount(SHIP_MODE), SHIP_MODE, session, "791d16af982a67ad170a6b6527e25a35");
     }
 
     @Test

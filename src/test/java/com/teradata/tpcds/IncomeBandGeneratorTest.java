@@ -29,7 +29,7 @@ public class IncomeBandGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(INCOME_BAND), INCOME_BAND, session, "e9fee41416a86689e7538ef50978190e");
+        assertPartialMD5(1, session.getScaling().getRowCount(INCOME_BAND), INCOME_BAND, session, "db8e8012be51ef81cf215774bec95533");
     }
 
     @Test

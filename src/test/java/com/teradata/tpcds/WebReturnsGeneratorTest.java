@@ -31,7 +31,7 @@ public class WebReturnsGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(WEB_RETURNS), WEB_RETURNS, session, "81e1e14146985c1575731abe57b55ea9");
+        assertPartialMD5(1, session.getScaling().getRowCount(WEB_RETURNS), WEB_RETURNS, session, "1730b040c336f8bbc4ce7db04ce9a82d");
     }
 
     @Test

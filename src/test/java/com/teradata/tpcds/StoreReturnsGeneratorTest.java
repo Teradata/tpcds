@@ -33,7 +33,7 @@ public class StoreReturnsGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(STORE_RETURNS), STORE_RETURNS, session, "375b7ad564012d3f205b13adcc583c7d");
+        assertPartialMD5(1, session.getScaling().getRowCount(STORE_RETURNS), STORE_RETURNS, session, "8fb92193dc563a3cde5522f0755b5577");
     }
 
     @Test

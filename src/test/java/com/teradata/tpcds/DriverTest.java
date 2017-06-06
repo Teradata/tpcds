@@ -29,7 +29,7 @@ public class DriverTest
     public void testParsing()
     {
         Driver driver = singleCommand(Driver.class).parse("--scale", "10", "--suffix", "abcd");
-        assertEquals(driver.options.scale, 10.0f);
+        assertEquals(driver.options.scale, 10.0d);
         assertEquals(driver.options.suffix, "abcd");
         assertEquals(driver.options.directory, ".");
         Session session = driver.options.toSession();
@@ -105,6 +105,6 @@ public class DriverTest
     public void testDecimalScale()
     {
         Driver driver = singleCommand(Driver.class).parse("--scale", "0.1");
-        assertEquals(driver.options.scale, 0.1f);
+        assertEquals(driver.options.scale, 0.1d);
     }
 }

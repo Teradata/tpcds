@@ -29,7 +29,7 @@ public class DateDimGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(DATE_DIM), DATE_DIM, session, "51673672086798d5c0d126b5ac179ac3");
+        assertPartialMD5(1, session.getScaling().getRowCount(DATE_DIM), DATE_DIM, session, "f3e77714328dcc57302777e72fd7747c");
     }
 
     @Test

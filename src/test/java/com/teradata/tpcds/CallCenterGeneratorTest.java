@@ -24,10 +24,11 @@ public class CallCenterGeneratorTest
 {
     private static final Session TEST_SESSION = getDefaultSession().withTable(CALL_CENTER);
 
-    // A scale of 0.1 is not part of the spec. Support for it was added because of Presto. Since
-    // the scale is not part of the spec there is no way to verify its correctness against the
-    // C generator. This test is testing the Java generator against itself and was added to
-    // ensure no regressions are introduced for this scale in the future.
+    // A scale of 0.1 is not part of the spec. Support for it was added to generate data sets
+    // smaller than 1gb for testing purposes. Since the scale is not part of the spec there is
+    // no way to verify its correctness against the C generator. This test is therefore testing
+    // the Java generator against itself and was added to ensure no regressions are introduced
+    // for this scale in the future.
     @Test
     public void testScaleFactor0_1()
     {

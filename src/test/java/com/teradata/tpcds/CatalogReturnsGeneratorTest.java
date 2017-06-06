@@ -33,7 +33,7 @@ public class CatalogReturnsGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(CATALOG_RETURNS), CATALOG_RETURNS, session, "ee9b24dbf9c6c9df6ed36df07a4df7bf");
+        assertPartialMD5(1, session.getScaling().getRowCount(CATALOG_RETURNS), CATALOG_RETURNS, session, "71832e5ab94135c4ed247bf7c4713a96");
     }
 
     @Test

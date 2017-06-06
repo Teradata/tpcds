@@ -29,7 +29,7 @@ public class HouseholdDemographicsGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(HOUSEHOLD_DEMOGRAPHICS), HOUSEHOLD_DEMOGRAPHICS, session, "2a62728a029c036c872c5ea1c7a2e934");
+        assertPartialMD5(1, session.getScaling().getRowCount(HOUSEHOLD_DEMOGRAPHICS), HOUSEHOLD_DEMOGRAPHICS, session, "dccf2ff17c5e420021fbf92bf9a0a5ec");
     }
 
     @Test

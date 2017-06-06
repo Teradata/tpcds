@@ -29,7 +29,7 @@ public class TimeDimGeneratorTest
     public void testScaleFactor0_1()
     {
         Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(TIME_DIM), TIME_DIM, session, "9266be605c6bf204bda233f812aeddea");
+        assertPartialMD5(1, session.getScaling().getRowCount(TIME_DIM), TIME_DIM, session, "a68339c5720d25380b53f6e0f2f72333");
     }
 
     @Test
