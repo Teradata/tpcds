@@ -87,7 +87,7 @@ public class ScalingInfo
         else {
             baseRowCount = getRowCountForScale(DEFINED_SCALES[1]);
         }
-        long count = (long) ((floatOffset * (float) delta) + baseRowCount);
+        long count = (long) (floatOffset * (float) delta) + baseRowCount;
         return count == 0 ? 1 : count;
     }
 
