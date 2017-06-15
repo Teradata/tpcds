@@ -58,7 +58,7 @@ public final class Parallel
         // set initial conditions
         long julianDate = JULIAN_DATA_START_DATE;
         Scaling scaling = session.getScaling();
-        int index = 1;
+        long index = 1;
         long newDateIndex = scaling.getRowCountForDate(table, julianDate) + index;
 
         // move forward one day at a time

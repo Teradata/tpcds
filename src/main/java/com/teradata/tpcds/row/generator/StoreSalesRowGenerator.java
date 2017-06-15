@@ -14,7 +14,6 @@
 
 package com.teradata.tpcds.row.generator;
 
-import com.teradata.tpcds.Parallel;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.StoreSalesRow;
@@ -26,7 +25,6 @@ import java.util.List;
 
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.Parallel.skipDaysUntilFirstRowOfChunk;
 import static com.teradata.tpcds.Permutations.getPermutationEntry;
 import static com.teradata.tpcds.Permutations.makePermutation;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
@@ -64,8 +62,11 @@ public class StoreSalesRowGenerator
 
     private int[] itemPermutation;
 
-    private long nextDateIndex;
-    private long julianDate;
+    // Note: the following two variables are present in the C generator but unused in
+    // a meaningful way. We include them for completeness not to confuse
+    // future readers.
+    // private long nextDateIndex;
+    // private long julianDate;
     private int remainingLineItems = 0;
     private OrderInfo orderInfo = new OrderInfo();
     private int itemIndex;
@@ -81,9 +82,6 @@ public class StoreSalesRowGenerator
         int itemCount = (int) session.getScaling().getIdCount(ITEM);
         if (itemPermutation == null) {
             itemPermutation = makePermutation(itemCount, getRandomNumberStream(SS_PERMUTATION));
-            Parallel.DateNextIndexPair pair = skipDaysUntilFirstRowOfChunk(STORE_SALES, session);
-            julianDate = pair.getJulianDate();
-            nextDateIndex = pair.getNextDateIndex();
         }
 
         Scaling scaling = session.getScaling();
@@ -134,10 +132,6 @@ public class StoreSalesRowGenerator
     {
         // move to a new date if the row number is ahead of the nextDateIndex
         Scaling scaling = session.getScaling();
-        while (rowNumber > nextDateIndex) {
-            julianDate += 1;
-            nextDateIndex += scaling.getRowCountForDate(STORE_SALES, julianDate);
-        }
 
         long ssSoldStoreSk = generateJoinKey(SS_SOLD_STORE_SK, getRandomNumberStream(SS_SOLD_STORE_SK), STORE, 1, scaling);
         long ssSoldTimeSk = generateJoinKey(SS_SOLD_TIME_SK, getRandomNumberStream(SS_SOLD_TIME_SK), TIME_DIM, 1, scaling);

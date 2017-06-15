@@ -14,7 +14,6 @@
 
 package com.teradata.tpcds.row.generator;
 
-import com.teradata.tpcds.Parallel.DateNextIndexPair;
 import com.teradata.tpcds.Scaling;
 import com.teradata.tpcds.Session;
 import com.teradata.tpcds.row.TableRow;
@@ -28,7 +27,6 @@ import java.util.List;
 
 import static com.teradata.tpcds.JoinKeyUtils.generateJoinKey;
 import static com.teradata.tpcds.Nulls.createNullBitMap;
-import static com.teradata.tpcds.Parallel.skipDaysUntilFirstRowOfChunk;
 import static com.teradata.tpcds.Permutations.getPermutationEntry;
 import static com.teradata.tpcds.Permutations.makePermutation;
 import static com.teradata.tpcds.SlowlyChangingDimensionUtils.matchSurrogateKey;
@@ -77,9 +75,12 @@ public class WebSalesRowGenerator
     public static final int GIFT_PERCENTAGE = 7;
     public static final int RETURN_PERCENTAGE = 10;
 
+    // Note: the following two variables are present in the C generator but unused in
+    // a meaningful way. We include them for completeness not to confuse
+    // future readers.
+    // private long nextDateIndex;
+    // private long julianDate;
     private int[] itemPermutation = null;
-    private long nextDateIndex;
-    private long julianDate;
     private int remainingLineItems = 0;
     private OrderInfo orderInfo;
     private int itemIndex;
@@ -96,9 +97,6 @@ public class WebSalesRowGenerator
         int itemCount = (int) scaling.getIdCount(ITEM);
         if (itemPermutation == null) {
             itemPermutation = makePermutation(itemCount, getRandomNumberStream(WS_PERMUTATION));
-            DateNextIndexPair dateNextIndexPair = skipDaysUntilFirstRowOfChunk(WEB_SALES, session);
-            julianDate = dateNextIndexPair.getJulianDate();
-            nextDateIndex = dateNextIndexPair.getNextDateIndex();
         }
 
         if (remainingLineItems == 0) {
@@ -165,10 +163,6 @@ public class WebSalesRowGenerator
     private OrderInfo generateOrderInfo(long rowNumber, Session session)
     {
         Scaling scaling = session.getScaling();
-        while (rowNumber >= nextDateIndex) {
-            julianDate += 1;
-            nextDateIndex += scaling.getRowCountForDate(WEB_SALES, julianDate);
-        }
 
         long wsSoldDateSk = generateJoinKey(WS_SOLD_DATE_SK, getRandomNumberStream(WS_SOLD_DATE_SK), DATE_DIM, 1, scaling);
         long wsSoldTimeSk = generateJoinKey(WS_SOLD_TIME_SK, getRandomNumberStream(WS_SOLD_TIME_SK), TIME_DIM, 1, scaling);
