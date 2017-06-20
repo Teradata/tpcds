@@ -14,4 +14,4 @@ before_cache:
   #make the cache stable between builds by removing build output
   - rm -rf $HOME/.m2/repository/com/teradata
 
-script: travis_wait ./mvnw test
+script: travis_wait 30 ./mvnw test
