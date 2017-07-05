@@ -82,7 +82,7 @@ public class Session
         );
     }
 
-    public Session withScale(float scale)
+    public Session withScale(double scale)
     {
         return new Session(
                 scale,
