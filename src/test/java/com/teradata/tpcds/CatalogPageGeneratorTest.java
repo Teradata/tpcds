@@ -26,9 +26,9 @@ public class CatalogPageGeneratorTest
 
     // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
     @Test
-    public void testScaleFactor0_1()
+    public void testScaleFactor0_01()
     {
-        Session session = TEST_SESSION.withScale(0.1f);
+        Session session = TEST_SESSION.withScale(0.01);
         assertPartialMD5(1, session.getScaling().getRowCount(CATALOG_PAGE), CATALOG_PAGE, session, "0bbac1b8bdcf8ce2d5f0034980ee0196");
     }
 

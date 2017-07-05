@@ -28,10 +28,10 @@ public class WebReturnsGeneratorTest
 
     // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
     @Test
-    public void testScaleFactor0_1()
+    public void testScaleFactor0_01()
     {
-        Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(WEB_RETURNS), WEB_RETURNS, session, "1730b040c336f8bbc4ce7db04ce9a82d");
+        Session session = TEST_SESSION.withScale(0.01);
+        assertPartialMD5(1, session.getScaling().getRowCount(WEB_RETURNS), WEB_RETURNS, session, "03113cf0514e70768a1ef3269233d88f");
     }
 
     @Test

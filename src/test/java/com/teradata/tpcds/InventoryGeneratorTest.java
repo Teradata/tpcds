@@ -28,9 +28,9 @@ public class InventoryGeneratorTest
 
     // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
     @Test
-    public void testScaleFactor0_1()
+    public void testScaleFactor0_01()
     {
-        Session session = TEST_SESSION.withScale(0.1f);
+        Session session = TEST_SESSION.withScale(0.01);
         assertPartialMD5(1, session.getScaling().getRowCount(INVENTORY), INVENTORY, session, "4b30d1ba8ec5743221651fcd7b3c1a57");
     }
 

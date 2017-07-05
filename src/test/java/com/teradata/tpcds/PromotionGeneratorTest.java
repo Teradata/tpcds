@@ -26,10 +26,10 @@ public class PromotionGeneratorTest
 
     // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
     @Test
-    public void testScaleFactor0_1()
+    public void testScaleFactor0_01()
     {
-        Session session = TEST_SESSION.withScale(0.1f);
-        assertPartialMD5(1, session.getScaling().getRowCount(PROMOTION), PROMOTION, session, "dc1c74e4aee4d2779077b43554107bb7");
+        Session session = TEST_SESSION.withScale(0.01);
+        assertPartialMD5(1, session.getScaling().getRowCount(PROMOTION), PROMOTION, session, "63d6510abd4dd6bc8bd805946ffb1eff");
     }
 
     @Test

@@ -26,9 +26,9 @@ public class ShipModeGeneratorTest
 
     // See the comment in CallCenterGeneratorTest for an explanation on the purpose of this test.
     @Test
-    public void testScaleFactor0_1()
+    public void testScaleFactor0_01()
     {
-        Session session = TEST_SESSION.withScale(0.1f);
+        Session session = TEST_SESSION.withScale(0.01);
         assertPartialMD5(1, session.getScaling().getRowCount(SHIP_MODE), SHIP_MODE, session, "791d16af982a67ad170a6b6527e25a35");
     }
 
