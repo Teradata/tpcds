@@ -14,11 +14,16 @@
 
 package com.teradata.tpcds;
 
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,19 +70,37 @@ public class TableGenerator
             throws IOException
     {
         String path = getPath(table);
-        File file = new File(path);
-        boolean newFileCreated = file.createNewFile();
-        if (!newFileCreated) {
-            if (session.shouldOverwrite()) {
-                // truncate the file
-                new FileOutputStream(path).close();
+        if (session.getHadoopConfig() == null) {
+            File file = new File(path);
+            boolean newFileCreated = file.createNewFile();
+            if (!newFileCreated) {
+                if (session.shouldOverwrite()) {
+                    // truncate the file
+                    new FileOutputStream(path).close();
+                }
+                else {
+                    throw new TpcdsException(format("File %s exists.  Remove it or run with the '--overwrite' option", path));
+                }
             }
-            else {
-                throw new TpcdsException(format("File %s exists.  Remove it or run with the '--overwrite' option", path));
-            }
+            return new OutputStreamWriter(new FileOutputStream(path, true), StandardCharsets.ISO_8859_1);
         }
+        try {
+            FileSystem fs = FileSystem.get(new URI(session.getTargetDirectory()), session.getHadoopConfig());
 
-        return new OutputStreamWriter(new FileOutputStream(path, true), StandardCharsets.ISO_8859_1);
+            Path hadoopPath = new Path(path);
+            if (fs.exists(hadoopPath)) {
+                if (session.shouldOverwrite()) {
+                    fs.delete(hadoopPath, true);
+                }
+                else {
+                    throw new TpcdsException(format("File %s exists.  Remove it or run with the '--overwrite' option", path));
+                }
+            }
+            return new OutputStreamWriter(fs.create(hadoopPath, true, 4096), StandardCharsets.ISO_8859_1);
+        }
+        catch (final URISyntaxException uriEx) {
+            throw new TpcdsException("Could not create URI for connecting to Hadoop:" + uriEx.getMessage());
+        }
     }
 
     private String getPath(Table table)
