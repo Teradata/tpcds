@@ -14,6 +14,10 @@
 
 package com.teradata.tpcds;
 
+import org.apache.hadoop.conf.Configuration;
+
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Optional;
 
 import static com.teradata.tpcds.Options.DEFAULT_DIRECTORY;
@@ -26,12 +30,12 @@ import static com.teradata.tpcds.Options.DEFAULT_SCALE;
 import static com.teradata.tpcds.Options.DEFAULT_SEPARATOR;
 import static com.teradata.tpcds.Options.DEFAULT_SUFFIX;
 
-public class Session
+public class Session implements Serializable
 {
     private final Scaling scaling;
     private final String targetDirectory;
     private final String suffix;
-    private final Optional<Table> table;
+    private final Table table;
     private final String nullString;
     private final char separator;
     private final boolean doNotTerminate;
@@ -39,6 +43,7 @@ public class Session
     private final int parallelism;
     private final int chunkNumber;
     private final boolean overwrite;
+    private final SerializableHadoopConfiguration hadoopConfig;
 
     public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, boolean overwrite)
     {
@@ -47,10 +52,18 @@ public class Session
 
     public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
     {
+        this(scale, targetDirectory, suffix, table, nullString, separator, doNotTerminate, noSexism, parallelism,
+                chunkNumber, overwrite, null);
+    }
+
+    public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString,
+                   char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber,
+                   boolean overwrite, Configuration hadoopConfig)
+    {
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
         this.suffix = suffix;
-        this.table = table;
+        this.table = table.isPresent() ? table.get() : null;
         this.nullString = nullString;
         this.separator = separator;
         this.doNotTerminate = doNotTerminate;
@@ -58,6 +71,7 @@ public class Session
         this.parallelism = parallelism;
         this.chunkNumber = chunkNumber;
         this.overwrite = overwrite;
+        this.hadoopConfig = new SerializableHadoopConfiguration(hadoopConfig);
     }
 
     public static Session getDefaultSession()
@@ -71,7 +85,7 @@ public class Session
                 this.scaling.getScale(),
                 this.targetDirectory,
                 this.suffix,
-                Optional.of(table),
+                Optional.ofNullable(table),
                 this.nullString,
                 this.separator,
                 this.doNotTerminate,
@@ -88,7 +102,7 @@ public class Session
                 scale,
                 this.targetDirectory,
                 this.suffix,
-                this.table,
+                Optional.ofNullable(this.table),
                 this.nullString,
                 this.separator,
                 this.doNotTerminate,
@@ -105,7 +119,7 @@ public class Session
                 this.scaling.getScale(),
                 this.targetDirectory,
                 this.suffix,
-                this.table,
+                Optional.ofNullable(this.table),
                 this.nullString,
                 this.separator,
                 this.doNotTerminate,
@@ -122,7 +136,7 @@ public class Session
                 this.scaling.getScale(),
                 this.targetDirectory,
                 this.suffix,
-                this.table,
+                Optional.ofNullable(this.table),
                 this.nullString,
                 this.separator,
                 this.doNotTerminate,
@@ -139,7 +153,7 @@ public class Session
                 this.scaling.getScale(),
                 this.targetDirectory,
                 this.suffix,
-                this.table,
+                Optional.ofNullable(this.table),
                 this.nullString,
                 this.separator,
                 this.doNotTerminate,
@@ -147,6 +161,42 @@ public class Session
                 this.parallelism,
                 this.chunkNumber,
                 this.overwrite
+        );
+    }
+
+    public Session withHadoop(Configuration hadoopConfig)
+    {
+        return new Session(
+                this.scaling.getScale(),
+                this.targetDirectory,
+                this.suffix,
+                Optional.ofNullable(this.table),
+                this.nullString,
+                this.separator,
+                this.doNotTerminate,
+                noSexism,
+                this.parallelism,
+                this.chunkNumber,
+                this.overwrite,
+                hadoopConfig
+        );
+    }
+
+    public Session withTargetDirectory(String targetDirectory)
+    {
+        return new Session(
+                this.scaling.getScale(),
+                targetDirectory,
+                this.suffix,
+                Optional.ofNullable(this.table),
+                this.nullString,
+                this.separator,
+                this.doNotTerminate,
+                this.noSexism,
+                this.parallelism,
+                this.chunkNumber,
+                this.overwrite,
+                this.hadoopConfig.get()
         );
     }
 
@@ -167,15 +217,15 @@ public class Session
 
     public boolean generateOnlyOneTable()
     {
-        return table.isPresent();
+        return Optional.ofNullable(table).isPresent();
     }
 
     public Table getOnlyTableToGenerate()
     {
-        if (!table.isPresent()) {
+        if (!Optional.ofNullable(table).isPresent()) {
             throw new TpcdsException("table not present");
         }
-        return table.get();
+        return Optional.ofNullable(table).get();
     }
 
     public String getNullString()
@@ -213,6 +263,11 @@ public class Session
         return overwrite;
     }
 
+    public Configuration getHadoopConfig()
+    {
+        return this.hadoopConfig.get();
+    }
+
     public String getCommandLineArguments()
     {
         StringBuilder output = new StringBuilder();
@@ -225,8 +280,8 @@ public class Session
         if (!suffix.equals(DEFAULT_SUFFIX)) {
             output.append("--suffix ").append(suffix).append(" ");
         }
-        if (table.isPresent()) {
-            output.append("--table ").append(table.get().getName()).append(" ");
+        if (Optional.ofNullable(table).isPresent()) {
+            output.append("--table ").append(Optional.ofNullable(table).get().getName()).append(" ");
         }
         if (!nullString.equals(DEFAULT_NULL_STRING)) {
             output.append("--null ").append(nullString).append(" ");
@@ -253,5 +308,40 @@ public class Session
         }
 
         return output.toString();
+    }
+}
+
+class SerializableHadoopConfiguration implements Serializable
+{
+    Configuration conf;
+
+    public SerializableHadoopConfiguration(Configuration hadoopConf)
+    {
+        this.conf = hadoopConf;
+
+        if (this.conf == null) {
+            this.conf = new Configuration();
+        }
+    }
+
+    public SerializableHadoopConfiguration()
+    {
+        this.conf = new Configuration();
+    }
+
+    public Configuration get()
+    {
+        return this.conf;
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException
+    {
+        this.conf.write(out);
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException
+    {
+        this.conf = new Configuration();
+        this.conf.readFields(in);
     }
 }

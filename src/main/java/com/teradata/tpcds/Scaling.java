@@ -17,6 +17,7 @@ package com.teradata.tpcds;
 import com.teradata.tpcds.distribution.CalendarDistribution;
 import com.teradata.tpcds.type.Date;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ import static com.teradata.tpcds.type.Date.JULIAN_DATE_MINIMUM;
 import static com.teradata.tpcds.type.Date.fromJulianDays;
 import static com.teradata.tpcds.type.Date.isLeapYear;
 
-public class Scaling
+public class Scaling implements Serializable
 {
     private final double scale;
     private final Map<Table, Long> tableToRowCountMap = new EnumMap<>(Table.class);
