@@ -19,7 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,7 +77,7 @@ public class TableGenerator
             }
         }
 
-        return new OutputStreamWriter(new FileOutputStream(path, true), StandardCharsets.ISO_8859_1);
+        return new OutputStreamWriter(new FileOutputStream(path, true), Charset.forName(session.getCharset()));
     }
 
     private String getPath(Table table)

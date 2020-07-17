@@ -16,6 +16,7 @@ package com.teradata.tpcds;
 
 import java.util.Optional;
 
+import static com.teradata.tpcds.Options.DEFAULT_CHARSET;
 import static com.teradata.tpcds.Options.DEFAULT_DIRECTORY;
 import static com.teradata.tpcds.Options.DEFAULT_DO_NOT_TERMINATE;
 import static com.teradata.tpcds.Options.DEFAULT_NO_SEXISM;
@@ -39,13 +40,14 @@ public class Session
     private final int parallelism;
     private final int chunkNumber;
     private final boolean overwrite;
+    private final String charset;
 
-    public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, boolean overwrite)
+    public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, boolean overwrite, String charset)
     {
-        this(scale, targetDirectory, suffix, table, nullString, separator, doNotTerminate, noSexism, parallelism, 1, overwrite);
+        this(scale, targetDirectory, suffix, table, nullString, separator, doNotTerminate, noSexism, parallelism, 1, overwrite, charset);
     }
 
-    public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite)
+    public Session(double scale, String targetDirectory, String suffix, Optional<Table> table, String nullString, char separator, boolean doNotTerminate, boolean noSexism, int parallelism, int chunkNumber, boolean overwrite, String charset)
     {
         this.scaling = new Scaling(scale);
         this.targetDirectory = targetDirectory;
@@ -58,6 +60,7 @@ public class Session
         this.parallelism = parallelism;
         this.chunkNumber = chunkNumber;
         this.overwrite = overwrite;
+        this.charset = charset;
     }
 
     public static Session getDefaultSession()
@@ -78,7 +81,8 @@ public class Session
                 this.noSexism,
                 this.parallelism,
                 this.chunkNumber,
-                this.overwrite
+                this.overwrite,
+                this.charset
         );
     }
 
@@ -95,7 +99,8 @@ public class Session
                 this.noSexism,
                 this.parallelism,
                 this.chunkNumber,
-                this.overwrite
+                this.overwrite,
+                this.charset
         );
     }
 
@@ -112,7 +117,8 @@ public class Session
                 this.noSexism,
                 parallelism,
                 this.chunkNumber,
-                this.overwrite
+                this.overwrite,
+                this.charset
         );
     }
 
@@ -129,7 +135,8 @@ public class Session
                 this.noSexism,
                 this.parallelism,
                 chunkNumber,
-                this.overwrite
+                this.overwrite,
+                this.charset
         );
     }
 
@@ -146,7 +153,8 @@ public class Session
                 noSexism,
                 this.parallelism,
                 this.chunkNumber,
-                this.overwrite
+                this.overwrite,
+                this.charset
         );
     }
 
@@ -208,6 +216,11 @@ public class Session
         return chunkNumber;
     }
 
+    public String getCharset()
+    {
+        return charset;
+    }
+
     public boolean shouldOverwrite()
     {
         return overwrite;
@@ -245,6 +258,9 @@ public class Session
         }
         if (overwrite != DEFAULT_OVERWRITE) {
             output.append("--overwrite ");
+        }
+        if (!charset.equals(DEFAULT_CHARSET)) {
+            output.append("--charset ").append(charset).append(" ");
         }
 
         // remove trailing space
