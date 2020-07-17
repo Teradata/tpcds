@@ -30,6 +30,7 @@ public class Options
     public static final boolean DEFAULT_NO_SEXISM = false;
     public static final int DEFAULT_PARALLELISM = 1;
     public static final boolean DEFAULT_OVERWRITE = false;
+    public static final String DEFAULT_CHARSET = "ISO_8859_1";
 
     @Option(name = {"--scale", "-s"}, title = "scale", description = "Volume of data to generate in GB (Default: 1)")
     public double scale = DEFAULT_SCALE;
@@ -42,6 +43,9 @@ public class Options
 
     @Option(name = {"--table", "-t"}, title = "table", description = "Build only the specified table.  If this property is not specified, all tables will be generated")
     public String table = DEFAULT_TABLE;
+
+    @Option(name = {"--charset"}, title = "charset", description = "Charset used for output files. (Default: ISO_8859_1)")
+    public String charset = DEFAULT_CHARSET;
 
     @Option(name = {"--null"}, title = "null", description = "String representation for null values (Default: the empty string)")
     public String nullString = DEFAULT_NULL_STRING;
@@ -77,7 +81,8 @@ public class Options
                 doNotTerminate,
                 noSexism,
                 parallelism,
-                overwrite);
+                overwrite,
+                charset);
     }
 
     private static Optional<Table> toTableOptional(String table)
