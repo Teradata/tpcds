@@ -54,7 +54,7 @@ public enum StoreColumn
     S_ZIP(character(10)),
     S_COUNTRY(varchar(20)),
     S_GMT_OFFSET(decimal(5, 2)),
-    S_TAX_PRECENTAGE(decimal(5, 2));
+    S_TAX_percentage(decimal(5, 2));
 
     private final ColumnType type;
 

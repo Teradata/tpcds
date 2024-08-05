@@ -31,7 +31,7 @@ public enum PromotionColumn
     P_END_DATE_SK(IDENTIFIER),
     P_ITEM_SK(IDENTIFIER),
     P_COST(decimal(15, 2)),
-    P_RESPONSE_TARGE(INTEGER),
+    P_RESPONSE_TARGET(INTEGER),
     P_PROMO_NAME(character(50)),
     P_CHANNEL_DMAIL(character(1)),
     P_CHANNEL_EMAIL(character(1)),

@@ -31,7 +31,7 @@ public class ScalingInfo
     public ScalingInfo(int multiplier, ScalingModel scalingModel, int[] rowCountsPerScale, int updatePercentage)
     {
         checkArgument(multiplier >= 0, "multiplier is not greater than or equal to 0");
-        checkArgument(updatePercentage >= 0, "updatePrecentage is not greater than or equal to zero");
+        checkArgument(updatePercentage >= 0, "updatepercentage is not greater than or equal to zero");
         this.multiplier = multiplier;
         this.scalingModel = requireNonNull(scalingModel);
         this.updatePercentage = updatePercentage;
